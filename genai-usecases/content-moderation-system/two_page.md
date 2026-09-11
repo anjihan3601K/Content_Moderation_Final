@@ -21,7 +21,7 @@ The architecture is built for two environments:
 - API Gateway Layer: FastAPI endpoints for authentication, content moderation, moderation review, appeals, and analytics
 - Auth Database (DB1): Firebase-backed user auth and profile management
 - Content Processing Layer: LangGraph workflow orchestration for submission, review, enforcement, and learning
-- Multi-Agent Processing Layer: Agent 1 Content Analysis, Agent 2 Toxicity Detection, Agent 3 Policy Violation Detection, Agent 4 ReAct synthesis, Agent 5 HITL checkpoint, Agent 6 User Reputation, and Action Enforcement
+- Multi-Agent Processing Layer: Agent 1 Content Analysis, Agent 2 Toxicity Detection, Agent 3 Policy Violation Detection, Agent 4 ReAct synthesis, Agent 5 HITL checkpoint, Agent 5b User Reputation, and Agent 6 Action Enforcement
 - Data Storage Layer: SQLite moderation database for content submissions, stories, comments, actions, and review records
 - Vector Memory Layer: ChromaDB for decision memory, pattern learning, and similar-content retrieval
 - External Service Layer: Google Gemini API, optional ML models, OpenTelemetry observability, and logging services
@@ -29,55 +29,43 @@ The architecture is built for two environments:
 ### End-to-End Data Flow
 User action -> React frontend -> FastAPI REST API -> LangGraph workflow -> AI agents -> ReAct decision synthesis -> moderation action -> SQLite/Firebase persistence + ChromaDB memory update -> HITL review queue if escalation is needed -> analytics and reports
 
----
+
 
 ## Page 1: Production Architecture
 
 ### Visual Architecture
 ```mermaid
 flowchart LR
-    U[Regular Users] --> UI[User Interface Layer
-    React + Vite + MUI]
-    M[Moderator / Analyst / Admin] --> UI
+    U["Regular Users"] --> UI["User Interface Layer<br/>React + Vite + MUI"]
+    M["Moderator / Analyst / Admin"] --> UI
 
-    UI --> API[API Gateway Layer
-    FastAPI endpoints]
-    API --> AUTH[(Auth Database DB1)
-    Firebase Auth / User Profiles]
-    API --> WF[LangGraph Workflow
-    Content Processing]
+    UI --> API["API Gateway Layer<br/>FastAPI endpoints"]
+    API --> AUTH[("Auth Database DB1<br/>Firebase Auth / User Profiles")]
+    API --> WF["LangGraph Workflow<br/>Content Processing"]
 
-    WF --> A1[Agent 1
-    Content Analysis]
-    WF --> A2[Agent 2
-    Toxicity Detection]
-    WF --> A3[Agent 3
-    Policy Violation Detection]
-    WF --> A4[Agent 4
-    ReAct Decision Synthesis]
+    WF --> A1["Agent 1<br/>Content Analysis"]
+    WF --> A2["Agent 2<br/>Toxicity Detection"]
+    WF --> A3["Agent 3<br/>Policy Violation Detection"]
+    WF --> A4["Agent 4<br/>ReAct Decision Synthesis"]
     WF --> HITL{HITL Required?}
-    HITL --> A5[Agent 5a
-    HITL Checkpoint]
-    HITL --> A6[Agent 5b
-    User Reputation]
-    A4 --> A7[Agent 6
-    Action Enforcement]
+    HITL --> A5["Agent 5a<br/>HITL Checkpoint"]
+    HITL --> A6["Agent 5b<br/>User Reputation"]
+    A4 --> A7["Agent 6
+    Action Enforcement"]
 
     A1 --> LLM[Google Gemini API]
     A2 --> LLM
     A3 --> LLM
-    A7 --> DB2[(Moderation DB DB2)
-    SQLite tables for content, stories, comments, actions, appeals]
-    A7 --> MEM[(Vector Memory DB3)
-    ChromaDB patterns + learned decisions]
+    A7 --> DB2[("Moderation DB DB2<br/>SQLite tables for content, stories, comments, actions, appeals")]
+    A7 --> MEM[("Vector Memory DB3<br/>ChromaDB patterns + learned decisions")]
     A5 --> MOD[Human Moderator Review]
     MOD --> API
     API --> ANALYTICS[Analytics + Reports]
 
-    subgraph EXT[External Service Layer]
-      GAI[Google Gemini API]
-      ML[ML Models]
-      OTel[Observability / Logging]
+    subgraph EXT["External Service Layer"]
+      GAI["Google Gemini API"]
+      ML["ML Models"]
+      OTel["Observability / Logging"]
     end
 
     A1 --> GAI
@@ -122,35 +110,24 @@ This is a true enterprise-style AI moderation pipeline: user actions trigger age
 7. The final moderation result is stored in SQLite/Firebase, logged for auditing, and reused in memory for future similarity checks.
 8. Dashboard analytics and reports are generated from the saved moderation data.
 
----
+
 
 ## Page 2: Local Development Architecture
 
 ### Visual Architecture
 ```mermaid
 flowchart LR
-    DEV[Developer in VS Code] --> FE[Frontend Layer
-    React + Vite
-    localhost:5173]
-    DEV --> BE[Backend Layer
-    FastAPI app
-    localhost:8000]
+    DEV["Developer in VS Code"] --> FE["Frontend Layer<br/>React + Vite<br/>localhost:5173"]
+    DEV --> BE["Backend Layer<br/>FastAPI app<br/>localhost:8000"]
     FE --> API[Local REST API calls]
-    API --> APP[main.py
-    route handlers + workflow trigger]
-    APP --> AG[Python Agent Modules
-    agents.py / workflow.py / reasoning.py]
-    AG --> LLM[Google Gemini API
-    configured through .env]
-    AG --> MEM[(ChromaDB
-    local vector memory)]
-    AG --> DB[(SQLite Local DBs)
-    moderation_data.db + auth_db.db]
+    API --> APP["main.py<br/>route handlers + workflow trigger"]
+    APP --> AG["Python Agent Modules<br/>agents.py / workflow.py / reasoning.py"]
+    AG --> LLM["Google Gemini API<br/>configured through .env"]
+    AG --> MEM[("ChromaDB<br/>local vector memory")]
+    AG --> DB[("SQLite Local DBs<br/>moderation_data.db + auth_db.db")]
     APP --> FB[(Firebase Local Auth / User Data)]
-    FE --> MOD[Local UI dashboards
-    stories, moderation queue, analytics]
-    DEV --> TEST[Python tests + scripts
-    initialize_users.py / test files]
+    FE --> MOD["Local UI dashboards<br/>stories, moderation queue, analytics"]
+    DEV --> TEST["Python tests + scripts<br/>initialize_users.py / test files"]
     TEST --> DB
     TEST --> AG
 ```
@@ -182,7 +159,7 @@ The major difference is operational scale and deployment responsibility. Local d
 6. Test scripts and local database setup stream user and content data into the same workflow for validation.
 7. Moderators can review the local moderation queue and verify that decisions match expected business rules.
 
----
+
 
 ## Final Architecture Statement
 This project demonstrates a modern AI-driven moderation platform built around agentic intelligence, human oversight, and modular software design. The system is not just a model wrapper; it is an end-to-end platform that combines frontend interaction, backend orchestration, AI reasoning, memory, policy checks, user management, and moderation operations. The architecture is practical for production deployment and adaptable for local development, making it a strong candidate for enterprise and MNC-level evaluation.
