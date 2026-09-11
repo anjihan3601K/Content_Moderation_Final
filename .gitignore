@@ -36,3 +36,8 @@ coverage/
 # Large generated artifacts
 backend.zip
 
+
+# Secret / local credentials
+ServiceKey.JSON
+**/ServiceKey.JSON
+
