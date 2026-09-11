@@ -16,7 +16,11 @@ node_modules/
 dist/
 build/
 .env
-.env.local
+.env.*
+**/.env
+**/.env.*
+frontend/.env
+backend/.env
 npm-debug.log*
 
 # OS / editor
@@ -40,4 +44,9 @@ backend.zip
 # Secret / local credentials
 ServiceKey.JSON
 **/ServiceKey.JSON
+**/*.service-account*.json
+**/firebase*.json
+**/*.pem
+**/*.key
+**/*.crt
 
