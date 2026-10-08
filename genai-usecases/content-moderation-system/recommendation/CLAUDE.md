@@ -18,7 +18,9 @@ Read `docs/` first: `00_codebase_findings.md` (what the host project really look
 
 ```
 backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q
-backend/.venv/Scripts/python.exe recommendation/evaluation/run_evaluation.py
+backend/.venv/Scripts/python.exe recommendation/mock_data/generate_mock_data.py
+backend/.venv/Scripts/python.exe recommendation/evaluation/run_gate_report.py      # Stage 1 replay
+backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --help
 cd backend && .venv/Scripts/python.exe -m pytest tests/ -q      # host suite, baseline 3 passed
 ```
 

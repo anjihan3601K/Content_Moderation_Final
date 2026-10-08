@@ -14,6 +14,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple
 from recommendation.src.config import (
     APPROVED_STATUS,
     BLOCKED_STATUSES,
+    BORDERLINE_TOXICITY_THRESHOLD,
     CHILD_SAFE_TOPICS,
     HIGH_RISK_ESCALATION_STEMS,
     NO_VIOLATION_LABELS,
@@ -27,7 +28,12 @@ from recommendation.src.config import (
     TOXICITY_TEEN_THRESHOLD,
     is_recommendation_enabled,
 )
-from recommendation.src.models import AudienceRating, normalize_enum_value, normalize_label
+from recommendation.src.models import (
+    AudienceRating,
+    RecommendationItemModel,
+    normalize_enum_value,
+    normalize_label,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -328,3 +334,50 @@ def apply_audience_rating(state: Dict[str, Any]) -> Optional[RatingResult]:
         f"disagreement={result.agent_disagreement} escalated={result.escalated}"
     )
     return result
+
+
+def build_item_from_state(
+    state: Mapping[str, Any],
+    exposure_count: int = 0,
+    rated: bool = True,
+) -> RecommendationItemModel:
+    """
+    Build the recommender's view of an item from a final pipeline state.
+
+    With ``rated=False`` the item is built the way a legacy record looks: no rating and
+    no agent signals. Malformed label fields become empty rather than failing, because the
+    rating derivation has already raised the rating for them.
+    """
+    result = derive_audience_rating(state) if rated else None
+    category = state.get("content_category")
+    status = state.get("status")
+    toxicity = _to_unit_float(state.get("toxicity_score"))
+    severity = state.get("violation_severity")
+    is_borderline = bool(
+        result is not None
+        and result.rating == AudienceRating.TEEN
+        and (
+            (toxicity is not None and toxicity >= BORDERLINE_TOXICITY_THRESHOLD)
+            or (isinstance(severity, str) and normalize_enum_value(severity) == "low")
+        )
+    )
+    return RecommendationItemModel(
+        item_id=str(state.get("content_id")),
+        content_text=str(state.get("content_text") or ""),
+        content_category=category if isinstance(category, str) else None,
+        content_topics=[t for t in (_raw_list(state.get("content_topics"))) if isinstance(t, str)],
+        policy_violations=[v for v in (_raw_list(state.get("policy_violations"))) if isinstance(v, str)],
+        audience_rating=result.rating if result else None,
+        toxicity_score=toxicity,
+        overall_confidence=result.overall_confidence if result else None,
+        agent_disagreement=result.agent_disagreement if result else None,
+        status=status if isinstance(status, str) else None,
+        is_borderline=is_borderline,
+        escalated=result.escalated if result else bool(find_escalation_categories([category])),
+        exposure_count=max(0, int(exposure_count)),
+    )
+
+
+def _raw_list(value: Any) -> List[Any]:
+    """A list-like field as a list; anything else as empty."""
+    return list(value) if isinstance(value, (list, tuple, set, frozenset)) else []

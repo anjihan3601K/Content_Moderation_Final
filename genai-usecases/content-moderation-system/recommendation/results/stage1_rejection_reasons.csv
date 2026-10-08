@@ -1,0 +1,12 @@
+reason,child,teen,adult,total
+above_tier,8909,4867,0,13776
+blocked,1664,1792,1664,5120
+borderline,0,240,0,240
+escalation,126,132,0,258
+high_uncertainty,38,62,450,550
+missing_signals,0,0,9,9
+not_servable_status,0,0,1040,1040
+parental_block,2849,2073,0,4922
+pending_review,1040,1120,225,2385
+sensitive_topic,0,780,0,780
+unrated,780,840,270,1890

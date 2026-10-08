@@ -20,7 +20,7 @@ estimated.
 |---|---|---|
 | Host suite, baseline (before any change) | `cd backend && .venv/Scripts/python.exe -m pytest tests/ -q` | 3 passed |
 | Host suite, after Stage 1 | same | 3 passed |
-| Recommendation tests | `backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q` | 794 passed, 1 skipped |
+| Recommendation tests | `backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q` | 870 passed, 1 skipped |
 
 The skip is deliberate: a parametrised case that would test `toxicity_score = 0` as a
 malformed value, which it is not.
@@ -46,6 +46,34 @@ and blocked items with zero passes.
 
 This run covers the gate in isolation. The same invariant through the full feed path
 (ranker, bandit, drift guard) is a Stage 2 deliverable and has not been run.
+
+## Mock-data replay (rating and gate only)
+
+Command: `backend/.venv/Scripts/python.exe recommendation/evaluation/run_gate_report.py`.
+Raw tables: `stage1_case_results.csv`, `stage1_rating_accuracy.csv`,
+`stage1_sweep_matrix.csv`, `stage1_rejection_reasons.csv`, `stage1_gate_report.json`.
+The report is byte-identical across two runs.
+
+| | |
+|---|---|
+| Named cases as expected | 48 / 48 (42 rejections, 6 controls served) |
+| Items given the rating their scenario expects | 800 / 800 |
+| Profile x item combinations evaluated | 64,000 (80 profiles x 800 items) |
+| Combinations served | 33,030 |
+| Child/teen combinations evaluated / served | 43,200 / 15,888 |
+| Leaks against the generator's ground-truth labels | **0** |
+| Clean child items served to child profiles | 5394 / 5720 (94.3 %); the rest are parental blocks and strict settings |
+| Clean teen items served to teen profiles | 3757 / 3920 (95.8 %) |
+
+Every scenario that must not reach a minor (adult, violation, high disagreement, pending,
+removed, escalation, legacy, malformed) was served to child and teen profiles 0 times.
+Pending, removed and escalation-pending items were served to nobody.
+
+What this does not show: the data is synthetic and labelled by the same generator that
+built it, so it tests that the gate reacts correctly to reported signals, not that real
+harmful content would be detected. Ranking, the bandit, the queue and the API do not exist
+yet and are not measured. Case-by-case explanations are in
+`docs/EXPLAINABLE_TEST_GUIDE.md`.
 
 ## Independent review of the gate
 

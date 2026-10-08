@@ -1,0 +1,1983 @@
+[
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "crafts",
+   "music_kids",
+   "animals"
+  ],
+  "learned_interests": {
+   "animals": 0.49,
+   "crafts": 0.59,
+   "music_kids": 0.49
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "music"
+   ]
+  },
+  "profile_id": "profile-001",
+  "requested_explicit_interests": [
+   "crafts",
+   "music_kids",
+   "animals"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1001"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "gaming_family",
+   "nature",
+   "sports"
+  ],
+  "learned_interests": {
+   "gaming_family": 0.36,
+   "nature": 0.67,
+   "sports": 0.27
+  },
+  "parental_controls": {
+   "max_rating": "all_ages",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-002",
+  "requested_explicit_interests": [
+   "gaming_family",
+   "nature",
+   "sports"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1002"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "science",
+   "crafts",
+   "nature",
+   "cartoons"
+  ],
+  "learned_interests": {
+   "cartoons": 0.37,
+   "crafts": 0.48,
+   "nature": 0.28,
+   "nightlife": 0.9,
+   "science": 0.24,
+   "true_crime": 0.85,
+   "violent_extremism": 0.95
+  },
+  "parental_controls": {},
+  "profile_id": "profile-003",
+  "requested_explicit_interests": [
+   "science",
+   "crafts",
+   "nature",
+   "cartoons"
+  ],
+  "scenario": "risky_engagement",
+  "user_id": "1003"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "cartoons",
+   "science",
+   "sports",
+   "nature"
+  ],
+  "learned_interests": {
+   "cartoons": 0.85,
+   "nature": 0.48,
+   "science": 0.65,
+   "sports": 0.48
+  },
+  "parental_controls": {},
+  "profile_id": "profile-004",
+  "requested_explicit_interests": [
+   "cartoons",
+   "science",
+   "sports",
+   "nature",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1004"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "puzzles",
+   "music_kids",
+   "cartoons"
+  ],
+  "learned_interests": {
+   "cartoons": 0.52,
+   "music_kids": 0.41,
+   "puzzles": 0.78
+  },
+  "parental_controls": {},
+  "profile_id": "profile-005",
+  "requested_explicit_interests": [
+   "puzzles",
+   "music_kids",
+   "cartoons"
+  ],
+  "scenario": "normal",
+  "user_id": "1005"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "education",
+   "music_kids"
+  ],
+  "learned_interests": {
+   "education": 0.29,
+   "music_kids": 0.59
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "cartoons"
+   ]
+  },
+  "profile_id": "profile-006",
+  "requested_explicit_interests": [
+   "education",
+   "music_kids"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1006"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "cartoons",
+   "gaming_family",
+   "puzzles"
+  ],
+  "learned_interests": {
+   "cartoons": 0.57,
+   "gaming_family": 0.77,
+   "puzzles": 0.2
+  },
+  "parental_controls": {
+   "max_rating": "all_ages",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-007",
+  "requested_explicit_interests": [
+   "cartoons",
+   "gaming_family",
+   "puzzles"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1007"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "science",
+   "sports"
+  ],
+  "learned_interests": {
+   "nightlife": 0.9,
+   "science": 0.86,
+   "sports": 0.59,
+   "true_crime": 0.85,
+   "violent_extremism": 0.95
+  },
+  "parental_controls": {},
+  "profile_id": "profile-008",
+  "requested_explicit_interests": [
+   "science",
+   "sports"
+  ],
+  "scenario": "risky_engagement",
+  "user_id": "1008"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "education",
+   "cartoons",
+   "gaming_family"
+  ],
+  "learned_interests": {
+   "cartoons": 0.3,
+   "education": 0.84,
+   "gaming_family": 0.51
+  },
+  "parental_controls": {},
+  "profile_id": "profile-009",
+  "requested_explicit_interests": [
+   "education",
+   "cartoons",
+   "gaming_family",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1009"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "crafts",
+   "gaming_family",
+   "nature"
+  ],
+  "learned_interests": {
+   "crafts": 0.43,
+   "gaming_family": 0.54,
+   "nature": 0.65
+  },
+  "parental_controls": {},
+  "profile_id": "profile-010",
+  "requested_explicit_interests": [
+   "crafts",
+   "gaming_family",
+   "nature"
+  ],
+  "scenario": "normal",
+  "user_id": "1010"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "crafts",
+   "sports"
+  ],
+  "learned_interests": {
+   "crafts": 0.77,
+   "sports": 0.32
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "cartoons"
+   ]
+  },
+  "profile_id": "profile-011",
+  "requested_explicit_interests": [
+   "crafts",
+   "sports"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1011"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "education",
+   "animals",
+   "crafts"
+  ],
+  "learned_interests": {
+   "animals": 0.89,
+   "crafts": 0.71,
+   "education": 0.27
+  },
+  "parental_controls": {
+   "max_rating": "all_ages",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-012",
+  "requested_explicit_interests": [
+   "education",
+   "animals",
+   "crafts"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1012"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "crafts",
+   "education",
+   "nature",
+   "gaming_family"
+  ],
+  "learned_interests": {
+   "crafts": 0.58,
+   "education": 0.75,
+   "gaming_family": 0.31,
+   "nature": 0.68,
+   "nightlife": 0.9,
+   "true_crime": 0.85,
+   "violent_extremism": 0.95
+  },
+  "parental_controls": {},
+  "profile_id": "profile-013",
+  "requested_explicit_interests": [
+   "crafts",
+   "education",
+   "nature",
+   "gaming_family"
+  ],
+  "scenario": "risky_engagement",
+  "user_id": "1013"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "gaming_family",
+   "puzzles",
+   "science"
+  ],
+  "learned_interests": {
+   "gaming_family": 0.84,
+   "puzzles": 0.53,
+   "science": 0.68
+  },
+  "parental_controls": {},
+  "profile_id": "profile-014",
+  "requested_explicit_interests": [
+   "gaming_family",
+   "puzzles",
+   "science",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1014"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "crafts",
+   "education"
+  ],
+  "learned_interests": {
+   "crafts": 0.44,
+   "education": 0.33
+  },
+  "parental_controls": {},
+  "profile_id": "profile-015",
+  "requested_explicit_interests": [
+   "crafts",
+   "education"
+  ],
+  "scenario": "normal",
+  "user_id": "1015"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "crafts",
+   "animals"
+  ],
+  "learned_interests": {
+   "animals": 0.6,
+   "crafts": 0.49
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "gaming"
+   ]
+  },
+  "profile_id": "profile-016",
+  "requested_explicit_interests": [
+   "crafts",
+   "animals"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1016"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "crafts",
+   "sports",
+   "science"
+  ],
+  "learned_interests": {
+   "crafts": 0.5,
+   "science": 0.59,
+   "sports": 0.41
+  },
+  "parental_controls": {
+   "max_rating": "all_ages",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-017",
+  "requested_explicit_interests": [
+   "crafts",
+   "sports",
+   "science"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1017"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "puzzles",
+   "animals",
+   "cartoons"
+  ],
+  "learned_interests": {
+   "animals": 0.82,
+   "cartoons": 0.36,
+   "nightlife": 0.9,
+   "puzzles": 0.31,
+   "true_crime": 0.85,
+   "violent_extremism": 0.95
+  },
+  "parental_controls": {},
+  "profile_id": "profile-018",
+  "requested_explicit_interests": [
+   "puzzles",
+   "animals",
+   "cartoons"
+  ],
+  "scenario": "risky_engagement",
+  "user_id": "1018"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "science",
+   "cartoons",
+   "education",
+   "gaming_family"
+  ],
+  "learned_interests": {
+   "cartoons": 0.28,
+   "education": 0.5,
+   "gaming_family": 0.59,
+   "science": 0.89
+  },
+  "parental_controls": {},
+  "profile_id": "profile-019",
+  "requested_explicit_interests": [
+   "science",
+   "cartoons",
+   "education",
+   "gaming_family",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1019"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "nature",
+   "cartoons"
+  ],
+  "learned_interests": {
+   "cartoons": 0.43,
+   "nature": 0.8
+  },
+  "parental_controls": {},
+  "profile_id": "profile-020",
+  "requested_explicit_interests": [
+   "nature",
+   "cartoons"
+  ],
+  "scenario": "normal",
+  "user_id": "1020"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "animals",
+   "nature"
+  ],
+  "learned_interests": {
+   "animals": 0.27,
+   "nature": 0.63
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "gaming"
+   ]
+  },
+  "profile_id": "profile-021",
+  "requested_explicit_interests": [
+   "animals",
+   "nature"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1021"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "music_kids",
+   "education",
+   "cartoons"
+  ],
+  "learned_interests": {
+   "cartoons": 0.22,
+   "education": 0.4,
+   "music_kids": 0.89
+  },
+  "parental_controls": {
+   "max_rating": "all_ages",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-022",
+  "requested_explicit_interests": [
+   "music_kids",
+   "education",
+   "cartoons"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1022"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "nature",
+   "education",
+   "cartoons",
+   "science"
+  ],
+  "learned_interests": {
+   "cartoons": 0.26,
+   "education": 0.41,
+   "nature": 0.87,
+   "nightlife": 0.9,
+   "science": 0.48,
+   "true_crime": 0.85,
+   "violent_extremism": 0.95
+  },
+  "parental_controls": {},
+  "profile_id": "profile-023",
+  "requested_explicit_interests": [
+   "nature",
+   "education",
+   "cartoons",
+   "science"
+  ],
+  "scenario": "risky_engagement",
+  "user_id": "1023"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "music_kids",
+   "animals",
+   "sports",
+   "gaming_family"
+  ],
+  "learned_interests": {
+   "animals": 0.24,
+   "gaming_family": 0.6,
+   "music_kids": 0.73,
+   "sports": 0.34
+  },
+  "parental_controls": {},
+  "profile_id": "profile-024",
+  "requested_explicit_interests": [
+   "music_kids",
+   "animals",
+   "sports",
+   "gaming_family",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1024"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "sports",
+   "nature"
+  ],
+  "learned_interests": {
+   "nature": 0.82,
+   "sports": 0.5
+  },
+  "parental_controls": {},
+  "profile_id": "profile-025",
+  "requested_explicit_interests": [
+   "sports",
+   "nature"
+  ],
+  "scenario": "normal",
+  "user_id": "1025"
+ },
+ {
+  "age_tier": "child",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "music_kids",
+   "cartoons",
+   "crafts"
+  ],
+  "learned_interests": {
+   "cartoons": 0.46,
+   "crafts": 0.77,
+   "music_kids": 0.21
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "sports"
+   ]
+  },
+  "profile_id": "profile-026",
+  "requested_explicit_interests": [
+   "music_kids",
+   "cartoons",
+   "crafts"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1026"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "books",
+   "animals",
+   "gaming_family",
+   "movies"
+  ],
+  "learned_interests": {
+   "animals": 0.39,
+   "books": 0.89,
+   "gaming_family": 0.32,
+   "movies": 0.68
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "gaming"
+   ]
+  },
+  "profile_id": "profile-027",
+  "requested_explicit_interests": [
+   "books",
+   "animals",
+   "gaming_family",
+   "movies"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1027"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "puzzles",
+   "pop_culture",
+   "gaming_general"
+  ],
+  "learned_interests": {
+   "gaming_general": 0.21,
+   "pop_culture": 0.49,
+   "puzzles": 0.3
+  },
+  "parental_controls": {
+   "max_rating": "teen",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-028",
+  "requested_explicit_interests": [
+   "puzzles",
+   "pop_culture",
+   "gaming_general"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1028"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "coding",
+   "gaming_general",
+   "pop_culture",
+   "fitness"
+  ],
+  "learned_interests": {
+   "coding": 0.54,
+   "fitness": 0.79,
+   "gaming_general": 0.52,
+   "pop_culture": 0.74
+  },
+  "parental_controls": {
+   "allowed_sensitive_topics": [
+    "mental_health"
+   ]
+  },
+  "profile_id": "profile-029",
+  "requested_explicit_interests": [
+   "coding",
+   "gaming_general",
+   "pop_culture",
+   "fitness"
+  ],
+  "scenario": "sensitive_allowed",
+  "user_id": "1029"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "fashion",
+   "gaming_family",
+   "cartoons"
+  ],
+  "learned_interests": {
+   "cartoons": 0.56,
+   "fashion": 0.71,
+   "gaming_family": 0.53
+  },
+  "parental_controls": {},
+  "profile_id": "profile-030",
+  "requested_explicit_interests": [
+   "fashion",
+   "gaming_family",
+   "cartoons",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1030"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "pop_culture",
+   "coding",
+   "fashion",
+   "gaming_general"
+  ],
+  "learned_interests": {
+   "coding": 0.39,
+   "fashion": 0.5,
+   "gaming_general": 0.7,
+   "pop_culture": 0.35
+  },
+  "parental_controls": {},
+  "profile_id": "profile-031",
+  "requested_explicit_interests": [
+   "pop_culture",
+   "coding",
+   "fashion",
+   "gaming_general"
+  ],
+  "scenario": "normal",
+  "user_id": "1031"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "fitness",
+   "movies",
+   "books",
+   "technology"
+  ],
+  "learned_interests": {
+   "books": 0.61,
+   "fitness": 0.55,
+   "movies": 0.58,
+   "technology": 0.35
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "gaming"
+   ]
+  },
+  "profile_id": "profile-032",
+  "requested_explicit_interests": [
+   "fitness",
+   "movies",
+   "books",
+   "technology"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1032"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "coding",
+   "music_kids",
+   "science"
+  ],
+  "learned_interests": {
+   "coding": 0.67,
+   "music_kids": 0.52,
+   "science": 0.87
+  },
+  "parental_controls": {
+   "max_rating": "teen",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-033",
+  "requested_explicit_interests": [
+   "coding",
+   "music_kids",
+   "science"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1033"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "movies",
+   "books"
+  ],
+  "learned_interests": {
+   "books": 0.42,
+   "movies": 0.53
+  },
+  "parental_controls": {
+   "allowed_sensitive_topics": [
+    "mental_health"
+   ]
+  },
+  "profile_id": "profile-034",
+  "requested_explicit_interests": [
+   "movies",
+   "books"
+  ],
+  "scenario": "sensitive_allowed",
+  "user_id": "1034"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "music_kids",
+   "sports",
+   "pop_culture"
+  ],
+  "learned_interests": {
+   "music_kids": 0.42,
+   "pop_culture": 0.25,
+   "sports": 0.5
+  },
+  "parental_controls": {},
+  "profile_id": "profile-035",
+  "requested_explicit_interests": [
+   "music_kids",
+   "sports",
+   "pop_culture",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1035"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "music_kids",
+   "pop_culture",
+   "gaming_family",
+   "nature"
+  ],
+  "learned_interests": {
+   "gaming_family": 0.34,
+   "music_kids": 0.29,
+   "nature": 0.43,
+   "pop_culture": 0.86
+  },
+  "parental_controls": {},
+  "profile_id": "profile-036",
+  "requested_explicit_interests": [
+   "music_kids",
+   "pop_culture",
+   "gaming_family",
+   "nature"
+  ],
+  "scenario": "normal",
+  "user_id": "1036"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "gaming_family",
+   "movies",
+   "technology"
+  ],
+  "learned_interests": {
+   "gaming_family": 0.65,
+   "movies": 0.6,
+   "technology": 0.26
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "gaming"
+   ]
+  },
+  "profile_id": "profile-037",
+  "requested_explicit_interests": [
+   "gaming_family",
+   "movies",
+   "technology"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1037"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "music_kids",
+   "fashion",
+   "coding"
+  ],
+  "learned_interests": {
+   "coding": 0.84,
+   "fashion": 0.54,
+   "music_kids": 0.52
+  },
+  "parental_controls": {
+   "max_rating": "teen",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-038",
+  "requested_explicit_interests": [
+   "music_kids",
+   "fashion",
+   "coding"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1038"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "music_kids",
+   "fitness",
+   "science",
+   "art"
+  ],
+  "learned_interests": {
+   "art": 0.23,
+   "fitness": 0.27,
+   "music_kids": 0.61,
+   "science": 0.56
+  },
+  "parental_controls": {
+   "allowed_sensitive_topics": [
+    "mental_health"
+   ]
+  },
+  "profile_id": "profile-039",
+  "requested_explicit_interests": [
+   "music_kids",
+   "fitness",
+   "science",
+   "art"
+  ],
+  "scenario": "sensitive_allowed",
+  "user_id": "1039"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "movies",
+   "nature",
+   "fashion",
+   "technology"
+  ],
+  "learned_interests": {
+   "fashion": 0.45,
+   "movies": 0.53,
+   "nature": 0.49,
+   "technology": 0.42
+  },
+  "parental_controls": {},
+  "profile_id": "profile-040",
+  "requested_explicit_interests": [
+   "movies",
+   "nature",
+   "fashion",
+   "technology",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1040"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "gaming_general",
+   "fitness",
+   "technology"
+  ],
+  "learned_interests": {
+   "fitness": 0.76,
+   "gaming_general": 0.37,
+   "technology": 0.51
+  },
+  "parental_controls": {},
+  "profile_id": "profile-041",
+  "requested_explicit_interests": [
+   "gaming_general",
+   "fitness",
+   "technology"
+  ],
+  "scenario": "normal",
+  "user_id": "1041"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "technology",
+   "movies"
+  ],
+  "learned_interests": {
+   "movies": 0.68,
+   "technology": 0.9
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "sports"
+   ]
+  },
+  "profile_id": "profile-042",
+  "requested_explicit_interests": [
+   "technology",
+   "movies"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1042"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "coding",
+   "fashion",
+   "movies"
+  ],
+  "learned_interests": {
+   "coding": 0.53,
+   "fashion": 0.73,
+   "movies": 0.66
+  },
+  "parental_controls": {
+   "max_rating": "teen",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-043",
+  "requested_explicit_interests": [
+   "coding",
+   "fashion",
+   "movies"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1043"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "pop_culture",
+   "gaming_family",
+   "fashion"
+  ],
+  "learned_interests": {
+   "fashion": 0.55,
+   "gaming_family": 0.71,
+   "pop_culture": 0.27
+  },
+  "parental_controls": {
+   "allowed_sensitive_topics": [
+    "mental_health"
+   ]
+  },
+  "profile_id": "profile-044",
+  "requested_explicit_interests": [
+   "pop_culture",
+   "gaming_family",
+   "fashion"
+  ],
+  "scenario": "sensitive_allowed",
+  "user_id": "1044"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "cartoons",
+   "pop_culture"
+  ],
+  "learned_interests": {
+   "cartoons": 0.38,
+   "pop_culture": 0.5
+  },
+  "parental_controls": {},
+  "profile_id": "profile-045",
+  "requested_explicit_interests": [
+   "cartoons",
+   "pop_culture",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1045"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "nature",
+   "pop_culture",
+   "animals",
+   "gaming_general"
+  ],
+  "learned_interests": {
+   "animals": 0.82,
+   "gaming_general": 0.35,
+   "nature": 0.76,
+   "pop_culture": 0.86
+  },
+  "parental_controls": {},
+  "profile_id": "profile-046",
+  "requested_explicit_interests": [
+   "nature",
+   "pop_culture",
+   "animals",
+   "gaming_general"
+  ],
+  "scenario": "normal",
+  "user_id": "1046"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "science",
+   "books",
+   "fashion"
+  ],
+  "learned_interests": {
+   "books": 0.47,
+   "fashion": 0.47,
+   "science": 0.59
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "cartoons"
+   ]
+  },
+  "profile_id": "profile-047",
+  "requested_explicit_interests": [
+   "science",
+   "books",
+   "fashion"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1047"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "cartoons",
+   "science"
+  ],
+  "learned_interests": {
+   "cartoons": 0.65,
+   "science": 0.86
+  },
+  "parental_controls": {
+   "max_rating": "teen",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-048",
+  "requested_explicit_interests": [
+   "cartoons",
+   "science"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1048"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "fashion",
+   "education"
+  ],
+  "learned_interests": {
+   "education": 0.22,
+   "fashion": 0.37
+  },
+  "parental_controls": {
+   "allowed_sensitive_topics": [
+    "mental_health"
+   ]
+  },
+  "profile_id": "profile-049",
+  "requested_explicit_interests": [
+   "fashion",
+   "education"
+  ],
+  "scenario": "sensitive_allowed",
+  "user_id": "1049"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "books",
+   "animals",
+   "sports",
+   "music_kids"
+  ],
+  "learned_interests": {
+   "animals": 0.89,
+   "books": 0.72,
+   "music_kids": 0.87,
+   "sports": 0.62
+  },
+  "parental_controls": {},
+  "profile_id": "profile-050",
+  "requested_explicit_interests": [
+   "books",
+   "animals",
+   "sports",
+   "music_kids",
+   "violent_extremism",
+   "dating",
+   "nightlife"
+  ],
+  "scenario": "disallowed_interest_request",
+  "user_id": "1050"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "books",
+   "puzzles"
+  ],
+  "learned_interests": {
+   "books": 0.52,
+   "puzzles": 0.74
+  },
+  "parental_controls": {},
+  "profile_id": "profile-051",
+  "requested_explicit_interests": [
+   "books",
+   "puzzles"
+  ],
+  "scenario": "normal",
+  "user_id": "1051"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "gaming_general",
+   "music_kids",
+   "science"
+  ],
+  "learned_interests": {
+   "gaming_general": 0.74,
+   "music_kids": 0.39,
+   "science": 0.39
+  },
+  "parental_controls": {
+   "blocked_categories": [
+    "cartoons"
+   ]
+  },
+  "profile_id": "profile-052",
+  "requested_explicit_interests": [
+   "gaming_general",
+   "music_kids",
+   "science"
+  ],
+  "scenario": "parental_block",
+  "user_id": "1052"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "books",
+   "technology",
+   "art"
+  ],
+  "learned_interests": {
+   "art": 0.89,
+   "books": 0.32,
+   "technology": 0.65
+  },
+  "parental_controls": {
+   "max_rating": "teen",
+   "strictness_level": "strict"
+  },
+  "profile_id": "profile-053",
+  "requested_explicit_interests": [
+   "books",
+   "technology",
+   "art"
+  ],
+  "scenario": "strict_controls",
+  "user_id": "1053"
+ },
+ {
+  "age_tier": "teen",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "education",
+   "books",
+   "crafts"
+  ],
+  "learned_interests": {
+   "books": 0.85,
+   "crafts": 0.68,
+   "education": 0.56
+  },
+  "parental_controls": {
+   "allowed_sensitive_topics": [
+    "mental_health"
+   ]
+  },
+  "profile_id": "profile-054",
+  "requested_explicit_interests": [
+   "education",
+   "books",
+   "crafts"
+  ],
+  "scenario": "sensitive_allowed",
+  "user_id": "1054"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "nightlife",
+   "art",
+   "animals"
+  ],
+  "learned_interests": {
+   "animals": 0.74,
+   "art": 0.55,
+   "nightlife": 0.23
+  },
+  "parental_controls": {},
+  "profile_id": "profile-055",
+  "requested_explicit_interests": [
+   "nightlife",
+   "art",
+   "animals"
+  ],
+  "scenario": "normal",
+  "user_id": "1055"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "coding",
+   "fitness"
+  ],
+  "learned_interests": {
+   "coding": 0.28,
+   "fitness": 0.48
+  },
+  "parental_controls": {},
+  "profile_id": "profile-056",
+  "requested_explicit_interests": [
+   "coding",
+   "fitness"
+  ],
+  "scenario": "normal",
+  "user_id": "1056"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "news",
+   "politics",
+   "fitness",
+   "technology"
+  ],
+  "learned_interests": {
+   "fitness": 0.62,
+   "news": 0.59,
+   "politics": 0.35,
+   "technology": 0.59
+  },
+  "parental_controls": {},
+  "profile_id": "profile-057",
+  "requested_explicit_interests": [
+   "news",
+   "politics",
+   "fitness",
+   "technology"
+  ],
+  "scenario": "normal",
+  "user_id": "1057"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "art",
+   "fitness",
+   "true_crime",
+   "fashion"
+  ],
+  "learned_interests": {
+   "art": 0.58,
+   "fashion": 0.62,
+   "fitness": 0.68,
+   "true_crime": 0.55
+  },
+  "parental_controls": {},
+  "profile_id": "profile-058",
+  "requested_explicit_interests": [
+   "art",
+   "fitness",
+   "true_crime",
+   "fashion"
+  ],
+  "scenario": "normal",
+  "user_id": "1058"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "dating",
+   "art",
+   "books"
+  ],
+  "learned_interests": {
+   "art": 0.37,
+   "books": 0.79,
+   "dating": 0.57
+  },
+  "parental_controls": {},
+  "profile_id": "profile-059",
+  "requested_explicit_interests": [
+   "dating",
+   "art",
+   "books"
+  ],
+  "scenario": "normal",
+  "user_id": "1059"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "news",
+   "true_crime",
+   "coding",
+   "art"
+  ],
+  "learned_interests": {
+   "art": 0.7,
+   "coding": 0.84,
+   "news": 0.89,
+   "true_crime": 0.23
+  },
+  "parental_controls": {},
+  "profile_id": "profile-060",
+  "requested_explicit_interests": [
+   "news",
+   "true_crime",
+   "coding",
+   "art"
+  ],
+  "scenario": "normal",
+  "user_id": "1060"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "gaming_general",
+   "animals"
+  ],
+  "learned_interests": {
+   "animals": 0.3,
+   "gaming_general": 0.38
+  },
+  "parental_controls": {},
+  "profile_id": "profile-061",
+  "requested_explicit_interests": [
+   "gaming_general",
+   "animals"
+  ],
+  "scenario": "normal",
+  "user_id": "1061"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "puzzles",
+   "politics"
+  ],
+  "learned_interests": {
+   "politics": 0.66,
+   "puzzles": 0.69
+  },
+  "parental_controls": {},
+  "profile_id": "profile-062",
+  "requested_explicit_interests": [
+   "puzzles",
+   "politics"
+  ],
+  "scenario": "normal",
+  "user_id": "1062"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "fashion",
+   "fitness",
+   "cartoons",
+   "crafts"
+  ],
+  "learned_interests": {
+   "cartoons": 0.53,
+   "crafts": 0.47,
+   "fashion": 0.72,
+   "fitness": 0.2
+  },
+  "parental_controls": {},
+  "profile_id": "profile-063",
+  "requested_explicit_interests": [
+   "fashion",
+   "fitness",
+   "cartoons",
+   "crafts"
+  ],
+  "scenario": "normal",
+  "user_id": "1063"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "finance",
+   "music_kids",
+   "books"
+  ],
+  "learned_interests": {
+   "books": 0.87,
+   "finance": 0.37,
+   "music_kids": 0.32
+  },
+  "parental_controls": {},
+  "profile_id": "profile-064",
+  "requested_explicit_interests": [
+   "finance",
+   "music_kids",
+   "books"
+  ],
+  "scenario": "normal",
+  "user_id": "1064"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "education",
+   "puzzles",
+   "music_kids"
+  ],
+  "learned_interests": {
+   "education": 0.31,
+   "music_kids": 0.84,
+   "puzzles": 0.26
+  },
+  "parental_controls": {},
+  "profile_id": "profile-065",
+  "requested_explicit_interests": [
+   "education",
+   "puzzles",
+   "music_kids"
+  ],
+  "scenario": "normal",
+  "user_id": "1065"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "politics",
+   "finance",
+   "sports",
+   "movies"
+  ],
+  "learned_interests": {
+   "finance": 0.78,
+   "movies": 0.77,
+   "politics": 0.21,
+   "sports": 0.63
+  },
+  "parental_controls": {},
+  "profile_id": "profile-066",
+  "requested_explicit_interests": [
+   "politics",
+   "finance",
+   "sports",
+   "movies"
+  ],
+  "scenario": "normal",
+  "user_id": "1066"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "sports",
+   "finance"
+  ],
+  "learned_interests": {
+   "finance": 0.64,
+   "sports": 0.4
+  },
+  "parental_controls": {},
+  "profile_id": "profile-067",
+  "requested_explicit_interests": [
+   "sports",
+   "finance"
+  ],
+  "scenario": "normal",
+  "user_id": "1067"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "true_crime",
+   "dating",
+   "coding"
+  ],
+  "learned_interests": {
+   "coding": 0.8,
+   "dating": 0.26,
+   "true_crime": 0.79
+  },
+  "parental_controls": {},
+  "profile_id": "profile-068",
+  "requested_explicit_interests": [
+   "true_crime",
+   "dating",
+   "coding"
+  ],
+  "scenario": "normal",
+  "user_id": "1068"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "crafts",
+   "pop_culture"
+  ],
+  "learned_interests": {
+   "crafts": 0.22,
+   "pop_culture": 0.48
+  },
+  "parental_controls": {},
+  "profile_id": "profile-069",
+  "requested_explicit_interests": [
+   "crafts",
+   "pop_culture"
+  ],
+  "scenario": "normal",
+  "user_id": "1069"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "nightlife",
+   "cartoons"
+  ],
+  "learned_interests": {
+   "cartoons": 0.24,
+   "nightlife": 0.47
+  },
+  "parental_controls": {},
+  "profile_id": "profile-070",
+  "requested_explicit_interests": [
+   "nightlife",
+   "cartoons"
+  ],
+  "scenario": "normal",
+  "user_id": "1070"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "gaming_family",
+   "crime_documentary"
+  ],
+  "learned_interests": {
+   "crime_documentary": 0.21,
+   "gaming_family": 0.76
+  },
+  "parental_controls": {},
+  "profile_id": "profile-071",
+  "requested_explicit_interests": [
+   "gaming_family",
+   "crime_documentary"
+  ],
+  "scenario": "normal",
+  "user_id": "1071"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "coding",
+   "crafts"
+  ],
+  "learned_interests": {
+   "coding": 0.43,
+   "crafts": 0.65
+  },
+  "parental_controls": {},
+  "profile_id": "profile-072",
+  "requested_explicit_interests": [
+   "coding",
+   "crafts"
+  ],
+  "scenario": "normal",
+  "user_id": "1072"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "fashion",
+   "science",
+   "coding",
+   "movies"
+  ],
+  "learned_interests": {
+   "coding": 0.88,
+   "fashion": 0.64,
+   "movies": 0.33,
+   "science": 0.36
+  },
+  "parental_controls": {},
+  "profile_id": "profile-073",
+  "requested_explicit_interests": [
+   "fashion",
+   "science",
+   "coding",
+   "movies"
+  ],
+  "scenario": "normal",
+  "user_id": "1073"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "fitness",
+   "crafts"
+  ],
+  "learned_interests": {
+   "crafts": 0.68,
+   "fitness": 0.4
+  },
+  "parental_controls": {},
+  "profile_id": "profile-074",
+  "requested_explicit_interests": [
+   "fitness",
+   "crafts"
+  ],
+  "scenario": "normal",
+  "user_id": "1074"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "dating",
+   "gaming_general",
+   "animals"
+  ],
+  "learned_interests": {
+   "animals": 0.4,
+   "dating": 0.73,
+   "gaming_general": 0.32
+  },
+  "parental_controls": {},
+  "profile_id": "profile-075",
+  "requested_explicit_interests": [
+   "dating",
+   "gaming_general",
+   "animals"
+  ],
+  "scenario": "normal",
+  "user_id": "1075"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "dating",
+   "puzzles",
+   "music_kids"
+  ],
+  "learned_interests": {
+   "dating": 0.9,
+   "music_kids": 0.66,
+   "puzzles": 0.76
+  },
+  "parental_controls": {},
+  "profile_id": "profile-076",
+  "requested_explicit_interests": [
+   "dating",
+   "puzzles",
+   "music_kids"
+  ],
+  "scenario": "normal",
+  "user_id": "1076"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "fitness",
+   "nightlife",
+   "true_crime"
+  ],
+  "learned_interests": {
+   "fitness": 0.82,
+   "nightlife": 0.35,
+   "true_crime": 0.34
+  },
+  "parental_controls": {},
+  "profile_id": "profile-077",
+  "requested_explicit_interests": [
+   "fitness",
+   "nightlife",
+   "true_crime"
+  ],
+  "scenario": "normal",
+  "user_id": "1077"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "verified",
+  "explicit_interests": [
+   "movies",
+   "coding"
+  ],
+  "learned_interests": {
+   "coding": 0.82,
+   "movies": 0.39
+  },
+  "parental_controls": {},
+  "profile_id": "profile-078",
+  "requested_explicit_interests": [
+   "movies",
+   "coding"
+  ],
+  "scenario": "normal",
+  "user_id": "1078"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "self_declared",
+  "explicit_interests": [
+   "gaming_general",
+   "finance"
+  ],
+  "learned_interests": {
+   "finance": 0.79,
+   "gaming_general": 0.64
+  },
+  "parental_controls": {},
+  "profile_id": "profile-079",
+  "requested_explicit_interests": [
+   "gaming_general",
+   "finance"
+  ],
+  "scenario": "normal",
+  "user_id": "1079"
+ },
+ {
+  "age_tier": "adult",
+  "age_trust_level": "parent_linked",
+  "explicit_interests": [
+   "general",
+   "pop_culture",
+   "art",
+   "crafts"
+  ],
+  "learned_interests": {
+   "art": 0.27,
+   "crafts": 0.5,
+   "general": 0.61,
+   "pop_culture": 0.41
+  },
+  "parental_controls": {},
+  "profile_id": "profile-080",
+  "requested_explicit_interests": [
+   "general",
+   "pop_culture",
+   "art",
+   "crafts"
+  ],
+  "scenario": "normal",
+  "user_id": "1080"
+ }
+]

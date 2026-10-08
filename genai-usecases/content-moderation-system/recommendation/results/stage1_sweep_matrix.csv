@@ -1,0 +1,14 @@
+scenario,expected_rating,child_served/child_evaluated,teen_served/teen_evaluated,adult_served/adult_evaluated
+clean_child,all_ages,5394/5720,5835/6160,5720/5720
+clean_teen,teen,0/3640,3757/3920,3640/3640
+sensitive_teen,teen,0/780,60/840,780/780
+adult_general,adult,0/3120,0/3360,3120/3120
+adult_violation,adult,0/1300,0/1400,1075/1300
+borderline,teen,0/1040,842/1120,1040/1040
+high_disagreement,adult,0/1300,0/1400,850/1300
+pending_review,adult,0/1040,0/1120,0/1040
+removed,blocked,0/1040,0/1120,0/1040
+escalation_pending,blocked,0/624,0/672,0/624
+escalation_approved,adult,0/156,0/168,156/156
+legacy_unrated,unrated,0/780,0/840,510/780
+malformed,adult,0/260,0/280,251/260

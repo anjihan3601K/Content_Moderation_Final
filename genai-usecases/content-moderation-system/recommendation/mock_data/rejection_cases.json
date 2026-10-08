@@ -1,0 +1,1009 @@
+[
+ {
+  "case_id": "R01",
+  "dissent": [],
+  "expected_rating": "blocked",
+  "expected_reason": "blocked",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "blocked never served",
+  "state_drop": [],
+  "state_overrides": {
+   "content_removed": true,
+   "moderation_action": "removed",
+   "status": "removed"
+  },
+  "title": "Removed content, adult viewer",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R02",
+  "dissent": [],
+  "expected_rating": "blocked",
+  "expected_reason": "blocked",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "blocked never served",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": "user_banned"
+  },
+  "title": "Author banned for the content",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R03",
+  "dissent": [],
+  "expected_rating": "blocked",
+  "expected_reason": "blocked",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "blocked never served",
+  "state_drop": [],
+  "state_overrides": {
+   "toxicity_score": 0.9
+  },
+  "title": "Approved but toxicity 0.90",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R04",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "rating > tier",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "news",
+   "content_topics": [
+    "news"
+   ]
+  },
+  "title": "Adult-rated item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R05",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "rating > tier",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "news",
+   "content_topics": [
+    "news"
+   ]
+  },
+  "title": "Adult-rated item, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R06",
+  "dissent": [],
+  "expected_rating": "teen",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "rating > tier",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "technology",
+   "content_topics": [
+    "coding"
+   ]
+  },
+  "title": "Teen-rated item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R07",
+  "dissent": [],
+  "expected_rating": null,
+  "expected_reason": "unrated",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": true,
+  "rule": "unrated withheld",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Legacy unrated item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R08",
+  "dissent": [],
+  "expected_rating": null,
+  "expected_reason": "unrated",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": true,
+  "rule": "unrated withheld",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Legacy unrated item, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R09",
+  "dissent": [],
+  "expected_rating": null,
+  "expected_reason": "unrated",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": true,
+  "rule": "unrated withheld",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Legacy unrated item, self-declared adult",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "self_declared"
+  }
+ },
+ {
+  "case_id": "R10",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "pending_review",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "pending/flagged withheld",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": "flagged",
+   "status": "flagged"
+  },
+  "title": "Flagged item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R11",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "pending_review",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "pending/flagged withheld",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": "flagged",
+   "status": "pending_human_review"
+  },
+  "title": "Awaiting human review, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R12",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "pending_review",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "pending/flagged withheld",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": "flagged",
+   "status": "under_review"
+  },
+  "title": "Under review, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R13",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "not_servable_status",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "only moderated content is served",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": "flagged",
+   "status": "flagged"
+  },
+  "title": "Flagged item, verified adult",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R14",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "not_servable_status",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "only moderated content is served",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": null,
+   "status": "submitted"
+  },
+  "title": "Not yet moderated (submitted), verified adult",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R15",
+  "dissent": [],
+  "expected_rating": "blocked",
+  "expected_reason": "blocked",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "escalation",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "violent_extremism",
+   "moderation_action": "flagged",
+   "status": "flagged"
+  },
+  "title": "violent_extremism label awaiting review, adult viewer",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R16",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "escalation",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "escalation",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "grooming",
+   "content_topics": [
+    "grooming"
+   ]
+  },
+  "title": "grooming label, moderator-approved, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R17",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "escalation",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "escalation",
+  "state_drop": [],
+  "state_overrides": {
+   "policy_violations": [
+    "self_harm_promotion"
+   ]
+  },
+  "title": "self_harm_promotion label, moderator-approved, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R18",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "escalation",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "escalation",
+  "state_drop": [],
+  "state_overrides": {
+   "content_topics": [
+    "science",
+    "selfharm"
+   ]
+  },
+  "title": "Escalation label misspelled as 'selfharm', teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R19",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "escalation",
+  "expected_served": false,
+  "item_overrides": {
+   "audience_rating": "all_ages"
+  },
+  "legacy": false,
+  "rule": "escalation (gate does not trust the rating)",
+  "state_drop": [],
+  "state_overrides": {
+   "content_topics": [
+    "grooming"
+   ]
+  },
+  "title": "Wrong all_ages rating on a grooming-labelled item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R20",
+  "dissent": [
+   "flag"
+  ],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "agent disagreement",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "One agent flagged the item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R21",
+  "dissent": [
+   "remove",
+   "remove",
+   "remove"
+  ],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "agent disagreement",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "All agents voted remove but status says approved, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R22",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": "high_uncertainty",
+  "expected_served": false,
+  "item_overrides": {
+   "agent_disagreement": 0.5
+  },
+  "legacy": false,
+  "rule": "high uncertainty",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Disagreement 0.50 on an all_ages item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R23",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": "high_uncertainty",
+  "expected_served": false,
+  "item_overrides": {
+   "overall_confidence": 0.3
+  },
+  "legacy": false,
+  "rule": "high uncertainty",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Confidence 0.30 on an all_ages item, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R24",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": "missing_signals",
+  "expected_served": false,
+  "item_overrides": {
+   "agent_disagreement": null
+  },
+  "legacy": false,
+  "rule": "missing signal is not certainty",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Confidence signals missing, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R25",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": "high_uncertainty",
+  "expected_served": false,
+  "item_overrides": {
+   "agent_disagreement": 0.33
+  },
+  "legacy": false,
+  "rule": "lower trust is stricter",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Disagreement 0.33, self-declared teen",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "self_declared"
+  }
+ },
+ {
+  "case_id": "R26",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": "high_uncertainty",
+  "expected_served": false,
+  "item_overrides": {
+   "agent_disagreement": 0.3
+  },
+  "legacy": false,
+  "rule": "parental strictness",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Disagreement 0.30, teen under strict parental setting",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified",
+   "parental_controls": {
+    "strictness_level": "strict"
+   }
+  }
+ },
+ {
+  "case_id": "R27",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": "parental_block",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "parental controls",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "gaming_family",
+   "content_topics": [
+    "gaming_family"
+   ]
+  },
+  "title": "Parent blocked 'gaming'; item is gaming_family, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified",
+   "parental_controls": {
+    "blocked_categories": [
+     "gaming"
+    ]
+   }
+  }
+ },
+ {
+  "case_id": "R28",
+  "dissent": [],
+  "expected_rating": "teen",
+  "expected_reason": "parental_block",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "parental controls",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "technology",
+   "content_topics": [
+    "coding"
+   ]
+  },
+  "title": "Parent capped rating at all_ages; teen item, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified",
+   "parental_controls": {
+    "max_rating": "all_ages"
+   }
+  }
+ },
+ {
+  "case_id": "R29",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "parental_block",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "parental controls",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "news",
+   "content_topics": [
+    "news"
+   ]
+  },
+  "title": "Blocked category applies to an adult profile too",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified",
+   "parental_controls": {
+    "blocked_categories": [
+     "news"
+    ]
+   }
+  }
+ },
+ {
+  "case_id": "R30",
+  "dissent": [],
+  "expected_rating": "teen",
+  "expected_reason": "sensitive_topic",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "sensitive teen topics",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "mental_health",
+   "content_topics": []
+  },
+  "title": "mental_health topic, teen without parental allowance",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R31",
+  "dissent": [],
+  "expected_rating": "teen",
+  "expected_reason": "borderline",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "borderline content",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "technology",
+   "content_topics": [
+    "coding"
+   ],
+   "toxicity_score": 0.3
+  },
+  "title": "Borderline item (toxicity 0.30), teen under strict setting",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified",
+   "parental_controls": {
+    "strictness_level": "strict"
+   }
+  }
+ },
+ {
+  "case_id": "R32",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "unlisted_topic",
+  "expected_served": false,
+  "item_overrides": {
+   "audience_rating": "all_ages"
+  },
+  "legacy": false,
+  "rule": "topic allow-list",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "general",
+   "content_topics": []
+  },
+  "title": "Wrong all_ages rating on a 'general' topic, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R33",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "policy_violation",
+  "expected_served": false,
+  "item_overrides": {
+   "audience_rating": "all_ages"
+  },
+  "legacy": false,
+  "rule": "violation allow-list",
+  "state_drop": [],
+  "state_overrides": {
+   "policy_violations": [
+    "hate_speech"
+   ]
+  },
+  "title": "Wrong all_ages rating with a hate_speech violation, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R34",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "toxicity",
+  "expected_served": false,
+  "item_overrides": {
+   "audience_rating": "all_ages"
+  },
+  "legacy": false,
+  "rule": "toxicity limit",
+  "state_drop": [],
+  "state_overrides": {
+   "toxicity_score": 0.6
+  },
+  "title": "Wrong all_ages rating with toxicity 0.60, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R35",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "missing signal never lowers a rating",
+  "state_drop": [
+   "violation_severity"
+  ],
+  "state_overrides": {},
+  "title": "Pipeline omitted violation_severity, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R36",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "missing signal never lowers a rating",
+  "state_drop": [],
+  "state_overrides": {
+   "policy_flags": [
+    "needs_attention"
+   ]
+  },
+  "title": "Policy agent raised a flag, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R37",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "missing signal never lowers a rating",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": null
+  },
+  "title": "content_category missing, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R38",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "status and action must agree",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": "warned"
+  },
+  "title": "Action is 'warned' although status is approved, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R39",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "pending_review",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "lower trust is stricter",
+  "state_drop": [],
+  "state_overrides": {
+   "moderation_action": "warned",
+   "status": "warned"
+  },
+  "title": "Warned item, self-declared adult",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "self_declared"
+  }
+ },
+ {
+  "case_id": "R40",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "pending_review",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "exact status match",
+  "state_drop": [],
+  "state_overrides": {
+   "status": "approved\u200b"
+  },
+  "title": "Status 'approved' with a hidden zero-width character, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R41",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": "invalid",
+  "expected_served": false,
+  "item_overrides": {
+   "agent_disagreement": 7
+  },
+  "legacy": false,
+  "rule": "invalid input is rejected",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Item altered after rating (disagreement set to 7), child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "R42",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": "above_tier",
+  "expected_served": false,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "personalization cannot bypass the gate",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "news",
+   "content_topics": [
+    "news"
+   ]
+  },
+  "title": "Child whose interests and learned signals point at adult topics",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified",
+   "explicit_interests": [
+    "violent_extremism",
+    "nightlife"
+   ],
+   "learned_interests": {
+    "news": 1.0,
+    "nightlife": 1.0
+   }
+  }
+ },
+ {
+  "case_id": "C01",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": null,
+  "expected_served": true,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "control",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Clean all_ages item, child viewer",
+  "viewer": {
+   "age_tier": "child",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "C02",
+  "dissent": [],
+  "expected_rating": "teen",
+  "expected_reason": null,
+  "expected_served": true,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "control",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "technology",
+   "content_topics": [
+    "coding"
+   ]
+  },
+  "title": "Clean teen item, teen viewer",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "C03",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": null,
+  "expected_served": true,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "control",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "news",
+   "content_topics": [
+    "news"
+   ]
+  },
+  "title": "Adult-rated item, verified adult",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "C04",
+  "dissent": [],
+  "expected_rating": "all_ages",
+  "expected_reason": null,
+  "expected_served": true,
+  "item_overrides": {
+   "agent_disagreement": 0.33
+  },
+  "legacy": false,
+  "rule": "control",
+  "state_drop": [],
+  "state_overrides": {},
+  "title": "Disagreement 0.33, verified teen (same item as R25)",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified"
+  }
+ },
+ {
+  "case_id": "C05",
+  "dissent": [],
+  "expected_rating": "teen",
+  "expected_reason": null,
+  "expected_served": true,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "control",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "mental_health",
+   "content_topics": []
+  },
+  "title": "mental_health topic, teen with parental allowance (same item as R30)",
+  "viewer": {
+   "age_tier": "teen",
+   "age_trust_level": "verified",
+   "parental_controls": {
+    "allowed_sensitive_topics": [
+     "mental_health"
+    ]
+   }
+  }
+ },
+ {
+  "case_id": "C06",
+  "dissent": [],
+  "expected_rating": "adult",
+  "expected_reason": null,
+  "expected_served": true,
+  "item_overrides": {},
+  "legacy": false,
+  "rule": "control",
+  "state_drop": [],
+  "state_overrides": {
+   "content_category": "grooming",
+   "content_topics": [
+    "grooming"
+   ]
+  },
+  "title": "Moderator-approved escalation item, verified adult (same item as R16)",
+  "viewer": {
+   "age_tier": "adult",
+   "age_trust_level": "verified"
+  }
+ }
+]

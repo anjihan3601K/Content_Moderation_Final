@@ -58,3 +58,24 @@ Config flags
 - `HIGH_UNCERTAINTY_THRESHOLD` (default and ceiling 0.45, floor 0.05) - can only tighten.
 
 Dependencies: none added. Migrations: none.
+
+## Stage 1 addendum - mock data and rejection-case verification
+
+Requested ahead of Stage 2. Covers the rating and gate only; nothing from Stages 2 or 3 was built.
+
+Created
+- `recommendation/mock_data/generate_mock_data.py` and its output `items.json` (800),
+  `profiles.json` (80), `engagement.json` (2,720), `resolved_cases.json` (200),
+  `rejection_cases.json` (48). Fixed seed 20261008. Placeholder text and labels only.
+- `recommendation/evaluation/gate_harness.py` - shared replay helpers and ground-truth leak check
+- `recommendation/evaluation/run_gate_report.py` - catalogue plus 64,000-combination sweep
+- `recommendation/evaluation/check_case.py` - try one case by hand from the command line
+- `recommendation/tests/test_rec_mock_data.py`
+- `recommendation/results/stage1_*.csv`, `stage1_gate_report.json`
+- `recommendation/docs/EXPLAINABLE_TEST_GUIDE.md`
+
+Modified (inside recommendation/)
+- `src/rating.py` - `build_item_from_state`, the glue from pipeline state to gate item
+- `src/config.py` - `BORDERLINE_TOXICITY_THRESHOLD` (0.25)
+
+Existing files modified: none. Dependencies: none. Migrations: none.

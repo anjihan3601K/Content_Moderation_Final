@@ -51,6 +51,10 @@ TOXICITY_BLOCK_THRESHOLD: float = 0.75
 TOXICITY_ADULT_THRESHOLD: float = 0.35
 TOXICITY_TEEN_THRESHOLD: float = 0.10
 
+# A teen-rated item at or above this toxicity (or with low-severity violations) is
+# "borderline": never shown to a child, and capped in a teen's feed by the drift guard.
+BORDERLINE_TOXICITY_THRESHOLD: float = 0.25
+
 # Statuses that mean the item was taken down or its author sanctioned. Never served.
 BLOCKED_STATUSES: FrozenSet[str] = frozenset(
     {"removed", "blocked", "banned", "user_banned", "user_suspended"}
