@@ -79,3 +79,71 @@ Modified (inside recommendation/)
 - `src/config.py` - `BORDERLINE_TOXICITY_THRESHOLD` (0.25)
 
 Existing files modified: none. Dependencies: none. Migrations: none.
+
+## Stage 2 - profiles, storage, personalization
+
+Created
+- `recommendation/src/store.py` - `DocumentStore` protocol, SQLite and Firestore backends,
+  dual store in the host's write-SQLite-then-Firestore pattern, typed repository
+- `recommendation/src/embeddings.py` - `EmbeddingProvider` protocol and TF-IDF implementation
+- `recommendation/src/bandit.py` - Thompson sampling
+- `recommendation/src/service.py` - feed assembly: gate, rank, gate
+- `recommendation/src/telemetry.py` - OpenTelemetry spans and metrics
+- `recommendation/tests/fakes.py` - in-memory Firestore stand-in
+- `recommendation/tests/test_rec_store.py`, `test_rec_personalization.py`, `test_rec_feed_service.py`
+- `recommendation/docs/01_design.md`, `recommendation/README.md`
+
+Rewritten in place (draft replaced)
+- `recommendation/src/personalization.py` - tier topic rules that reject instead of silently
+  dropping, real drift guard (share cap plus trend penalty), diversity guard that uses
+  `ADULT_DIVERSITY_MIN`. The draft's "TF-IDF" was Jaccard overlap; relevance now uses the
+  embedding interface.
+
+Modified (inside recommendation/)
+- `src/models.py` - profile `tier_declared`, request/response models, `label_matches`,
+  cached label normalisation
+- `src/config.py` - personalization and queue settings, `recommendation_db_path()`
+- `src/safety_gate.py` - profile validated once per pool instead of once per item (same result)
+
+## Stage 3 - moderator queue, feedback loop, endpoints
+
+Created
+- `recommendation/src/feedback.py` - engagement learning and moderator overrides
+- `recommendation/src/api.py` - router factory, service container, `register_recommendation_routes`
+- `recommendation/src/integration.py` - `on_moderation_complete`, called by the workflow hook
+- `recommendation/tests/test_rec_queue_feedback.py`, `test_rec_api.py`
+- `recommendation/requirements-dev.txt`
+
+Rewritten in place (draft replaced)
+- `recommendation/src/moderator_queue.py` - escalation as a leading sort key instead of
+  `+1000`; unknown signals count as maximum uncertainty; learned multiplier; precedent
+  retrieval through the embedding interface; suggestion with its source. The draft promised
+  a feedback loop it did not contain.
+
+Existing files modified
+- `backend/main.py` - a block of 6 lines after the auth dependencies: when
+  `RECOMMENDATION_ENABLED=true`, import `register_recommendation_routes` and call it with
+  the host's own `get_current_user` and `get_moderator`, and a provider for the existing
+  Firestore client. With the flag off the block does not run and the route list is unchanged.
+- `backend/src/agents/workflow.py` - the Stage 1 hook now calls
+  `recommendation.src.integration.on_moderation_complete` (rates and stores the item)
+  instead of `rating.apply_audience_rating` (rated only). Same guard, same try/except.
+- `backend/requirements.txt` - `numpy==2.5.1` pinned. Already installed as a transitive
+  dependency; now imported directly by `embeddings.py`.
+- `backend/.env.example` - documents `RECOMMENDATION_ENABLED=false` and the optional
+  settings, as comments. Appended without reading the file.
+
+New dependencies
+- Runtime: `numpy==2.5.1` (TF-IDF vectors, cosine similarity). No new package is downloaded.
+- Development: `pytest==9.1.1`, `httpx==0.28.1` in `recommendation/requirements-dev.txt`.
+  Both were already in the venv but listed nowhere. `httpx` is what FastAPI's `TestClient` needs.
+- Not added: scikit-learn, sentence-transformers, hypothesis, matplotlib.
+
+Migrations
+- None. New tables are created with `CREATE TABLE IF NOT EXISTS` in a new file,
+  `backend/databases/recommendation_data.db` (git-ignored by the root `*.db` rule), the
+  first time an endpoint is used with the flag on. New Firestore collections `rec_items`,
+  `rec_profiles`, `rec_events`, `rec_bandit_arms`, `rec_precedents` are created on first write.
+
+Config flags added
+- `BORDERLINE_DRIFT_CAP` (0.15), `ADULT_DIVERSITY_MIN` (0.20), `RECOMMENDATION_DB_PATH`.

@@ -248,6 +248,18 @@ def get_admin(user: Dict[str, Any] = Depends(get_current_user)):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Recommendation feature (optional; see recommendation/README.md)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+if os.getenv("RECOMMENDATION_ENABLED", "false").lower() == "true":
+    from recommendation.src.api import register_recommendation_routes
+    register_recommendation_routes(
+        app, get_current_user, get_moderator,
+        firestore_client_provider=lambda: getattr(db, "db", None)
+    )
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Pydantic models for API
 # ═══════════════════════════════════════════════════════════════════════════════
 

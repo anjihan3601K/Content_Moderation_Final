@@ -36,6 +36,24 @@ cd backend && .venv/Scripts/python.exe -m pytest tests/ -q      # host suite, ba
    The ranker can reorder or drop survivors; it has no way to add an item.
 6. Parental controls override interests, learned signals and the bandit.
 
+## State of the work
+
+Stages 0 to 3 are built. Stage 4 is open: the offline evaluation script
+(`evaluation/run_evaluation.py` with baselines, ablations and charts), the final
+independent review, and the final RESULTS.md. The second-pass review fixes in Stage 1 and
+all of Stages 2 and 3 have not been independently reviewed yet.
+
+## Things that are easy to get wrong here
+
+- `backend/src` and `recommendation/src` are both packages called `src`. Backend code is
+  imported as `src.*` with `backend/` on the path; this feature as `recommendation.src.*`
+  with the project root on the path. Tests set both up.
+- The gate re-validates its inputs. Change an item with attribute assignment, not
+  `model_copy(update=...)`, unless you mean to hand it an unchecked value.
+- Do not write shell heredocs containing apostrophes in this environment; write the file
+  with the editor tools and run it.
+- `mock_repository` (tests) is session-scoped and shared. Pass `record_history=False`.
+
 ## Host-project rules
 
 - Do not read `.env` or credential files. Do not stage `backend/databases/*` or `frontend.zip`.

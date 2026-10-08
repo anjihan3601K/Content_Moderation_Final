@@ -564,7 +564,8 @@ def create_moderation_workflow(db: ModerationDatabase, use_checkpointer: bool = 
 
 def _apply_audience_rating(state: ContentState) -> None:
     """
-    Attach the audience rating (recommendation feature) to a final state.
+    Attach the audience rating (recommendation feature) to a final state and
+    hand the rated item to the recommender.
 
     No-op unless RECOMMENDATION_ENABLED is true and the optional recommendation
     package is importable. A failure here never changes the moderation outcome:
@@ -573,8 +574,8 @@ def _apply_audience_rating(state: ContentState) -> None:
     if state is None or os.getenv("RECOMMENDATION_ENABLED", "false").lower() != "true":
         return
     try:
-        from recommendation.src.rating import apply_audience_rating
-        apply_audience_rating(state)
+        from recommendation.src.integration import on_moderation_complete
+        on_moderation_complete(state)
     except Exception as rating_error:
         logger.warning(f"Audience rating skipped: {rating_error}")
 

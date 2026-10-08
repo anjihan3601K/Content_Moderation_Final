@@ -1,18 +1,68 @@
 """
-Stage 3: Moderator-Side Review Queue Prioritizer, Precedent Retrieval & Feedback Loop.
+Stage 3: Moderator-Side Review Queue Prioritizer & Precedent Retrieval.
+
+Priority is ``expected_harm x (1 - agent_consensus) x exposure``, scaled by a multiplier
+learned from moderator overrides. Escalated items (high-risk categories) are a separate,
+leading sort key: they come first whatever the learned multiplier says, and are shown
+only to senior moderator roles.
 """
 
+import logging
 import math
-from typing import List, Dict, Any, Optional
-from recommendation.src.models import (
-    PrioritizedQueueItem,
-    PrecedentCase,
-    RecommendationDetailResponse,
-    FeedbackEvent,
-    AudienceRating
+from typing import Dict, List, Optional, Sequence, Tuple
+
+from recommendation.src.bandit import ThompsonSamplingBandit
+from recommendation.src.config import (
+    BLOCKED_STATUSES,
+    NO_VIOLATION_LABELS,
+    REVIEW_QUEUE_STATUSES,
+    TEEN_TOLERATED_VIOLATIONS,
+    TOXICITY_ADULT_THRESHOLD,
+    TOXICITY_BLOCK_THRESHOLD,
 )
-from recommendation.src.config import HIGH_RISK_ESCALATION_CATEGORIES
-from recommendation.src.personalization import TFIDFSimilarityProvider
+from recommendation.src.embeddings import EmbeddingProvider, TfidfEmbeddingProvider, cosine_scores
+from recommendation.src.models import (
+    PrecedentCase,
+    PrioritizedQueueItem,
+    RecommendationItemModel,
+    normalize_enum_value,
+    normalize_label,
+)
+from recommendation.src.rating import find_escalation_categories
+
+logger = logging.getLogger(__name__)
+
+UNKNOWN_HARM = 0.5
+ESCALATION_HARM = 0.95
+VIOLATION_HARM_FLOOR = 0.5
+MIN_UNCERTAINTY = 0.05
+CATEGORY_MATCH_BONUS = 0.3
+
+
+def queue_arm_key(category: str) -> str:
+    """Bandit arm that learns how often agents are overridden in a category."""
+    return f"queue:{normalize_label(category) or 'unknown'}"
+
+
+def item_category(item: RecommendationItemModel) -> str:
+    """The category used for queue learning and precedent matching."""
+    if item.content_category:
+        return normalize_label(item.content_category)
+    return normalize_label(item.content_topics[0]) if item.content_topics else "unknown"
+
+
+def is_escalated(item: RecommendationItemModel) -> bool:
+    """High-risk escalation category, from the stored flag or from the item's labels."""
+    labels = [item.content_category, *item.content_topics, *item.policy_violations]
+    return item.escalated or bool(find_escalation_categories(labels))
+
+
+def needs_review(item: RecommendationItemModel) -> bool:
+    """Whether an item belongs in the moderator queue."""
+    status = normalize_enum_value(item.status) if item.status else ""
+    if status in BLOCKED_STATUSES:
+        return False
+    return status in REVIEW_QUEUE_STATUSES
 
 
 class ReviewQueuePrioritizer:
@@ -21,85 +71,86 @@ class ReviewQueuePrioritizer:
     Formula: expected_harm * (1 - agent_consensus) * exposure
     """
 
+    def __init__(self, bandit: Optional[ThompsonSamplingBandit] = None, use_learned_priority: bool = True):
+        self.bandit = bandit or ThompsonSamplingBandit()
+        self.use_learned_priority = use_learned_priority
+
     @staticmethod
-    def calculate_priority(
-        content_id: str,
-        content_text: str,
-        category: str,
-        toxicity_score: float,
-        agent_confidence_scores: Dict[str, float],
-        agent_disagreement: float,
-        exposure_count: int = 100,
-        status: str = "pending_review",
-        audience_rating: AudienceRating = AudienceRating.ADULT
-    ) -> PrioritizedQueueItem:
+    def expected_harm(item: RecommendationItemModel) -> float:
+        """Harm estimate in [0, 1] from the agents' signals; unknown toxicity counts as 0.5."""
+        harm = item.toxicity_score if item.toxicity_score is not None else UNKNOWN_HARM
+        violations = {normalize_label(v) for v in item.policy_violations} - NO_VIOLATION_LABELS
+        if violations - TEEN_TOLERATED_VIOLATIONS:
+            harm = max(harm, VIOLATION_HARM_FLOOR)
+        if is_escalated(item):
+            harm = max(harm, ESCALATION_HARM)
+        return harm
+
+    @staticmethod
+    def uncertainty(item: RecommendationItemModel) -> float:
+        """1 - agent consensus: the larger of disagreement and lack of confidence; unknown counts as 1."""
+        if item.agent_disagreement is None or item.overall_confidence is None:
+            return 1.0
+        return max(MIN_UNCERTAINTY, item.agent_disagreement, 1.0 - item.overall_confidence)
+
+    @staticmethod
+    def exposure_score(item: RecommendationItemModel) -> float:
+        """Logarithmic exposure: 1.0 for an unseen item, +1 per tenfold increase in views."""
+        return 1.0 + math.log10(1 + item.exposure_count)
+
+    def learned_multiplier(self, item: RecommendationItemModel) -> float:
+        """Between 0.5 and 1.5: higher for categories where moderators often override the agents."""
+        if not self.use_learned_priority:
+            return 1.0
+        return 0.5 + self.bandit.mean(queue_arm_key(item_category(item)))
+
+    def calculate_priority(self, item: RecommendationItemModel) -> PrioritizedQueueItem:
         """
         Calculate priority score for a queued item.
         """
-        category_clean = category.lower() if category else "other"
-        
-        # High risk category base harm
-        is_high_risk = category_clean in HIGH_RISK_ESCALATION_CATEGORIES
-        base_harm = 0.95 if is_high_risk else max(0.1, toxicity_score)
-
-        # Agent consensus factor: (1 - agent_consensus) = agent_disagreement
-        disagreement_factor = max(0.1, agent_disagreement)
-
-        # Exposure score: logarithmic scaling of views/impressions
-        exposure_score = max(1.0, math.log10(max(1, exposure_count) + 1.0))
-
-        # Priority calculation
-        priority_score = base_harm * disagreement_factor * exposure_score
-
-        # Escalation trigger
-        is_escalated = is_high_risk or (toxicity_score > 0.85 and disagreement_factor > 0.4)
-        requires_senior = is_escalated or (audience_rating == AudienceRating.BLOCKED)
-
-        if is_escalated:
-            # Boost priority to top of queue
-            priority_score += 1000.0
-
+        harm = self.expected_harm(item)
+        uncertainty = self.uncertainty(item)
+        exposure = self.exposure_score(item)
+        multiplier = self.learned_multiplier(item)
+        escalated = is_escalated(item)
         return PrioritizedQueueItem(
-            content_id=content_id,
-            content_text=content_text,
-            category=category,
-            priority_score=round(priority_score, 4),
-            expected_harm=round(base_harm, 4),
-            agent_disagreement=round(disagreement_factor, 4),
-            exposure_score=round(exposure_score, 4),
-            audience_rating=audience_rating,
-            status=status,
-            is_escalated=is_escalated,
-            requires_senior_moderator=requires_senior,
-            created_at=""
+            content_id=item.item_id,
+            content_text=item.content_text,
+            category=item_category(item),
+            priority_score=round(harm * uncertainty * exposure * multiplier, 4),
+            expected_harm=round(harm, 4),
+            agent_disagreement=round(uncertainty, 4),
+            exposure_score=round(exposure, 4),
+            learned_multiplier=round(multiplier, 4),
+            audience_rating=item.audience_rating,
+            status=item.status or "unknown",
+            is_escalated=escalated,
+            requires_senior_moderator=escalated,
+            created_at=item.created_at,
         )
 
-    @classmethod
-    def prioritize_queue(
-        cls,
-        raw_items: List[Dict[str, Any]]
-    ) -> List[PrioritizedQueueItem]:
+    def prioritize_queue(self, items: Sequence[RecommendationItemModel]) -> List[PrioritizedQueueItem]:
         """
-        Process a list of raw queued items and sort by priority score descending.
+        Score every item that needs review and sort: escalated first, then by priority
+        (highest first), then oldest first.
         """
-        prioritized = []
-        for item in raw_items:
-            q_item = cls.calculate_priority(
-                content_id=item.get("content_id", ""),
-                content_text=item.get("content_text", ""),
-                category=item.get("content_category", "general"),
-                toxicity_score=item.get("toxicity_score", 0.0),
-                agent_confidence_scores=item.get("agent_confidence_scores", {}),
-                agent_disagreement=item.get("agent_disagreement", 0.2),
-                exposure_count=item.get("exposure_count", 100),
-                status=item.get("status", "pending_review"),
-                audience_rating=AudienceRating(item.get("audience_rating", "adult"))
-            )
-            prioritized.append(q_item)
-
-        # Sort descending by priority score
-        prioritized.sort(key=lambda x: x.priority_score, reverse=True)
+        prioritized = [self.calculate_priority(item) for item in items if needs_review(item)]
+        prioritized.sort(key=lambda q: (not q.is_escalated, -q.priority_score, q.created_at, q.content_id))
         return prioritized
+
+
+def rule_based_suggestion(item: RecommendationItemModel) -> Tuple[str, float]:
+    """Suggested action from the agents' signals alone, used when no precedent applies."""
+    if is_escalated(item):
+        return "escalate", 0.9
+    toxicity = item.toxicity_score
+    if toxicity is None:
+        return "escalate", 0.5
+    if toxicity >= TOXICITY_BLOCK_THRESHOLD:
+        return "remove", round(toxicity, 4)
+    if toxicity >= TOXICITY_ADULT_THRESHOLD:
+        return "warn", 0.6
+    return "approve", round(1.0 - toxicity, 4)
 
 
 class PrecedentRetriever:
@@ -107,42 +158,60 @@ class PrecedentRetriever:
     Retrieves top k resolved moderation cases similar to a candidate item for explainability.
     """
 
-    def __init__(self, precedent_cases: List[PrecedentCase]):
-        self.cases = precedent_cases
-        self.similarity_engine = TFIDFSimilarityProvider()
+    def __init__(self, embedding_provider: Optional[EmbeddingProvider] = None):
+        self.embedding_provider = embedding_provider or TfidfEmbeddingProvider()
+
+    @staticmethod
+    def _case_text(case: PrecedentCase) -> str:
+        return f"{case.category} {' '.join(case.topics)} {case.agent_verdict}"
 
     def get_similar_precedents(
         self,
-        content_text: str,
-        category: str,
+        item: RecommendationItemModel,
+        cases: Sequence[PrecedentCase],
         k: int = 3
     ) -> List[PrecedentCase]:
         """
-        Retrieve top k precedent cases sorted by textual & category similarity.
+        Retrieve the k most similar resolved cases, each returned with its similarity score.
+        Cases about the item itself are excluded.
         """
-        if not self.cases:
+        cases = [case for case in cases if case.content_id != item.item_id]
+        if not cases or k <= 0:
             return []
+        category = item_category(item)
+        query = f"{category} {' '.join(normalize_label(t) for t in item.content_topics)}"
+        case_texts = [self._case_text(case) for case in cases]
+        self.embedding_provider.fit(case_texts + [query])
+        scores = cosine_scores(
+            self.embedding_provider.embed([query])[0], self.embedding_provider.embed(case_texts)
+        )
+        ranked = []
+        for case, score in zip(cases, scores):
+            similarity = float(score) + (CATEGORY_MATCH_BONUS if normalize_label(case.category) == category else 0.0)
+            ranked.append((min(1.0, similarity), case))
+        ranked.sort(key=lambda pair: (-pair[0], pair[1].case_id))
+        return [
+            case.model_copy(update={"similarity_score": round(similarity, 4)})
+            for similarity, case in ranked[:k] if similarity > 0.0
+        ]
 
-        query = f"{category} {content_text}"
-        scored = []
-        for case in self.cases:
-            case_text = f"{case.category} {case.moderator_notes}"
-            sim = self.similarity_engine.compute_similarity(query, case_text)
-            if case.category.lower() == category.lower():
-                sim += 0.3  # Category match bonus
+    def suggest_action(
+        self,
+        item: RecommendationItemModel,
+        precedents: Sequence[PrecedentCase]
+    ) -> Tuple[str, float, str]:
+        """
+        Suggested action, a confidence in [0, 1] and its source ("precedents" or "rules").
 
-            # Copy case with computed similarity
-            c_copy = PrecedentCase(
-                case_id=case.case_id,
-                content_id=case.content_id,
-                category=case.category,
-                similarity_score=round(min(1.0, sim), 3),
-                agent_verdict=case.agent_verdict,
-                final_human_action=case.final_human_action,
-                moderator_notes=case.moderator_notes,
-                override_occurred=case.override_occurred
-            )
-            scored.append((c_copy.similarity_score, c_copy))
-
-        scored.sort(key=lambda x: x[0], reverse=True)
-        return [c for _, c in scored[:k]]
+        With precedents: the final human action with the most similarity-weighted support.
+        An escalated item is always suggested for escalation, whatever precedents say.
+        """
+        if is_escalated(item) or not precedents:
+            action, confidence = rule_based_suggestion(item)
+            return action, confidence, "rules"
+        support: Dict[str, float] = {}
+        for case in precedents:
+            support[case.final_human_action] = support.get(case.final_human_action, 0.0) + case.similarity_score
+        action = sorted(support, key=lambda name: (-support[name], name))[0]
+        total = sum(support.values())
+        return action, round(support[action] / total, 4) if total else 0.0, "precedents"
