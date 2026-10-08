@@ -257,6 +257,7 @@ class ContentState(TypedDict, total=False):
     # Workflow control
     status: str  # ContentStatus enum value
     audience_rating: Optional[str]  # AudienceRating enum value (all_ages, teen, adult, blocked)
+    agent_disagreement: Optional[float]  # 1 - agent consensus (0.0 to 1.0), set with audience_rating
     requires_human_review: bool
     human_review_reason: Optional[str]
     overall_confidence: float

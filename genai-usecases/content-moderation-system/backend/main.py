@@ -28,6 +28,8 @@ from dotenv import load_dotenv
 
 # Add src to path
 sys.path.append(str(Path(__file__).parent))
+# Project root, so the optional recommendation/ package is importable
+sys.path.append(str(Path(__file__).parent.parent))
 
 from src.database.moderation_db import ModerationDatabase
 from src.database.auth_db import AuthDatabase

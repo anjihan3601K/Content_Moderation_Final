@@ -562,6 +562,23 @@ def create_moderation_workflow(db: ModerationDatabase, use_checkpointer: bool = 
     return compiled_graph
 
 
+def _apply_audience_rating(state: ContentState) -> None:
+    """
+    Attach the audience rating (recommendation feature) to a final state.
+
+    No-op unless RECOMMENDATION_ENABLED is true and the optional recommendation
+    package is importable. A failure here never changes the moderation outcome:
+    the item is simply left unrated, which the recommender treats as withheld.
+    """
+    if state is None or os.getenv("RECOMMENDATION_ENABLED", "false").lower() != "true":
+        return
+    try:
+        from recommendation.src.rating import apply_audience_rating
+        apply_audience_rating(state)
+    except Exception as rating_error:
+        logger.warning(f"Audience rating skipped: {rating_error}")
+
+
 def process_content(
     graph: StateGraph,
     initial_state: ContentState,
@@ -614,6 +631,8 @@ def process_content(
         logger.warning("WARNING: final_state is None!")
 
     logger.info("\n" + "=" * 40)
+
+    _apply_audience_rating(final_state)
 
     # Check if workflow is paused for HITL
     if final_state.get("status") == ContentStatus.PENDING_HUMAN_REVIEW.value:
