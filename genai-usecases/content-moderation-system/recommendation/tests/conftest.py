@@ -63,3 +63,54 @@ def item_factory():
 @pytest.fixture
 def profile_factory():
     return make_profile
+
+
+# ─── storage fixtures (Stage 2 and 3) ───────────────────────────────────────────
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(PROJECT_ROOT / "recommendation" / "evaluation"))
+
+from fakes import FakeFirestoreClient  # noqa: E402
+from recommendation.src.store import (  # noqa: E402
+    DualDocumentStore,
+    FirestoreDocumentStore,
+    RecommendationRepository,
+    SQLiteDocumentStore,
+)
+
+BACKENDS = ["sqlite", "firestore", "dual"]
+
+
+def make_store(backend: str, tmp_path):
+    if backend == "sqlite":
+        return SQLiteDocumentStore(str(tmp_path / "rec.db"))
+    if backend == "firestore":
+        return FirestoreDocumentStore(FakeFirestoreClient())
+    return DualDocumentStore(
+        SQLiteDocumentStore(str(tmp_path / "rec.db")), FirestoreDocumentStore(FakeFirestoreClient())
+    )
+
+
+@pytest.fixture(params=BACKENDS)
+def repository(request, tmp_path):
+    """A repository on each storage backend in turn."""
+    return RecommendationRepository(make_store(request.param, tmp_path))
+
+
+@pytest.fixture
+def sqlite_repository(tmp_path):
+    return RecommendationRepository(SQLiteDocumentStore(str(tmp_path / "rec.db")))
+
+
+@pytest.fixture(scope="session")
+def mock_repository():
+    """
+    The full mock dataset, loaded once. Tests must not modify it. Held in the in-memory
+    Firestore fake because loading 1,080 documents into SQLite one commit at a time is
+    slow; SQLite behaviour is covered by test_rec_store.py.
+    """
+    from gate_harness import load_mock_data
+
+    repo = RecommendationRepository(FirestoreDocumentStore(FakeFirestoreClient()))
+    load_mock_data(repo)
+    return repo

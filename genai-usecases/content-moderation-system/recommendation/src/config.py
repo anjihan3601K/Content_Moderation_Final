@@ -11,6 +11,7 @@ below. Rating order, unrated-item handling and the status allow-lists are code, 
 
 import os
 import logging
+from pathlib import Path
 from typing import Dict, FrozenSet, Tuple
 
 logger = logging.getLogger(__name__)
@@ -127,3 +128,43 @@ SENSITIVE_TEEN_TOPICS: Tuple[str, ...] = (
 
 BORDERLINE_DRIFT_CAP: float = _env_float("BORDERLINE_DRIFT_CAP", 0.15, 0.0, 0.5)
 ADULT_DIVERSITY_MIN: float = _env_float("ADULT_DIVERSITY_MIN", 0.20, 0.0, 0.5)
+
+# Maximum share of borderline-risk items in a profile's recent feed window plus the feed
+# being built. A child never receives borderline items at all (enforced by the gate).
+BORDERLINE_SHARE_CAP: Dict[str, float] = {
+    "child": 0.0,
+    "teen": BORDERLINE_DRIFT_CAP,
+    "adult": min(0.5, 2 * BORDERLINE_DRIFT_CAP),
+}
+
+# How many topics outside the explicit set engagement may add to a profile.
+LEARNED_DRIFT_LIMIT: Dict[str, int] = {"child": 0, "teen": 3, "adult": 8}
+
+# Weight of the explicit-interest signal when blending with learned interests.
+EXPLICIT_BLEND_WEIGHT: Dict[str, float] = {"child": 1.0, "teen": 0.6, "adult": 0.5}
+
+FEED_HISTORY_WINDOW: int = 20
+RISK_TREND_PENALTY: float = 0.5
+RISK_TREND_MIN_SLOPE: float = 0.01
+RELEVANCE_WEIGHT: float = 0.7
+BANDIT_WEIGHT: float = 0.3
+RANKING_SEED: int = 20261008
+
+# ─── Moderator queue ────────────────────────────────────────────────────────────
+
+REVIEW_QUEUE_STATUSES: FrozenSet[str] = frozenset(
+    {"flagged", "under_review", "pending_human_review", "pending_review", "escalated"}
+)
+
+# Mirrors get_senior_moderator in backend/main.py. Escalated items are shown only to these.
+SENIOR_MODERATOR_ROLES: FrozenSet[str] = frozenset({"senior_moderator", "policy_specialist", "admin"})
+ADMIN_ROLE: str = "admin"
+
+# Engagement rewards used for learned interests and the feed bandit.
+ENGAGEMENT_REWARDS: Dict[str, float] = {"impression": 0.0, "click": 0.5, "view_long": 1.0, "skip": -0.5}
+
+
+def recommendation_db_path() -> str:
+    """SQLite file for the feature's own tables (kept apart from the moderation database)."""
+    default = Path(__file__).resolve().parents[2] / "backend" / "databases" / "recommendation_data.db"
+    return os.getenv("RECOMMENDATION_DB_PATH", str(default))

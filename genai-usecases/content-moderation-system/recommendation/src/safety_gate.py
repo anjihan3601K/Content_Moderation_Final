@@ -40,7 +40,7 @@ from recommendation.src.models import (
     RecommendationItemModel,
     Strictness,
     ViewerProfileModel,
-    label_stems,
+    label_matches,
     normalize_enum_value,
     normalize_label,
 )
@@ -94,15 +94,6 @@ def _reject(item_id: str, reason: GateReason, margin: bool = False) -> GateDecis
     )
 
 
-def _label_matches(blocked: str, label: str) -> bool:
-    """
-    True when every word of the blocked label appears in the label, compared by stem and
-    in any order, so "games" blocks "gaming_family" and "kids music" blocks "music_kids".
-    """
-    blocked_stems = label_stems(blocked)
-    return bool(blocked_stems) and blocked_stems <= label_stems(label)
-
-
 class SafetyGate:
     """
     Deterministic safety gate enforcing age-rating constraints, uncertainty safety margins,
@@ -143,9 +134,29 @@ class SafetyGate:
         Both inputs are re-validated first, so a model changed through ``model_copy`` or
         ``model_construct`` cannot carry an unchecked value into the rules.
         """
-        item_id = str(getattr(item, "item_id", "unknown"))
+        checked_profile = cls._validated_profile(profile)
+        return cls._evaluate_for(checked_profile, item)
+
+    @staticmethod
+    def _validated_profile(profile: ViewerProfileModel) -> Optional[ViewerProfileModel]:
+        """Re-validate a profile; None when it does not validate."""
         try:
-            checked_profile = ViewerProfileModel.model_validate(profile.model_dump(warnings=False))
+            return ViewerProfileModel.model_validate(profile.model_dump(warnings=False))
+        except Exception as error:
+            logger.error(f"gate_invalid_profile error={type(error).__name__}")
+            return None
+
+    @classmethod
+    def _evaluate_for(
+        cls,
+        checked_profile: Optional[ViewerProfileModel],
+        item: RecommendationItemModel
+    ) -> GateDecision:
+        """Evaluate one item for an already re-validated profile (None rejects everything)."""
+        item_id = str(getattr(item, "item_id", "unknown"))
+        if checked_profile is None:
+            return _reject(item_id, GateReason.INVALID, margin=True)
+        try:
             checked_item = RecommendationItemModel.model_validate(item.model_dump(warnings=False))
             return cls._apply_rules(checked_profile, checked_item)
         except Exception as error:
@@ -194,7 +205,7 @@ class SafetyGate:
 
         # 4. Parental controls override everything that follows.
         blocked_labels = [normalize_label(c) for c in controls.blocked_categories if c]
-        if any(_label_matches(blocked, label) for blocked in blocked_labels for label in labels):
+        if any(label_matches(blocked, label) for blocked in blocked_labels for label in labels):
             return _reject(item_id, GateReason.PARENTAL_BLOCK, margin=True)
         if controls.max_rating is not None:
             cap_rank = RATING_RANK.get(controls.max_rating, RATING_RANK[AudienceRating.ALL_AGES])
@@ -264,8 +275,9 @@ class SafetyGate:
         surviving_items: List[RecommendationItemModel] = []
         decisions: List[GateDecision] = []
 
+        checked_profile = cls._validated_profile(profile)
         for item in candidates:
-            decision = cls.evaluate_item(profile, item)
+            decision = cls._evaluate_for(checked_profile, item)
             decisions.append(decision)
             if decision.passed:
                 surviving_items.append(item)

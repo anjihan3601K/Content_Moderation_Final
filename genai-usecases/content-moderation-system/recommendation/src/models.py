@@ -4,6 +4,7 @@ Pydantic schemas and models for the Age-Gated Recommendation & Queue Prioritizer
 
 import re
 import unicodedata
+from functools import lru_cache
 from enum import Enum
 from typing import List, Dict, Any, Optional
 from datetime import datetime, timezone
@@ -23,7 +24,13 @@ def normalize_label(value: Any) -> str:
     are dropped and every run of separators or punctuation becomes one underscore, so
     "Self-Harm", "self  harm" and "self/harm" all compare equal to "self_harm".
     """
-    text = unicodedata.normalize("NFKC", str(value)).casefold()
+    return _normalize_text(str(value))
+
+
+@lru_cache(maxsize=8192)
+def _normalize_text(text: str) -> str:
+    """Cached worker for ``normalize_label``; labels repeat heavily across items."""
+    text = unicodedata.normalize("NFKC", text).casefold()
     text = "".join(ch for ch in text if unicodedata.category(ch) != "Cf")
     return re.sub(r"[\W_]+", "_", text).strip("_")
 
@@ -58,6 +65,15 @@ def label_stems(value: Any) -> frozenset:
                 break
         stems.add(token)
     return frozenset(stems)
+
+
+def label_matches(blocked: Any, label: Any) -> bool:
+    """
+    True when every word of the blocked label appears in the label, compared by stem and
+    in any order, so "games" blocks "gaming_family" and "kids music" blocks "music_kids".
+    """
+    blocked_stems = label_stems(blocked)
+    return bool(blocked_stems) and blocked_stems <= label_stems(label)
 
 
 class AgeTier(str, Enum):
@@ -145,13 +161,37 @@ class ViewerProfileModel(BaseModel):
     learned_interests: Dict[str, float] = Field(default_factory=dict)  # topic -> weight (0.0 to 1.0)
     parental_controls: ParentalControls = Field(default_factory=ParentalControls)
     recent_feed_history: List[Dict[str, Any]] = Field(default_factory=list)  # history of served items for drift guard
+    tier_declared: bool = Field(False, description="True once an age tier has been explicitly set")
     created_at: str = Field(default_factory=_now_iso)
     updated_at: str = Field(default_factory=_now_iso)
 
+    @field_validator("learned_interests")
+    @classmethod
+    def _weights_in_unit_range(cls, weights: Dict[str, float]) -> Dict[str, float]:
+        for topic, weight in weights.items():
+            if not (0.0 <= weight <= 1.0):
+                raise ValueError(f"learned interest weight out of range for {topic!r}")
+        return weights
+
 
 class PreferencesUpdateRequest(BaseModel):
-    explicit_interests: Optional[List[str]] = None
-    parental_controls: Optional[ParentalControls] = None
+    """Body of PUT /api/profiles/{id}/preferences. Omitted fields are left unchanged."""
+
+    explicit_interests: Optional[List[str]] = Field(None, max_length=20, description="Validated against the tier's topic list")
+    age_tier: Optional[AgeTier] = Field(None, description="Self-declared tier; raising it later needs an admin")
+    age_trust_level: Optional[AgeTrustLevel] = Field(None, description="Admin only")
+    parental_controls: Optional[ParentalControls] = Field(None, description="Admin only")
+
+
+class PreferencesResponse(BaseModel):
+    profile_id: str
+    age_tier: AgeTier
+    age_trust_level: AgeTrustLevel
+    tier_declared: bool
+    explicit_interests: List[str]
+    learned_interests: Dict[str, float]
+    parental_controls: ParentalControls
+    allowed_topics: Optional[List[str]] = Field(None, description="Topics this tier may select; None means free choice")
 
 
 class RecommendationItemModel(BaseModel):
@@ -213,10 +253,6 @@ class GateDecision(BaseModel):
     safety_margin_applied: bool = False
 
 
-class FeedRequest(BaseModel):
-    limit: int = Field(10, ge=1, le=50)
-
-
 class FeedResponse(BaseModel):
     profile_id: str
     age_tier: AgeTier
@@ -233,24 +269,33 @@ class PrioritizedQueueItem(BaseModel):
     category: str
     priority_score: float
     expected_harm: float
-    agent_disagreement: float
+    agent_disagreement: float = Field(..., description="Uncertainty used in the score: max(disagreement, 1 - confidence)")
     exposure_score: float
-    audience_rating: AudienceRating
+    learned_multiplier: float = Field(1.0, description="Adjustment learned from moderator overrides")
+    audience_rating: Optional[AudienceRating] = None
     status: str
     is_escalated: bool
     requires_senior_moderator: bool
     created_at: str
 
 
+class QueueResponse(BaseModel):
+    items: List[PrioritizedQueueItem]
+    queue_length: int
+    escalated_withheld: int = Field(0, description="Escalated items hidden because the caller is not a senior role")
+
+
 class PrecedentCase(BaseModel):
     case_id: str
     content_id: str
     category: str
-    similarity_score: float
+    topics: List[str] = Field(default_factory=list)
+    similarity_score: float = 0.0
     agent_verdict: str
     final_human_action: str  # approve, remove, warn, escalate
-    moderator_notes: str
+    moderator_notes: str = ""
     override_occurred: bool
+    resolved_at: str = Field(default_factory=_now_iso)
 
 
 class RecommendationDetailResponse(BaseModel):
@@ -259,17 +304,40 @@ class RecommendationDetailResponse(BaseModel):
     category: str
     suggested_action: str
     confidence: float
-    audience_rating: AudienceRating
+    suggestion_source: str = Field(..., description="precedents or rules")
+    audience_rating: Optional[AudienceRating] = None
+    is_escalated: bool
     precedents: List[PrecedentCase]
 
 
+class EventType(str, Enum):
+    IMPRESSION = "impression"
+    CLICK = "click"
+    VIEW_LONG = "view_long"
+    SKIP = "skip"
+    MODERATOR_OVERRIDE = "moderator_override"
+
+
+class ModeratorAction(str, Enum):
+    APPROVE = "approve"
+    WARN = "warn"
+    REMOVE = "remove"
+    ESCALATE = "escalate"
+
+
 class FeedbackEvent(BaseModel):
-    event_type: str = Field(..., description="impression, click, view_long, skip, moderator_override")
+    """Body of POST /api/recommendations/feedback."""
+
+    event_type: EventType = Field(..., description="impression, click, view_long, skip, moderator_override")
+    item_id: str = Field(..., min_length=1)
+    original_verdict: Optional[str] = Field(None, description="Agent verdict being reviewed (moderator_override)")
+    final_action: Optional[ModeratorAction] = Field(None, description="Required for moderator_override")
+    notes: str = Field("", max_length=2000)
+
+
+class FeedbackResponse(BaseModel):
+    accepted: bool
+    event_type: EventType
     item_id: str
-    profile_id: Optional[str] = None
-    moderator_id: Optional[str] = None
-    topic: Optional[str] = None
-    reward_value: float = Field(0.0, description="Reward signal (-1.0 to 1.0)")
-    original_verdict: Optional[str] = None
-    final_action: Optional[str] = None
-    timestamp: str = Field(default_factory=_now_iso)
+    detail: str
+    override_occurred: Optional[bool] = None

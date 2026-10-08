@@ -157,3 +157,35 @@ def leak_reason(profile: Dict[str, Any], item: Dict[str, Any]) -> Optional[str]:
     if tier == "child" and item["scenario"] == "borderline":
         return "borderline item served to a child"
     return None
+
+
+def load_mock_data(repository: Any) -> Dict[str, int]:
+    """
+    Load the mock items, profiles and resolved cases into a repository. Mock profiles are
+    stored as explicitly declared; their interests are stored as generated, without
+    tier validation, so the tests can check the system copes with whatever is stored.
+    """
+    from recommendation.src.models import PrecedentCase
+
+    items = load_dataset("items")
+    for record in items:
+        item = item_from_record(record)
+        item.created_at = record["created_at"]
+        repository.upsert_item(item)
+    profiles = load_dataset("profiles")
+    for record in profiles:
+        profile = profile_from_record(record)
+        profile.tier_declared = True
+        repository.save_profile(profile)
+    topics_by_item = {r["item_id"]: r["pipeline_state"].get("content_topics") or [] for r in items}
+    cases = load_dataset("resolved_cases")
+    for record in cases:
+        topics = topics_by_item.get(record["content_id"], [])
+        repository.add_precedent(PrecedentCase(
+            **{key: record[key] for key in (
+                "case_id", "content_id", "category", "agent_verdict", "final_human_action",
+                "override_occurred", "moderator_notes", "resolved_at",
+            )},
+            topics=topics if isinstance(topics, list) else [],
+        ))
+    return {"items": len(items), "profiles": len(profiles), "precedents": len(cases)}
