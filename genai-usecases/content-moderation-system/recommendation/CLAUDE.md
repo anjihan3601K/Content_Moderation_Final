@@ -38,10 +38,11 @@ cd backend && .venv/Scripts/python.exe -m pytest tests/ -q      # host suite, ba
 
 ## State of the work
 
-Stages 0 to 3 are built. Stage 4 is open: the offline evaluation script
-(`evaluation/run_evaluation.py` with baselines, ablations and charts), the final
-independent review, and the final RESULTS.md. The second-pass review fixes in Stage 1 and
-all of Stages 2 and 3 have not been independently reviewed yet.
+All four stages are built, and the frontend has a profile card on the Settings page.
+Open items, all listed in `results/RESULTS.md`: the final-review fixes have not been
+independently re-checked; lost updates under concurrent requests (W4) are not fixed; the
+profile page has not been run in a browser; real Firestore and a real moderation run have
+never been exercised.
 
 ## Things that are easy to get wrong here
 

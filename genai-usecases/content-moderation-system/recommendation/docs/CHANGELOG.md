@@ -147,3 +147,53 @@ Migrations
 
 Config flags added
 - `BORDERLINE_DRIFT_CAP` (0.15), `ADULT_DIVERSITY_MIN` (0.20), `RECOMMENDATION_DB_PATH`.
+
+## Stage 4 - evaluation, final review, profile page
+
+Created
+- `recommendation/evaluation/run_evaluation.py` - offline replay: leak rate, relevance
+  against baselines, bandit simulation, diversity and drift, queue, precedents; ablations
+  for gate, bandit, learning and precedents
+- `recommendation/results/evaluation_metrics.json`, `evaluation_*.csv` (7), `chart_*.png` (6)
+- `recommendation/tests/test_rec_final_review.py` - regression tests for the final review
+- `frontend/src/components/Settings/ViewerProfile.jsx` - profile card: date of birth to age
+  group (only the age group is sent or stored), interests, read-only parental controls
+
+Modified (inside recommendation/)
+- `mock_data/generate_mock_data.py`, `resolved_cases.json` - resolved cases now follow a
+  per-category norm 80 % of the time, so precedent retrieval has something to recover.
+  Items, profiles and engagement are byte-identical to before. Catalogue cases R16-R19 and
+  C06 now carry an explicit human approval.
+- `src/store.py` - restricted fallback for damaged profiles, never written back;
+  `rec_pending_sync` table and SQLite-first reads for documents whose Firestore write failed
+- `src/rating.py` - high-risk items need a human approval to leave `blocked`; text is never
+  parsed as a score; escalation terms split across labels; `human_reviewed` on built items
+- `src/safety_gate.py` - borderline derived from toxicity as well as the stored flag
+- `src/moderator_queue.py` - status `escalated` counts as escalated; unreviewed high-risk
+  items are queued whatever their status
+- `src/feedback.py` - decisions mark the item human-reviewed; `escalate` sets the flag;
+  approve and warn rate `adult` at most; precedents record escalation
+- `src/integration.py` - a moderator's decision outranks a machine re-rating; items
+  without a content id are not stored
+- `src/api.py` - raising a tier is always admin-only; damaged profiles need an admin (409);
+  escalated precedents hidden from non-senior roles; async moderator dependency refused
+- `src/models.py` - `record_damaged`, `human_reviewed`, `PrecedentCase.is_escalated`;
+  stricter number and parental-label validation
+- `evaluation/gate_harness.py`, `evaluation/check_case.py` - `human_approved` support
+
+Existing files modified
+- `frontend/src/services/api.js` - new `recommendationAPI` export (three calls). Nothing
+  existing changed.
+- `frontend/src/components/Settings/UserSettings.jsx` - imports `ViewerProfile` and renders
+  it as one more card on the Settings page. Two lines of import and one grid item added.
+- No backend file was changed in Stage 4.
+
+New dependencies
+- Development only: `matplotlib==3.11.2` (charts in `run_evaluation.py`), with its
+  dependencies `contourpy==1.4.0`, `cycler==0.12.1`, `fonttools==4.66.1`,
+  `kiwisolver==1.5.1`, `pyparsing==3.3.3`. Installed into `backend/.venv` with `uv pip`
+  and listed in `recommendation/requirements-dev.txt`. Not imported by any runtime code.
+
+Migrations
+- None for existing data. The feature's own SQLite file gains one table,
+  `rec_pending_sync`, created with `CREATE TABLE IF NOT EXISTS`.

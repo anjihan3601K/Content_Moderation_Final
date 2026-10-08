@@ -120,7 +120,7 @@ def test_toxicity_thresholds(toxicity, expected):
     assert rating_of(toxicity_score=toxicity) == expected
 
 
-@pytest.mark.parametrize("toxicity", [None, "high", float("nan"), -0.1, 1.5])
+@pytest.mark.parametrize("toxicity", [None, "high", float("nan"), -0.1, 1.5, "0", " 0 ", "0_0", b"0", "\u0660", True])
 def test_missing_or_invalid_toxicity_is_adult(toxicity):
     assert rating_of(toxicity_score=toxicity) == AudienceRating.ADULT
 
@@ -173,7 +173,12 @@ def test_escalation_category_blocked_until_approved(label):
     assert pending.rating == AudienceRating.BLOCKED
     assert pending.escalated
 
-    approved = derive_audience_rating(clean_state(policy_violations=[label]))
+    agents_only = derive_audience_rating(clean_state(policy_violations=[label]))
+    assert agents_only.rating == AudienceRating.BLOCKED  # agent approval alone is not enough
+
+    human = {"agent_name": "HITL Human Review", "decision": "human_approved", "confidence": 1.0}
+    decisions = clean_state()["agent_decisions"] + [human]
+    approved = derive_audience_rating(clean_state(policy_violations=[label], agent_decisions=decisions))
     assert approved.rating == AudienceRating.ADULT
     assert approved.escalated
 
@@ -230,7 +235,7 @@ def test_human_review_replaces_agent_verdicts():
         _AgentDecision("Toxicity Detection Agent", _Decision.REMOVE, 0.9),
         {"agent_name": "HITL Human Review", "decision": "human_approved", "confidence": 1.0},
     ]
-    assert compute_agent_signals(decisions) == AgentSignals(0.0, 1.0, True)
+    assert compute_agent_signals(decisions) == AgentSignals(0.0, 1.0, True, human_approved=True)
 
 
 def test_human_review_only_settles_things_when_it_is_last_and_allows():

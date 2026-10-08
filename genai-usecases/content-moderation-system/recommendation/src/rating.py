@@ -81,6 +81,7 @@ class AgentSignals:
     disagreement: Optional[float]
     confidence: Optional[float]
     all_allow: bool
+    human_approved: bool = False
 
 
 @dataclass(frozen=True)
@@ -102,10 +103,10 @@ class RatingResult:
 def find_escalation_categories(labels: Iterable[Any]) -> Tuple[str, ...]:
     """Return the high-risk escalation categories present in a set of labels."""
     found = set()
-    for label in labels:
-        if label is None:
-            continue
-        squashed = normalize_label(label).replace("_", "")
+    squashed_labels = [normalize_label(label).replace("_", "") for label in labels if label is not None]
+    # The labels are also checked joined together, so a term split across two labels
+    # (["self", "harm"]) is still found.
+    for squashed in squashed_labels + ["".join(squashed_labels)]:
         for category, stems in HIGH_RISK_ESCALATION_STEMS.items():
             if any(stem in squashed for stem in stems):
                 found.add(category)
@@ -120,12 +121,15 @@ def _read(decision: Any, name: str) -> Any:
 
 
 def _to_unit_float(value: Any) -> Optional[float]:
-    """Convert to a float in [0, 1]; anything else is a missing signal."""
-    if value is None or isinstance(value, bool):
+    """
+    A number in [0, 1], or None for a missing signal. Only real numbers are accepted:
+    text such as "0", " 0 " or "0_0" is malformed pipeline output, not a score.
+    """
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
         return None
     try:
         number = float(value)
-    except (TypeError, ValueError, OverflowError):
+    except OverflowError:
         return None
     if number != number or number < 0.0 or number > 1.0:
         return None
@@ -188,7 +192,7 @@ def compute_agent_signals(agent_decisions: Any) -> AgentSignals:
     if not verdicts:
         return AgentSignals(None, None, False)
     if last_is_human_allow:
-        return AgentSignals(0.0, human_confidence, True)
+        return AgentSignals(0.0, human_confidence, True, human_approved=True)
 
     largest_group = max(verdicts.count(v) for v in set(verdicts))
     disagreement = round(1.0 - (largest_group / len(verdicts)), 4)
@@ -245,11 +249,13 @@ def derive_audience_rating(state: Mapping[str, Any]) -> RatingResult:
             escalation_inputs.append(repr(state.get(name)))
         else:
             escalation_inputs.extend(labels)
+    signals = compute_agent_signals(state.get("agent_decisions"))
     escalation = find_escalation_categories(escalation_inputs)
     if escalation:
-        # Withheld from everyone until a moderator has explicitly approved it.
+        # Withheld from everyone until a human moderator has approved it. Approval by
+        # the agents alone is not enough for a high-risk category.
         raise_to(
-            AudienceRating.ADULT if approved else AudienceRating.BLOCKED,
+            AudienceRating.ADULT if approved and signals.human_approved else AudienceRating.BLOCKED,
             "escalation_category:" + ",".join(escalation),
         )
 
@@ -291,7 +297,6 @@ def derive_audience_rating(state: Mapping[str, Any]) -> RatingResult:
     if media_risk not in _LOW_MEDIA_RISK:
         raise_to(AudienceRating.ADULT, f"media_risk:{media_risk or 'missing'}")
 
-    signals = compute_agent_signals(state.get("agent_decisions"))
     if not signals.all_allow:
         raise_to(AudienceRating.ADULT, "not_every_agent_allowed")
 
@@ -374,6 +379,7 @@ def build_item_from_state(
         status=status if isinstance(status, str) else None,
         is_borderline=is_borderline,
         escalated=result.escalated if result else bool(find_escalation_categories([category])),
+        human_reviewed=bool(rated and compute_agent_signals(state.get("agent_decisions")).human_approved),
         exposure_count=max(0, int(exposure_count)),
     )
 

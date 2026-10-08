@@ -52,17 +52,24 @@ def item_category(item: RecommendationItemModel) -> str:
 
 
 def is_escalated(item: RecommendationItemModel) -> bool:
-    """High-risk escalation category, from the stored flag or from the item's labels."""
+    """
+    High-risk escalation: the stored flag, an escalation label on the item, or a
+    moderator having escalated it (status ``escalated``).
+    """
     labels = [item.content_category, *item.content_topics, *item.policy_violations]
-    return item.escalated or bool(find_escalation_categories(labels))
+    status = normalize_enum_value(item.status) if item.status else ""
+    return item.escalated or status == "escalated" or bool(find_escalation_categories(labels))
 
 
 def needs_review(item: RecommendationItemModel) -> bool:
-    """Whether an item belongs in the moderator queue."""
+    """
+    Whether an item belongs in the moderator queue: it is awaiting review, or it is in a
+    high-risk category and no human has decided on it yet, whatever its status says.
+    """
     status = normalize_enum_value(item.status) if item.status else ""
     if status in BLOCKED_STATUSES:
         return False
-    return status in REVIEW_QUEUE_STATUSES
+    return status in REVIEW_QUEUE_STATUSES or (is_escalated(item) and not item.human_reviewed)
 
 
 class ReviewQueuePrioritizer:

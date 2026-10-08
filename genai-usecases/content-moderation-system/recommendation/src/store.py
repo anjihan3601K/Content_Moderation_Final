@@ -21,7 +21,10 @@ from typing import Any, Dict, List, Optional, Protocol
 
 from recommendation.src.models import (
     AgeTier,
+    AudienceRating,
+    ParentalControls,
     PrecedentCase,
+    Strictness,
     RecommendationItemModel,
     ViewerProfileModel,
     _now_iso,
@@ -30,6 +33,7 @@ from recommendation.src.models import (
 logger = logging.getLogger(__name__)
 
 COLLECTIONS = ("rec_items", "rec_profiles", "rec_events", "rec_bandit_arms", "rec_precedents")
+PENDING_SYNC_TABLE = "rec_pending_sync"
 FEED_HISTORY_LIMIT = 50
 
 
@@ -69,7 +73,42 @@ class SQLiteDocumentStore:
                     f"CREATE TABLE IF NOT EXISTS {collection} ("
                     "doc_id TEXT PRIMARY KEY, data TEXT NOT NULL, updated_at TEXT NOT NULL)"
                 )
+            conn.execute(
+                f"CREATE TABLE IF NOT EXISTS {PENDING_SYNC_TABLE} ("
+                "collection TEXT NOT NULL, doc_id TEXT NOT NULL, PRIMARY KEY (collection, doc_id))"
+            )
             conn.commit()
+        finally:
+            conn.close()
+
+    def mark_pending_sync(self, collection: str, doc_id: str, pending: bool) -> None:
+        """Record (or clear) that a document's newest version exists only in SQLite."""
+        _check_collection(collection)
+        conn = self.get_connection()
+        try:
+            if pending:
+                conn.execute(
+                    f"INSERT OR IGNORE INTO {PENDING_SYNC_TABLE} (collection, doc_id) VALUES (?, ?)",
+                    (collection, str(doc_id)),
+                )
+            else:
+                conn.execute(
+                    f"DELETE FROM {PENDING_SYNC_TABLE} WHERE collection = ? AND doc_id = ?",
+                    (collection, str(doc_id)),
+                )
+            conn.commit()
+        finally:
+            conn.close()
+
+    def pending_sync_ids(self, collection: str) -> set:
+        """Ids in a collection whose newest version has not reached Firestore."""
+        _check_collection(collection)
+        conn = self.get_connection()
+        try:
+            rows = conn.execute(
+                f"SELECT doc_id FROM {PENDING_SYNC_TABLE} WHERE collection = ?", (collection,)
+            ).fetchall()
+            return {row["doc_id"] for row in rows}
         finally:
             conn.close()
 
@@ -137,6 +176,11 @@ class DualDocumentStore:
     SQLite plus optional Firestore, in the host project's pattern: write SQLite first and
     then Firestore; read Firestore first and fall back to SQLite. A Firestore failure is
     logged and never fails the request.
+
+    Unlike the host's manager, a failed Firestore write is remembered (in SQLite). Until
+    that document is written to Firestore successfully, reads of it are served from
+    SQLite, so a stale Firestore copy can never override a newer decision such as a
+    removal or a change of age tier.
     """
 
     def __init__(self, sqlite_store: SQLiteDocumentStore, firestore_store: Optional[FirestoreDocumentStore] = None):
@@ -148,11 +192,13 @@ class DualDocumentStore:
         if self.firestore_store is not None:
             try:
                 self.firestore_store.put(collection, doc_id, data)
+                self.sqlite_store.mark_pending_sync(collection, doc_id, False)
             except Exception as error:
+                self.sqlite_store.mark_pending_sync(collection, doc_id, True)
                 logger.warning(f"Firestore write failed for {collection}/{doc_id}: {error}")
 
     def get(self, collection: str, doc_id: str) -> Optional[Dict[str, Any]]:
-        if self.firestore_store is not None:
+        if self.firestore_store is not None and str(doc_id) not in self.sqlite_store.pending_sync_ids(collection):
             try:
                 document = self.firestore_store.get(collection, doc_id)
                 if document is not None:
@@ -166,10 +212,22 @@ class DualDocumentStore:
             try:
                 documents = self.firestore_store.list(collection, limit)
                 if documents:
-                    return documents
+                    return self._overlay_pending(collection, documents, limit)
             except Exception as error:
                 logger.warning(f"Firestore list failed for {collection}: {error}")
         return self.sqlite_store.list(collection, limit)
+
+    def _overlay_pending(self, collection: str, documents: List[Dict[str, Any]], limit: int) -> List[Dict[str, Any]]:
+        """Replace Firestore's copy of any not-yet-synced document with the SQLite version."""
+        pending = self.sqlite_store.pending_sync_ids(collection)
+        if not pending:
+            return documents
+        merged = {str(document.get("_doc_id")): document for document in documents}
+        for doc_id in pending:
+            local = self.sqlite_store.get(collection, doc_id)
+            if local is not None:
+                merged[doc_id] = local
+        return [merged[key] for key in sorted(merged)][:limit]
 
 
 class RecommendationRepository:
@@ -209,8 +267,10 @@ class RecommendationRepository:
 
         An account with no stored profile gets the default (adult, self-declared), by
         product decision. A stored profile that cannot be read, or that has lost its age
-        tier, is returned as a child profile: when the record is damaged the safe
-        assumption is the most restrictive one.
+        tier, is returned as the most restrictive profile there is: child, strict, capped
+        at all_ages, keeping whatever parental blocks can still be read. It is marked
+        ``record_damaged`` so it is never written back over the stored record and only an
+        admin can repair it.
         """
         data = self.store.get("rec_profiles", profile_id)
         if data is None:
@@ -220,13 +280,40 @@ class RecommendationRepository:
                 raise ValueError("age_tier missing")
             return ViewerProfileModel.model_validate({k: v for k, v in data.items() if k != "_doc_id"})
         except Exception as error:
-            logger.error(f"Profile {profile_id} unreadable ({type(error).__name__}); treating as child")
-            return ViewerProfileModel(profile_id=str(profile_id), user_id=str(profile_id), age_tier=AgeTier.CHILD)
+            logger.error(f"Profile {profile_id} unreadable ({type(error).__name__}); treating as restricted child")
+            return self._restricted_profile(str(profile_id), data)
+
+    @staticmethod
+    def _restricted_profile(profile_id: str, data: Dict[str, Any]) -> ViewerProfileModel:
+        """The fallback for a damaged profile record."""
+        blocked: List[str] = []
+        controls = data.get("parental_controls") if isinstance(data, dict) else None
+        raw_blocked = controls.get("blocked_categories") if isinstance(controls, dict) else None
+        for label in raw_blocked if isinstance(raw_blocked, list) else []:
+            try:
+                ParentalControls(blocked_categories=[label])
+                blocked.append(label)
+            except Exception:
+                continue
+        return ViewerProfileModel(
+            profile_id=profile_id,
+            user_id=profile_id,
+            age_tier=AgeTier.CHILD,
+            tier_declared=True,
+            record_damaged=True,
+            parental_controls=ParentalControls(
+                blocked_categories=blocked, strictness_level=Strictness.STRICT, max_rating=AudienceRating.ALL_AGES
+            ),
+        )
 
     def profile_exists(self, profile_id: str) -> bool:
         return self.store.get("rec_profiles", profile_id) is not None
 
     def save_profile(self, profile: ViewerProfileModel) -> None:
+        """Store a profile. A fallback built for a damaged record is never written back."""
+        if profile.record_damaged:
+            logger.error(f"Profile {profile.profile_id} is damaged; not overwriting the stored record")
+            return
         profile.updated_at = _now_iso()
         profile.recent_feed_history = profile.recent_feed_history[-FEED_HISTORY_LIMIT:]
         data = profile.model_dump(mode="json")

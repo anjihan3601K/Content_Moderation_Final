@@ -13,6 +13,7 @@ passed in by ``backend/main.py``. Nothing here authenticates anyone by itself.
     POST /api/recommendations/feedback
 """
 
+import inspect
 import logging
 from typing import Any, Callable, Dict, Optional
 
@@ -41,6 +42,7 @@ from recommendation.src.moderator_queue import (
     item_category,
 )
 from recommendation.src.personalization import InterestNotAllowedError, ProfileRanker, TierTopicGuard
+from recommendation.src.rating import find_escalation_categories
 from recommendation.src.safety_gate import TIER_RANK
 from recommendation.src.service import FeedService
 from recommendation.src.store import (
@@ -96,6 +98,10 @@ def create_recommendation_router(
     get_container: Callable[[], RecommendationContainer],
 ) -> APIRouter:
     """Create the router. The two auth dependencies are the host application's own."""
+    if inspect.iscoroutinefunction(get_moderator):
+        # The override check calls get_moderator directly; an un-awaited coroutine would
+        # be truthy and let every caller through.
+        raise TypeError("get_moderator must be a synchronous dependency")
     router = APIRouter(tags=["recommendations"])
 
     def own_profile_or_admin(profile_id: str, user: Dict[str, Any]) -> None:
@@ -135,9 +141,10 @@ def create_recommendation_router(
         """
         Update a profile's preferences, validated against its age tier.
 
-        The owner may set explicit interests, and may declare an age tier once or lower
-        it later. Raising a declared tier, changing the trust level and changing parental
-        controls are admin-only.
+        The owner may set explicit interests and may lower their age tier. Raising a
+        tier, changing the trust level, changing parental controls and repairing a
+        damaged profile record are admin-only. (An account with no profile starts at the
+        adult default, so a first declaration is always a lowering or no change.)
         """
         own_profile_or_admin(profile_id, user)
         is_admin = user["role"] == ADMIN_ROLE
@@ -145,12 +152,17 @@ def create_recommendation_router(
             repository = get_container().repository
             profile = repository.get_profile(profile_id)
 
+            if profile.record_damaged:
+                if not is_admin:
+                    raise HTTPException(status_code=409, detail="This profile needs to be repaired by an admin")
+                profile.record_damaged = False
+
             if (request.age_trust_level is not None or request.parental_controls is not None) and not is_admin:
                 raise HTTPException(status_code=403, detail="Only an admin can change trust level or parental controls")
             if request.age_tier is not None and request.age_tier != profile.age_tier:
                 raising = TIER_RANK[request.age_tier] > TIER_RANK[profile.age_tier]
-                if raising and profile.tier_declared and not is_admin:
-                    raise HTTPException(status_code=403, detail="Only an admin can raise a declared age tier")
+                if raising and not is_admin:
+                    raise HTTPException(status_code=403, detail="Only an admin can raise an age tier")
             if request.age_tier is not None:
                 profile.age_tier = request.age_tier
                 profile.tier_declared = True
@@ -217,7 +229,14 @@ def create_recommendation_router(
             escalated = is_escalated(item)
             if escalated and user["role"] not in SENIOR_MODERATOR_ROLES:
                 raise HTTPException(status_code=403, detail="Senior moderator access required")
-            precedents = container.precedents.get_similar_precedents(item, container.repository.list_precedents(), k)
+            cases = container.repository.list_precedents()
+            if user["role"] not in SENIOR_MODERATOR_ROLES:
+                # Resolved escalated cases are senior-only, like the items they concern.
+                cases = [
+                    case for case in cases
+                    if not case.is_escalated and not find_escalation_categories([case.category, *case.topics])
+                ]
+            precedents = container.precedents.get_similar_precedents(item, cases, k)
             action, confidence, source = container.precedents.suggest_action(item, precedents)
             return RecommendationDetailResponse(
                 item_id=item.item_id,

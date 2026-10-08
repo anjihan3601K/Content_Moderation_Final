@@ -3,6 +3,7 @@ Try one case by hand: describe what the moderation pipeline reported about an it
 is viewing, and see the rating, the gate's decision and the reason.
 
     backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --tier child --category grooming
+    backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --tier adult --category grooming --human-approved
     backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --tier teen --status flagged
     backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --tier teen --trust self_declared --dissent flag
     backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --tier child --block gaming --category gaming_family
@@ -42,6 +43,7 @@ def parse_args() -> argparse.Namespace:
     item.add_argument("--flag", action="append", default=[], help="policy flag (repeatable)")
     item.add_argument("--severity", default="none")
     item.add_argument("--dissent", action="append", default=[], help="verdict of an agent that did not approve")
+    item.add_argument("--human-approved", action="store_true", help="a human moderator reviewed and approved it")
     item.add_argument("--legacy", action="store_true", help="treat as an unrated legacy item")
     item.add_argument("--drop", action="append", default=[], help="remove a field from the pipeline output")
     return parser.parse_args()
@@ -63,6 +65,8 @@ def main() -> int:
     )
     for key in args.drop:
         state.pop(key, None)
+    if args.human_approved:
+        state["agent_decisions"].append({"agent_name": "HITL Human Review", "decision": "human_approved", "confidence": 1.0})
 
     controls = {"blocked_categories": args.block, "strictness_level": args.strictness,
                 "allowed_sensitive_topics": args.allow_sensitive}

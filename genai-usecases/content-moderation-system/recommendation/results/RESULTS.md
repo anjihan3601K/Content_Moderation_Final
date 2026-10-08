@@ -1,18 +1,18 @@
 # Results
 
-Real output from real runs only. Nothing below is estimated. Stage 4 (offline evaluation
-with baselines, ablations and charts, and the final independent review) has not been run;
-the numbers here come from the test suite and the Stage 1 replay.
+Real output from real runs only. Nothing below is estimated. Where a result is weak,
+negative or follows from how the mock data was built, the text says so.
 
 ## Status
 
 | Stage | State |
 |---|---|
 | 0 - baseline and findings | done |
-| 1 - audience rating and safety gate | done, reviewed twice |
-| 2 - profiles, storage, personalization | done, tested, **not independently reviewed** |
-| 3 - moderator queue, feedback, endpoints | done, tested, **not independently reviewed** |
-| 4 - evaluation, final review | mock data done; evaluation script, charts and final review not started |
+| 1 - audience rating and safety gate | done, reviewed three times |
+| 2 - profiles, storage, personalization | done, independently reviewed once, findings fixed |
+| 3 - moderator queue, feedback, endpoints | done, independently reviewed once, findings fixed |
+| 4 - evaluation, final review | done |
+| Profile page (frontend) | written, builds; not run in a browser |
 
 ## Test outcomes (2026-10-08)
 
@@ -21,11 +21,12 @@ the numbers here come from the test suite and the Stage 1 replay.
 | Host suite, baseline (before any change) | `cd backend && .venv/Scripts/python.exe -m pytest tests/ -q` | 3 passed |
 | Host suite, after Stage 1 | same | 3 passed |
 | Host suite, after Stages 2 and 3 | same | 3 passed |
-| Recommendation tests | `backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q` | 1093 passed, 1 skipped (95 s) |
+| Host suite, after Stage 4 and the final-review fixes | same | 3 passed |
+| Recommendation tests | `backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q` | 1148 passed, 1 skipped (about 4 minutes) |
 
 | Test file | Passed |
 |---|---|
-| `test_rec_rating.py` | 249 (+1 skipped) |
+| `test_rec_rating.py` | 255 (+1 skipped) |
 | `test_rec_safety_gate.py` | 537 |
 | `test_rec_gate_invariants.py` | 4 |
 | `test_rec_mock_data.py` | 76 |
@@ -35,6 +36,7 @@ the numbers here come from the test suite and the Stage 1 replay.
 | `test_rec_feed_service.py` | 11 |
 | `test_rec_queue_feedback.py` | 43 |
 | `test_rec_api.py` | 65 |
+| `test_rec_final_review.py` | 49 |
 
 The skip is deliberate: a parametrised case that would test `toxicity_score = 0` as a
 malformed value, which it is not.
@@ -94,8 +96,9 @@ the profile's explicit interests. Same gate survivors for both; 80 profiles.
 
 Read this with care: the relevance label is defined from the same topic labels the ranker
 uses, on synthetic data, so it shows the ranker does what it is built to do, not that
-people would find the feed relevant. A comparison against an interest-only baseline, NDCG,
-and the bandit-off and precedent-off ablations are Stage 4 and have not been run.
+people would find the feed relevant. The comparison against an interest-only baseline,
+NDCG and the ablations are in "Offline evaluation" below; the ranker does not beat the
+interest-only baseline there.
 
 ### Guards (unit-level, on constructed pools)
 
@@ -117,7 +120,7 @@ and the bandit-off and precedent-off ablations are Stage 4 and have not been run
 | Five overrides in one category, five agreements in another | overridden category's item moves ahead; precedent suggestion becomes the moderators' action |
 | Approving a blocked escalation item | rating becomes `adult`; still absent from child and teen feeds |
 
-Time-to-review against FIFO and a plain risk sort has not been measured; that is Stage 4.
+Time-to-review against FIFO and a plain risk sort is in "Offline evaluation", section E.
 
 ### API and RBAC
 
@@ -126,14 +129,14 @@ Time-to-review against FIFO and a plain risk sort has not been measured; that is
 
 | Check | Result |
 |---|---|
-| All 6 endpoints without a token | rejected (401) |
+| All 6 endpoints without a token | 401 |
 | All 6 endpoints with an invalid token | 401 |
 | Queue and item recommendation as a plain user | 403 |
 | Escalated items as `moderator` / `content_analyst` | withheld from the queue, 403 on the item and on resolving it |
 | Escalated items as `senior_moderator`, `policy_specialist`, `admin` | visible, first in the queue |
 | Child requesting disallowed interests | 422 with the rejected topics; nothing saved |
 | Owner changing trust level or parental controls | 403 |
-| Owner raising a declared tier | 403; lowering allowed |
+| Owner raising their tier | 403; lowering allowed |
 | Reading or changing another user's profile | 403 (admin allowed) |
 | Routes with the flag off / on (import of `backend/main.py`) | 62 / 68 |
 
@@ -174,6 +177,181 @@ built it, so it tests that the gate reacts correctly to reported signals, not th
 harmful content would be detected. Ranking, the bandit, the queue and the API do not exist
 yet and are not measured. Case-by-case explanations are in
 `docs/EXPLAINABLE_TEST_GUIDE.md`.
+
+## Offline evaluation (Stage 4)
+
+Command: `backend/.venv/Scripts/python.exe recommendation/evaluation/run_evaluation.py`
+(about 4 minutes). Seed 20261008, feed size 10, replay on the mock data only. Raw numbers:
+`evaluation_metrics.json` and `evaluation_*.csv`. `evaluation_metrics.json` is
+byte-identical across two runs.
+
+Several of these results are unflattering. They are reported as measured.
+
+### A. Leak rate in child and teen feeds
+
+5 feeds per child and teen profile (54 profiles, 270 feeds per system). "Gate off" is the
+ranker called directly on every mock item; it exists only as an ablation.
+
+| System | Tier | Feeds | Feeds with an above-tier item | Above-tier items served | Feeds with a later-flagged item |
+|---|---|---|---|---|---|
+| Gate on | child | 130 | **0 (0.0 %)** | 0 | 24 (18.5 %) |
+| Gate on | teen | 140 | **0 (0.0 %)** | 0 | 19 (13.6 %) |
+| Gate off | child | 130 | 126 (96.9 %) | 424 | 18 (13.8 %) |
+| Gate off | teen | 140 | 93 (66.4 %) | 229 | 16 (11.4 %) |
+
+![Leak rate](chart_leak_rate.png)
+
+- Target met: 0 % of gated feeds contain an above-tier, blocked, pending or unrated item.
+- Without the gate, almost every child feed does.
+- **The later-flagged rate is not zero, and the gate does not reduce it.** "Later flagged"
+  is a seeded 3 % of the items that look clean today (approved, child- or teen-rated) and
+  are assumed to be flagged by a later review. The gate has no signal for them. 18.5 % of
+  child feeds and 13.6 % of teen feeds contain one. The rate is slightly higher with the
+  gate on only because gated feeds are made entirely of the clean-looking pool those items
+  are drawn from. This is the residual risk of trusting the classifiers, and 3 % is an
+  assumption, not a measurement.
+
+### B. Relevance of a single feed
+
+80 profiles. Relevance is graded from the profile's own stored interests and weights.
+
+| System | Precision@10 | NDCG@10 | Hit rate@10 |
+|---|---|---|---|
+| Full system | 0.935 | 0.863 | 1.000 |
+| Bandit off (ablation) | 0.935 | 0.892 | 1.000 |
+| Interest-only baseline | **1.000** | 0.870 | 1.000 |
+| Random | 0.348 | 0.261 | 0.963 |
+
+![Relevance](chart_relevance.png)
+
+- All three rankers are far above random.
+- **The full system does not beat the interest-only baseline on a single feed.** Its
+  precision is lower (0.935 against 1.000) because the adult diversity guard deliberately
+  gives 2 of 10 adult slots to topics outside the interests: 26 adults at 0.8 and 54 others
+  at 1.0 average 0.935. That is the guard working, and it costs exactly this much.
+- NDCG: bandit off (0.892) > interest-only (0.870) > full system (0.863). Using the stored
+  weights helps ordering; adding bandit exploration noise takes that gain back on a
+  one-shot measurement.
+- The relevance labels come from the same topic labels the rankers use, on synthetic
+  profiles. This says the ranking is consistent with the profile, not that people would
+  like the feed.
+
+### C. Learning from feedback (bandit ablation)
+
+36 simulated viewers (12 per tier), 10 rounds. Each likes their declared interests
+(click probability 0.5) and, more, two topics they never declared (0.8); everything else
+0.05. Click outcomes are seeded per viewer, round and item, so variants are comparable.
+
+| Variant | Child | Teen | Adult |
+|---|---|---|---|
+| Full system (bandit + learned interests) | 0.554 | 0.552 | **0.454** |
+| Bandit off, learned interests on | 0.555 | 0.553 | 0.435 |
+| No learning | 0.548 | 0.553 | 0.408 |
+| Random | 0.541 | 0.343 | 0.237 |
+
+Overall simulated click rate. By round: `evaluation_bandit_by_round.csv`.
+
+![Bandit learning](chart_bandit_learning.png)
+
+- **Adults: a small gain.** 0.408 with no learning, 0.435 with learned interests, 0.454
+  with the bandit as well. The curves are noisy and there is no clear upward trend over 10
+  rounds; with 12 viewers per tier this is weak evidence.
+- **Teens: no measurable effect** (0.552 to 0.553).
+- **Children: no effect, by design.** A child's learned signals cannot add a topic and
+  exploration is limited to the explicit set, so undeclared tastes are never discovered.
+  For a child, even random selection among gate survivors scores about the same (0.541),
+  because the child pool is small and every item in it is on a child-safe topic.
+- Honest reading: on this simulation the bandit is not shown to matter much. Ten rounds of
+  ten items is little data for per-topic arms shared across viewers, and the feed does not
+  avoid repeating items.
+
+### D. Diversity and drift
+
+Mean per feed, from the feeds of section B.
+
+| System | Tier | Distinct topics | Share outside stated interests | Borderline-risk share |
+|---|---|---|---|---|
+| Full system | teen | 4.04 | 0.00 | 0.057 |
+| Full system | adult | 5.04 | **0.20** | 0.104 |
+| Interest-only | teen | 4.71 | 0.00 | 0.014 |
+| Interest-only | adult | 5.00 | 0.00 | 0.035 |
+| Random | teen | 7.96 | 0.70 | 0.064 |
+| Random | adult | 8.65 | 0.79 | 0.139 |
+
+![Diversity and drift](chart_diversity_drift.png)
+
+- The adult diversity guard does what it is set to: exactly 20 % of adult slots are outside
+  the stated interests, against 0 % for the interest-only baseline.
+- Borderline share stays under the caps (teen 15 %, adult 30 %): 5.7 % and 10.4 %.
+- **The full system serves more borderline content than the interest-only baseline**
+  (teen 5.7 % against 1.4 %). The drift guard is a cap, not a minimiser, and bandit
+  exploration brings in borderline items that a strict interest sort happens to rank low.
+  If minimising borderline exposure is the goal, the cap should be lowered or a penalty added.
+- Teens get slightly fewer distinct topics from the full system than from the baseline
+  (4.0 against 4.7). There is no diversity guard for teens.
+- The trend penalty (rising risk over consecutive feeds) is covered by a unit test only;
+  this replay does not build a rising sequence.
+
+### E. Review queue
+
+64 mock items awaiting review. One item is reviewed per step, so time-to-review is the
+position in the order. "High harm" is ground truth from the generator: an escalation
+category awaiting review, or toxicity at or above 0.5 (35 items).
+
+| Policy | High-harm items | Escalated items | All items | High-harm in the first 35 | Exposure-weighted wait |
+|---|---|---|---|---|---|
+| Prioritizer | **20.0** | **12.5** | 32.5 | 88.6 % | **1466.9** |
+| Risk-score sort | 22.6 | 27.0 | 32.5 | 74.3 % | 1680.8 |
+| FIFO | 42.6 | 52.5 | 32.5 | 28.6 % | 2289.2 |
+
+![Queue](chart_queue.png)
+
+- High-harm items are reviewed about twice as soon as under FIFO, and somewhat sooner than
+  under a plain risk sort.
+- Most of the advantage over the risk sort comes from escalated items (12.5 against 27.0),
+  which the prioritizer puts first by rule. Since "high harm" is defined to include
+  escalation categories, part of this result follows from the definition.
+- Mean position over all items is 32.5 for every policy, as it must be: prioritising some
+  items delays others.
+- The learned multiplier played no part here (no overrides were replayed before ordering).
+
+### F. Precedent retrieval (ablation)
+
+Leave-one-out over the 200 resolved cases, k = 5.
+
+| System | All cases | Override cases (120) | Agreement cases (80) |
+|---|---|---|---|
+| With precedents | **66.0 %** | 58.3 % | 77.5 % |
+| Rules only | 40.0 % | 0.0 % | 100.0 % |
+
+![Precedents](chart_precedents.png)
+
+Read this one with the most care:
+
+- **The mock data was built so that precedents can help.** Each category has a "house
+  norm" action that the simulated moderator follows 80 % of the time. Retrieval by category
+  recovers that norm; fixed rules on toxicity cannot know it. The result shows the
+  mechanism works when such structure exists. It is not evidence that real moderation
+  decisions have that structure.
+- **Rules-only scores 0 % and 100 % on the two groups by definition**: an "override" is a
+  case where the human differed from the rule-based verdict.
+- With precedents the suggestion is wrong on 22.5 % of the cases where the rules were
+  already right. Precedents trade some agreement accuracy for override accuracy.
+- 80 % is the ceiling by construction; 66 % is below it.
+
+### What the evaluation supports, in one place
+
+| Claim | Supported? |
+|---|---|
+| The gate keeps above-tier, blocked, pending and unrated items out of child and teen feeds | Yes, on mock data: 0 of 270 feeds, against 219 of 270 without it |
+| The gate removes the risk of content the classifiers got wrong | No. 14 to 18 % of gated feeds contain a simulated later-flagged item |
+| Personalization beats random | Yes |
+| Personalization beats an interest-only sort | No on precision; marginal on NDCG without the bandit |
+| The bandit improves engagement | Weakly, adults only, noisy |
+| Guards hold their limits | Yes: 20 % diversity slots, borderline under cap |
+| The system minimises borderline exposure | No: more than the interest-only baseline |
+| The prioritizer reviews high-harm items sooner than FIFO and a risk sort | Yes, largely because escalation is first by rule |
+| Precedents improve suggestions | Only on data constructed to have category norms |
 
 ## Independent review of the gate
 
@@ -216,13 +394,61 @@ found three remaining end-to-end leaks and several weaknesses.
 
 Each fix has a regression test in `tests/test_rec_rating.py` or `tests/test_rec_safety_gate.py`.
 
-### What has not been verified
+### Final review - a new reviewer, whole feature (Stage 4)
 
-- **The pass-2 fixes have not been seen by the reviewer.** They are covered by my own
-  regression tests built from its reproducers, which pass, but there was no third
-  independent pass. The final review in Stage 4 will cover them.
-- **Stages 2 and 3 have had no independent review at all.** Everything in the "Stages 2
-  and 3" section is from tests I wrote for code I wrote.
+A third review, by a fresh subagent that had seen none of the earlier work, covered all of
+`recommendation/src` under ten rules (the nine above plus access control). It also re-covered
+the Stage 1 pass-2 fixes. It ran a 40,000-item fuzz of the gate across nine tier and trust
+combinations and found no way through the gate itself with well-formed stored data.
+
+It did get forbidden items served to child profiles, and access rules bypassed, through the
+layers around the gate. Each needs a precondition, given in the table.
+
+| # | Severity | Finding | Precondition | Fix |
+|---|---|---|---|---|
+| L1 | Leak | One unreadable value in a stored profile produced a bare child fallback with no parental controls and `tier_declared` false; the next feed wrote that fallback over the record, after which the child could raise themselves to adult | A damaged, partial or legacy profile record | The fallback is now child, strict, capped at `all_ages`, keeps readable parental blocks, is never written back, and only an admin can repair it (409 otherwise). Raising a tier is admin-only in every case |
+| L2 | Leak | A failed Firestore write was swallowed while reads preferred Firestore, so a removal or a tier change silently did not take effect and the API reported success | A transient Firestore error | Failed writes are recorded in SQLite; until a document reaches Firestore, reads of it come from SQLite |
+| L3 | Leak | A second pipeline run for the same content re-stored it as approved, undoing a moderator's removal | The host calling the hook again for the same content id | A human-reviewed item is never made more permissive by a machine re-rating; a removed one is left alone |
+| L4 | Leak (access) | Resolved escalated cases, including the senior's notes, were returned to ordinary moderators as precedents for other items | A resolved escalated case | Escalated precedents are filtered out for non-senior roles, by flag and by label |
+| W1 | Weakness | An item a moderator escalated was not treated as escalated: not senior-only, not first | - | The `escalate` action sets the flag; status `escalated` counts as escalated |
+| W2 | Weakness | High-risk items with a status outside a short list never entered the queue; an agent-approved high-risk item was rated `adult` and served to adults unreviewed | - | Unreviewed high-risk items are queued whatever their status. A high-risk item is `blocked` until a human moderator has approved it; agent approval alone is no longer enough |
+| W3 | Weakness | Escalation matching missed a term split across two labels, leetspeak and look-alike characters | - | Split terms are now caught. Leetspeak and look-alikes are not; see below |
+| W4 | Weakness | Profile updates are read-modify-write with no version check, so concurrent requests can lose an update | Multiple workers | **Not fixed.** See below |
+| W5 | Weakness | A stored item missing its `is_borderline` flag passed a strict teen profile | - | The gate derives borderline from toxicity itself |
+| W6 | Weakness | An `async` moderator dependency would have made the override check always pass | Not the case for the host today | Router creation refuses a coroutine dependency |
+| W7 | Weakness | Toxicity given as text such as `"0"`, `" 0 "` or an Arabic-Indic zero was parsed as a clean score | Malformed pipeline output | Only real numbers are accepted |
+| W8 | Weakness | Parental blocks made only of filler words ("the") validated and matched nothing | - | Rejected at validation. A block naming a topic the system does not use still validates |
+| Note | - | Approving a flagged item that was already rated for minors made it servable to a child | A hand-built item | A moderator approve or warn rates the item `adult` at most |
+| Note | - | An item with no content id was stored under the id "None" | - | Not stored |
+
+Each fix has a regression test in `tests/test_rec_final_review.py`.
+
+### What has not been verified, and what was left open
+
+- **The final-review fixes have not been independently re-checked.** They pass the
+  regression tests I built from the reviewer's reproductions. This is the same position the
+  pass-2 fixes were in until this review covered them.
+- **W4, lost updates under concurrency, is not fixed.** Profiles, bandit arms and feed
+  history are read, changed and written back whole. With one server process the request
+  handlers do not interleave; with several workers an admin's change to a profile can be
+  overwritten by a feed request for the same profile that started earlier. A fix needs
+  versioned writes or per-field updates in both stores.
+- **Storage failures on re-moderation.** If an item was stored as servable and a later
+  run rates it `blocked` but the write fails, the servable copy stays until a later write
+  succeeds. The same holds for items moderated while the feature flag is off: `rec_items`
+  is not updated and should be rebuilt after the flag has been off.
+- **Escalation vocabulary.** Leetspeak ("su1cide"), look-alike characters, and terms
+  outside the stem list ("pro ana", "child predator") are not recognised as escalation.
+  Such items are still kept from minors by the topic allow-lists, but they are not sent to
+  the front of the queue or restricted to senior moderators.
+- **A human approval sets disagreement to zero.** An item a human approved is rated on
+  its other signals even if an agent voted to remove it. That is the intended meaning of
+  human review, and it means the disagreement check does not apply to human-approved items.
+- **Small information exposures, left as they are:** the feedback endpoint tells any user
+  whether an item id exists; the feed's rejection summary tells the viewer how many items
+  were withheld per reason; ordinary moderators see the count of escalated items withheld.
+- **Scale.** `list_items` reads at most 5,000 items ordered by id; beyond that, items
+  would be neither served nor queued.
 - Reviewer finding F stands by design: an item supplied with disagreement 0.33 and
   confidence 0.9 passes a verified child, because that is under the 0.45 threshold. Through
   the rating derivation such an item is `adult` anyway.

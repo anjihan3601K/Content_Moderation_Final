@@ -16,15 +16,16 @@ steps and record your own values in the "Your run" columns before quoting them.
 | Audience rating derived from the moderation pipeline's output | Built | Yes |
 | Deterministic safety gate (age tier, uncertainty margin, parental controls, escalation) | Built | Yes |
 | Hook in the moderation workflow that attaches the rating | Built, off by default | Yes |
-| Personalized ranking, Thompson-sampling bandit, drift guard | **Not built yet** | No |
-| Moderator queue prioritizer, precedent retrieval, feedback loop | **Not built yet** | No |
-| API endpoints, database storage, telemetry | **Not built yet** | No |
+| Personalized ranking, Thompson-sampling bandit, drift guard | Built | In `results/RESULTS.md`, not here |
+| Moderator queue prioritizer, precedent retrieval, feedback loop | Built | In `results/RESULTS.md`, not here |
+| API endpoints, database storage, telemetry | Built | In `results/RESULTS.md`, not here |
 
 So this guide verifies the **safety layer**: the part that decides whether an item may be
-shown to a given viewer at all. It does not yet measure recommendation quality (precision,
-NDCG, diversity) or queue performance, because those components do not exist yet. A paper
-written from these results can claim the gate's rejection behaviour; it cannot yet claim
-anything about ranking.
+shown to a given viewer at all. Recommendation quality (precision, NDCG, diversity), the
+bandit and queue performance are measured separately by
+`recommendation/evaluation/run_evaluation.py`; their tables, charts and caveats are in
+`recommendation/results/RESULTS.md` under "Offline evaluation". Read the caveats before
+quoting those numbers: several results are weak or follow from how the mock data was built.
 
 Two further limits to state in any write-up:
 
@@ -166,7 +167,9 @@ and the decision. Try each of these and compare with the expected result:
 | # | Command (after `$PY recommendation/evaluation/check_case.py`) | Expected rating | Expected decision |
 |---|---|---|---|
 | a | `--tier child` | all_ages | SERVED |
-| b | `--tier child --category grooming` | adult | REJECTED (escalation) |
+| b | `--tier child --category grooming` | blocked | REJECTED (blocked) |
+| b2 | `--tier child --category grooming --human-approved` | adult | REJECTED (escalation) |
+| b3 | `--tier adult --category grooming --human-approved` | adult | SERVED |
 | c | `--tier teen --category violent_extremism --status flagged` | blocked | REJECTED (blocked) |
 | d | `--tier adult --status removed` | blocked | REJECTED (blocked) |
 | e | `--tier teen --status flagged` | adult | REJECTED (pending_review) |
@@ -194,7 +197,8 @@ withheld, that is a finding worth recording.
 $PY -m pytest recommendation/tests -q
 ```
 
-Expected: `870 passed, 1 skipped` (about 80 seconds; the mock-data sweep is the slow part).
+Expected: `1148 passed, 1 skipped` (about 4 minutes; the 1,040-feed invariant and the
+mock-data sweep are the slow parts).
 To run one file: `$PY -m pytest recommendation/tests/test_rec_safety_gate.py -q`.
 Section 7 explains what each file tests.
 
@@ -204,7 +208,7 @@ Section 7 explains what each file tests.
 $PY -m pytest recommendation/tests/test_rec_pipeline_hook.py -q
 ```
 
-Expected: `4 passed`. These show that with `RECOMMENDATION_ENABLED` unset the moderation
+Expected: `7 passed`. These show that with `RECOMMENDATION_ENABLED` unset the moderation
 pipeline's output is byte-for-byte unchanged, and that a failure inside the rating code
 cannot alter a moderation decision.
 
@@ -266,7 +270,7 @@ stated. All 48 produced the expected outcome.
 
 | Case | Item | Viewer | Result | Working |
 |---|---|---|---|---|
-| R15 | Label `violent_extremism`, still flagged | adult | rejected: `blocked` | An escalation category not yet approved by a moderator rates `blocked` for everyone |
+| R15 | Label `violent_extremism`, still flagged | adult | rejected: `blocked` | An escalation category that no human moderator has approved rates `blocked` for everyone. Approval by the agents alone is not enough |
 | R16 | Label `grooming`, moderator-approved | child | rejected: `escalation` | Even when approved for adults, escalation categories stay hidden from minors |
 | R17 | Violation `self_harm_promotion`, approved | teen | rejected: `escalation` | The label is found in violations as well as topics |
 | R18 | Topic misspelled `selfharm` | teen | rejected: `escalation` | Matching uses word stems with separators removed |
@@ -429,7 +433,7 @@ order (for example `high_uncertainty`) looks rarer than the rule's real reach.
 | Child/teen combinations served | 15,888 | |
 | Leaks (item served that the ground truth says must be withheld) | 0 | |
 | Leak rate | 0.0 % | |
-| Automated tests | 870 passed, 1 skipped | |
+| Automated tests | 1148 passed, 1 skipped | |
 | Original project tests | 3 passed | |
 
 "Leak" is judged from the scenario labels the generator assigned, not from the gate's own
@@ -441,11 +445,15 @@ output, so the measurement is not the gate marking its own homework.
 
 | File | Tests | What it proves |
 |---|---|---|
-| `test_rec_rating.py` | 249 (+1 skipped) | Each rating rule; toxicity boundaries; every non-approved status rates at least `adult`; deleting or corrupting any single input never lowers the rating; escalation spelling variants; agent agreement including human review |
+| `test_rec_rating.py` | 255 (+1 skipped) | Each rating rule; toxicity boundaries; every non-approved status rates at least `adult`; deleting or corrupting any single input never lowers the rating; escalation spelling variants; agent agreement including human review |
 | `test_rec_safety_gate.py` | 537 | The full rating x tier x trust matrix; blocked never served; unrated handling; every backend status; uncertainty margin and its scaling; parental controls; escalation; allow-lists; tampered items; invalid profiles |
 | `test_rec_gate_invariants.py` | 4 | 12,000 random profile/item pairs against an independent oracle; decisions unchanged when interests and learned signals are removed; the final check never adds an item |
 | `test_rec_mock_data.py` | 76 | Mock data is reproducible, in the specified size ranges and placeholder-only; all 48 named cases; every gate reason code is exercised; zero leaks over 64,000 combinations; lower trust never sees more; parental controls never widen |
-| `test_rec_pipeline_hook.py` | 4 | The workflow hook is inert when the flag is off and cannot change a moderation outcome |
+| `test_rec_pipeline_hook.py` | 7 | The workflow hook is inert when the flag is off and cannot change a moderation outcome |
+
+Six further files cover what was built after this guide was first written (storage,
+personalization, the feed path, the queue and feedback loop, the API, and the final
+review's findings): 269 more tests. They are described in `docs/03_test_plan.md`.
 
 The one skipped test is deliberate: it would treat toxicity `0` as a malformed value, which
 it is not.

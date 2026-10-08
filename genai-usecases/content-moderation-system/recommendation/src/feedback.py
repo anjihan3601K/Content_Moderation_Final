@@ -29,6 +29,7 @@ from recommendation.src.models import (
 )
 from recommendation.src.moderator_queue import is_escalated, item_category, queue_arm_key, rule_based_suggestion
 from recommendation.src.personalization import TierTopicGuard, primary_topic
+from recommendation.src.rating import RATING_RANK
 from recommendation.src.safety_gate import SafetyGate
 from recommendation.src.store import RecommendationRepository
 from recommendation.src.telemetry import RecommendationTelemetry, get_telemetry
@@ -136,15 +137,20 @@ class FeedbackService:
             final_human_action=final_action.value,
             moderator_notes=event.notes,
             override_occurred=overridden,
+            is_escalated=escalated,
         ))
 
         seconds_in_queue = self._seconds_since(item.created_at)
         item.status = STATUS_AFTER_ACTION[final_action]
+        item.human_reviewed = True
         if final_action == ModeratorAction.REMOVE:
             item.audience_rating = AudienceRating.BLOCKED
-        elif final_action == ModeratorAction.APPROVE and item.audience_rating == AudienceRating.BLOCKED:
-            # A human approval lifts a block, but never below adult: the agents' signals
-            # that produced the block are still on the item.
+        elif final_action == ModeratorAction.ESCALATE:
+            item.escalated = True
+        elif item.audience_rating in (None, AudienceRating.BLOCKED) or RATING_RANK[item.audience_rating] < RATING_RANK[AudienceRating.ADULT]:
+            # Approving or warning through this endpoint makes an item adult-servable at
+            # most. It lifts a block, and it never leaves a reviewed item rated for
+            # minors: only a full pipeline run can produce an all_ages or teen rating.
             item.audience_rating = AudienceRating.ADULT
         self.repository.upsert_item(item)
 

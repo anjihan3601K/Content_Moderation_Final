@@ -155,7 +155,7 @@ def test_sqlite_creates_only_its_own_tables(tmp_path):
     conn = sqlite3.connect(path)
     tables = {row[0] for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'")}
     conn.close()
-    assert tables == set(COLLECTIONS)
+    assert tables == set(COLLECTIONS) | {"rec_pending_sync"}
 
 
 def test_default_database_file_is_separate_from_the_host_databases(monkeypatch):

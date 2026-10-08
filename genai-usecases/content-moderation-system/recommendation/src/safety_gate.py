@@ -22,6 +22,7 @@ from recommendation.src.config import (
     ADULT_SERVABLE_STATUSES,
     APPROVED_STATUS,
     BLOCKED_STATUSES,
+    BORDERLINE_TOXICITY_THRESHOLD,
     CHILD_SAFE_TOPICS,
     HIGH_UNCERTAINTY_THRESHOLD,
     NO_VIOLATION_LABELS,
@@ -242,7 +243,9 @@ class SafetyGate:
                 return _reject(item_id, GateReason.SENSITIVE_TOPIC, margin=True)
 
             # 9. Borderline items never reach a child, nor a teen under strict controls.
-            if item.is_borderline and (
+            # Derived here as well, so a stored item that lost its flag is still caught.
+            borderline = item.is_borderline or toxicity >= BORDERLINE_TOXICITY_THRESHOLD
+            if borderline and (
                 profile.age_tier == AgeTier.CHILD or controls.strictness_level == Strictness.STRICT
             ):
                 return _reject(item_id, GateReason.BORDERLINE, margin=True)

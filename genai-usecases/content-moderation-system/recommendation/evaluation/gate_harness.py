@@ -102,6 +102,10 @@ def run_case(case: Dict[str, Any]) -> Dict[str, Any]:
     state.update(case.get("state_overrides", {}))
     for key in case.get("state_drop", []):
         state.pop(key, None)
+    if case.get("human_approved"):
+        state["agent_decisions"] = state["agent_decisions"] + [
+            {"agent_name": "HITL Human Review", "decision": "human_approved", "confidence": 1.0}
+        ]
 
     legacy = case.get("legacy", False)
     actual_rating: Optional[str] = None if legacy else derive_audience_rating(state).rating.value

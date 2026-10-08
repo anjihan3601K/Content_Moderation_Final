@@ -17,7 +17,7 @@ rule keys on a political or religious position, and no ideology is blocked as su
 | `all_ages` | 1 | Approved, every agent allowed it, all signals clean, every topic on the child list |
 | `teen` | 2 | As above but a topic is teen-only, toxicity 0.10-0.35, severity `low`, or a `spam`/`copyright` violation |
 | `adult` | 3 | Anything else that is not blocked, including every case where a signal is missing or unrecognised |
-| `blocked` | 4 | Removed, author sanctioned, toxicity >= 0.75, or an escalation category not yet approved by a moderator |
+| `blocked` | 4 | Removed, author sanctioned, toxicity >= 0.75, or an escalation category that no human moderator has approved (approval by the agents alone is not enough) |
 
 Tiers: `child` (1), `teen` (2), `adult` (3). An item is served only if rating rank <= tier rank.
 `blocked` is served to nobody.
@@ -59,7 +59,7 @@ raises, is a rejection (`invalid`).
 | 6 | Rating above tier | everyone | `above_tier` |
 | 7 | A topic not on the tier's allow-list, no topic at all, an empty label, a violation outside the tolerated set, or toxicity unknown or at/above the tier limit (child 0.10, teen 0.35) | child, teen | `unlisted_topic`, `policy_violation`, `toxicity` |
 | 8 | Sensitive teen topic without a parental allowance | child, teen | `sensitive_topic` |
-| 9 | Borderline item | child; teen under `strict` | `borderline` |
+| 9 | Borderline item: flagged as such, or toxicity >= 0.25 (derived by the gate, not only read from the stored flag) | child; teen under `strict` | `borderline` |
 | 10 | Status not exactly `approved`; disagreement or confidence missing; disagreement >= threshold or confidence < 1 - threshold | child, teen, self-declared adult | `pending_review`, `missing_signals`, `high_uncertainty` |
 
 Checks 5 and 7 repeat, inside the gate, things the rating already accounts for. That is
@@ -90,6 +90,18 @@ The gate reads tier, trust level and parental controls from the profile and noth
 plain ASCII so a look-alike character cannot make a block match nothing.
 `allowed_sensitive_topics` is the one field that widens, and only this far: it lets a teen
 see teen-rated items on a sensitive topic. It does nothing for a child.
+
+## Profiles and storage
+
+- Raising an age tier is admin-only, always. The owner can lower it.
+- A profile record that cannot be read is served as the most restrictive profile: child,
+  strict, capped at `all_ages`, keeping any parental blocks that are still readable. It is
+  not written back, and only an admin can repair it.
+- A moderator's decision outranks a later machine rating. A re-run of the pipeline can make
+  a human-reviewed item stricter, never more permissive, and cannot restore a removed item.
+- A moderator approve or warn through the feedback endpoint rates the item `adult` at most.
+- When a Firestore write fails, SQLite is the source of truth for that document until the
+  write succeeds.
 
 ## Limitations - read these
 

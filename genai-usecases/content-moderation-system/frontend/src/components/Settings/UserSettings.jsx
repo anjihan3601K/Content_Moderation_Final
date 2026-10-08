@@ -23,6 +23,7 @@ import {
 } from '@mui/icons-material';
 import { useAuthStore } from '../../store/authStore';
 import { authAPI } from '../../services/api';
+import ViewerProfile from './ViewerProfile';
 
 const UserSettings = () => {
   const { user } = useAuthStore();
@@ -158,6 +159,11 @@ const UserSettings = () => {
               </Grid>
             </CardContent>
           </Card>
+        </Grid>
+
+        {/* Viewer Profile Card (age group, interests) */}
+        <Grid item xs={12}>
+          <ViewerProfile />
         </Grid>
 
         {/* Change Password Card */}

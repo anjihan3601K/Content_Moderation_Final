@@ -34,6 +34,14 @@ stored for the feed and the queue.
 
 Details and access rules: `docs/01_design.md`.
 
+## Profile page
+
+With the flag on, the existing Settings page in the frontend shows a "Viewer Profile" card
+(`frontend/src/components/Settings/ViewerProfile.jsx`). The viewer enters a date of birth;
+the page works out the age group and sends only the age group. The date of birth is never
+sent to the server or stored. Interests are chosen from the topics allowed for that age
+group. Parental controls are shown read-only; an admin sets them through the API.
+
 ## Config flags
 
 | Variable | Default | Effect |
@@ -53,6 +61,7 @@ backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q        # seve
 backend/.venv/Scripts/python.exe recommendation/mock_data/generate_mock_data.py
 backend/.venv/Scripts/python.exe recommendation/evaluation/run_gate_report.py
 backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --help
+backend/.venv/Scripts/python.exe recommendation/evaluation/run_evaluation.py   # about 4 minutes; needs matplotlib
 ```
 
 No network, API key or database server is needed.

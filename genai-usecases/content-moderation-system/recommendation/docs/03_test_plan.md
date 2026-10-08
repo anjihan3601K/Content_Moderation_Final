@@ -39,6 +39,15 @@ No network, no real database, seeded randomness. The Stage 4 section (evaluation
 | `test_rec_api.py` | Every endpoint without a token and with an invalid token; feed per tier; own-profile enforcement; preferences read/write rules, tier-validation failures (422 with the rejected list), admin-only fields, tier raise/lower rules; queue RBAC and escalated-item visibility per role; item recommendation with precedents; engagement and override feedback with role checks; body validation; route registration; flag on/off; no path collision with existing routes; senior-role list matches the host's dependency | Uses the host's real `get_current_user` / `get_moderator` and a real `AuthDatabase`, on the dual store, so auth and both databases are exercised end to end |
 | `test_rec_pipeline_hook.py` | As Stage 1, plus: the hook stores the rated item when a repository is registered, stores nothing with the flag off, and survives a storage failure | The only code path added to the existing pipeline |
 
+## Stage 4
+
+| File | What it checks | Why |
+|---|---|---|
+| `test_rec_final_review.py` | One or more tests per finding of the final independent review: damaged profile records, a failed Firestore write, a pipeline re-run after a moderator's removal, escalated precedents and items for non-senior roles, unreviewed high-risk items, borderline derivation, text parsed as a score, filler-word parental blocks, moderator approval of items rated for minors | Each reproduces what the reviewer actually ran, so the leak cannot come back unnoticed |
+
+The offline evaluation (`evaluation/run_evaluation.py`) is not a test: it has no pass or
+fail. It is deterministic and its metrics file is compared across two runs by hand.
+
 ## What is not tested
 
 - Real Firestore. The Firestore store is tested against `tests/fakes.py`, an in-memory
@@ -47,7 +56,9 @@ No network, no real database, seeded randomness. The Stage 4 section (evaluation
 - A real moderation run. The Gemini-backed agents are never invoked.
 - The running server with its lifespan. Endpoints are tested through FastAPI's
   `TestClient` on a fresh app carrying the same router and the host's auth dependencies.
-- The frontend. No frontend file was changed.
+- The profile page in a browser. `ViewerProfile.jsx` compiles (`vite build` succeeds) but
+  was not opened or clicked through, and the frontend has no test suite.
+- Concurrent requests. See W4 in `results/RESULTS.md`.
 - Concurrency. Bandit arms and profile history are read-modify-write without locking.
 
 ## Runtime

@@ -147,6 +147,8 @@ class ParentalControls(BaseModel):
         for value in values:
             if not normalize_label(value) or not normalize_label(value).isascii():
                 raise ValueError(f"label must be non-empty plain ASCII text: {value!r}")
+            if not label_stems(value):
+                raise ValueError(f"label has no meaningful word and would match nothing: {value!r}")
         return values
 
 
@@ -162,6 +164,9 @@ class ViewerProfileModel(BaseModel):
     parental_controls: ParentalControls = Field(default_factory=ParentalControls)
     recent_feed_history: List[Dict[str, Any]] = Field(default_factory=list)  # history of served items for drift guard
     tier_declared: bool = Field(False, description="True once an age tier has been explicitly set")
+    record_damaged: bool = Field(
+        False, description="Set when the stored record could not be read; only an admin can repair it"
+    )
     created_at: str = Field(default_factory=_now_iso)
     updated_at: str = Field(default_factory=_now_iso)
 
@@ -219,6 +224,7 @@ class RecommendationItemModel(BaseModel):
     status: Optional[str] = Field(None, description="ContentStatus value; None means unknown")
     is_borderline: bool = False
     escalated: bool = False
+    human_reviewed: bool = Field(False, description="A moderator has decided on this item")
     exposure_count: int = Field(0, ge=0)
     created_at: str = Field(default_factory=_now_iso)
 
@@ -236,12 +242,12 @@ class RecommendationItemModel(BaseModel):
     @field_validator("toxicity_score", "overall_confidence", "agent_disagreement", mode="before")
     @classmethod
     def _unusable_number_is_unknown(cls, value: Any) -> Any:
-        """NaN and non-numeric values are treated as a missing signal."""
-        if value is None or isinstance(value, bool):
+        """NaN and anything that is not already a number are treated as a missing signal."""
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
             return None
         try:
             number = float(value)
-        except (TypeError, ValueError, OverflowError):
+        except OverflowError:
             return None
         return None if number != number else number
 
@@ -290,6 +296,7 @@ class PrecedentCase(BaseModel):
     content_id: str
     category: str
     topics: List[str] = Field(default_factory=list)
+    is_escalated: bool = Field(False, description="The case concerned a high-risk escalation category")
     similarity_score: float = 0.0
     agent_verdict: str
     final_human_action: str  # approve, remove, warn, escalate

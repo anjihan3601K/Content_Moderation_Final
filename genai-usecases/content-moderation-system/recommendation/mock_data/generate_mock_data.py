@@ -279,25 +279,61 @@ def generate_engagement(rng: random.Random, items: List[Dict[str, Any]], profile
     return events
 
 
+NORM_ACTIONS = ("approve", "warn", "remove")
+NORM_CONSISTENCY = 0.8
+
+
+def category_norm(category: str) -> str:
+    """
+    The action moderators usually take in a category, in this mock world.
+
+    Escalation categories are escalated. Every other category is given one of three
+    "house norms" by its position in the alphabet. This is a deliberate construction: it
+    gives the precedent memory something category-specific to recover that fixed rules on
+    toxicity cannot know. See the note on circularity in results/RESULTS.md.
+    """
+    if category in ESCALATION_LABELS:
+        return "escalate"
+    known = sorted(set(TEEN_ALLOWED_TOPICS) | set(SENSITIVE_TEEN_TOPICS) | set(ADULT_TOPICS))
+    return NORM_ACTIONS[known.index(category) % 3] if category in known else "warn"
+
+
+def agent_verdict_for(state: Dict[str, Any]) -> str:
+    """The verdict the agents' signals alone would give (mirrors the rule-based suggestion)."""
+    if state.get("content_category") in ESCALATION_LABELS:
+        return "escalate"
+    toxicity = state.get("toxicity_score")
+    if not isinstance(toxicity, (int, float)):
+        return "escalate"
+    if toxicity >= 0.75:
+        return "remove"
+    return "warn" if toxicity >= 0.35 else "approve"
+
+
 def generate_resolved_cases(rng: random.Random, items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """200 resolved moderation cases with the final human action; about a third are overrides."""
+    """
+    200 resolved moderation cases with the final human action.
+
+    The human follows the category's norm 80 % of the time and otherwise picks another
+    action at random. A case is an override whenever that differs from the agent verdict.
+    """
     reviewable = [i for i in items if i["scenario"] in (
         "pending_review", "removed", "escalation_pending", "escalation_approved",
         "high_disagreement", "adult_violation", "borderline",
     )]
+    actions = ["approve", "warn", "remove", "escalate"]
     cases: List[Dict[str, Any]] = []
     for index in range(1, 201):
         item = rng.choice(reviewable)
-        agent_verdict = rng.choice(["approve", "warn", "remove", "flag"])
-        override = rng.random() < 0.33
-        actions = ["approve", "warn", "remove", "escalate"]
-        final_action = rng.choice([a for a in actions if a != agent_verdict]) if override else (
-            agent_verdict if agent_verdict in actions else "escalate"
-        )
+        state = item["pipeline_state"]
+        category = state.get("content_category") or "unknown"
+        agent_verdict = agent_verdict_for(state)
+        norm = category_norm(category)
+        final_action = norm if rng.random() < NORM_CONSISTENCY else rng.choice([a for a in actions if a != norm])
         cases.append({
             "case_id": f"case-{index:03d}",
             "content_id": item["item_id"],
-            "category": item["pipeline_state"].get("content_category") or "unknown",
+            "category": category,
             "agent_verdict": agent_verdict,
             "final_human_action": final_action,
             "override_occurred": final_action != agent_verdict,
@@ -310,9 +346,9 @@ def generate_resolved_cases(rng: random.Random, items: List[Dict[str, Any]]) -> 
 def _case(case_id: str, title: str, rule: str, viewer: Dict[str, Any], expected_reason: Optional[str],
           expected_rating: Optional[str] = "all_ages", state: Optional[Dict[str, Any]] = None,
           drop: Sequence[str] = (), item: Optional[Dict[str, Any]] = None, legacy: bool = False,
-          dissent: Sequence[str] = ()) -> Dict[str, Any]:
+          dissent: Sequence[str] = (), human_approved: bool = False) -> Dict[str, Any]:
     return {
-        "case_id": case_id, "title": title, "rule": rule, "viewer": viewer,
+        "case_id": case_id, "title": title, "rule": rule, "viewer": viewer, "human_approved": human_approved,
         "state_overrides": state or {}, "state_drop": list(drop), "dissent": list(dissent),
         "item_overrides": item or {}, "legacy": legacy,
         "expected_rating": expected_rating, "expected_served": expected_reason is None,
@@ -372,13 +408,14 @@ def generate_rejection_cases() -> List[Dict[str, Any]]:
         _case("R15", "violent_extremism label awaiting review, adult viewer", "escalation", adult, "blocked", "blocked",
               state={"content_category": "violent_extremism", "status": "flagged", "moderation_action": "flagged"}),
         _case("R16", "grooming label, moderator-approved, child viewer", "escalation", child, "escalation", "adult",
-              state={"content_category": "grooming", "content_topics": ["grooming"]}),
+              state={"content_category": "grooming", "content_topics": ["grooming"]}, human_approved=True),
         _case("R17", "self_harm_promotion label, moderator-approved, teen viewer", "escalation", teen, "escalation", "adult",
-              state={"policy_violations": ["self_harm_promotion"]}),
+              state={"policy_violations": ["self_harm_promotion"]}, human_approved=True),
         _case("R18", "Escalation label misspelled as 'selfharm', teen viewer", "escalation", teen, "escalation", "adult",
-              state={"content_topics": ["science", "selfharm"]}),
+              state={"content_topics": ["science", "selfharm"]}, human_approved=True),
         _case("R19", "Wrong all_ages rating on a grooming-labelled item, child viewer", "escalation (gate does not trust the rating)",
-              child, "escalation", "adult", state={"content_topics": ["grooming"]}, item={"audience_rating": "all_ages"}),
+              child, "escalation", "adult", state={"content_topics": ["grooming"]}, item={"audience_rating": "all_ages"},
+              human_approved=True),
         # Uncertainty margin
         _case("R20", "One agent flagged the item, child viewer", "agent disagreement", child, "above_tier", "adult", dissent=["flag"]),
         _case("R21", "All agents voted remove but status says approved, child viewer", "agent disagreement", child,
@@ -441,7 +478,7 @@ def generate_rejection_cases() -> List[Dict[str, Any]]:
               controls(teen, allowed_sensitive_topics=["mental_health"]), None, "teen",
               state={"content_category": "mental_health", "content_topics": []}),
         _case("C06", "Moderator-approved escalation item, verified adult (same item as R16)", "control", adult, None, "adult",
-              state={"content_category": "grooming", "content_topics": ["grooming"]}),
+              state={"content_category": "grooming", "content_topics": ["grooming"]}, human_approved=True),
     ]
 
 

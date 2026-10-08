@@ -259,4 +259,22 @@ export const storiesAPI = {
   },
 };
 
+// Recommendation API (available when the backend has RECOMMENDATION_ENABLED=true)
+export const recommendationAPI = {
+  getPreferences: async (profileId) => {
+    const response = await api.get(`/api/profiles/${profileId}/preferences`);
+    return response.data;
+  },
+
+  updatePreferences: async (profileId, preferences) => {
+    const response = await api.put(`/api/profiles/${profileId}/preferences`, preferences);
+    return response.data;
+  },
+
+  getFeed: async (limit = 10) => {
+    const response = await api.get('/api/recommendations/feed', { params: { limit } });
+    return response.data;
+  },
+};
+
 export default api;

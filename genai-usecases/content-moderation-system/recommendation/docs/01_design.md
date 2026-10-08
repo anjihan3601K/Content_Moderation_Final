@@ -88,7 +88,8 @@ viewer's tier, trust level and parental controls.
 | `recent_feed_history` | Last 50 served items (id, borderline flag, risk), for the drift guard |
 
 An account with no stored profile is `adult` / `self_declared` (project decision). A stored
-profile that is unreadable or has lost its tier is treated as `child`.
+profile that is unreadable or has lost its tier is served as a restricted child profile
+(strict, capped at `all_ages`) and can only be repaired by an admin.
 
 ### Interest sourcing by tier
 
@@ -164,9 +165,9 @@ All require `Authorization: Bearer <session token>` from the existing login. Err
 |---|---|---|
 | `GET /api/recommendations/feed?limit=1..50` | any user | Always the caller's own profile |
 | `GET /api/profiles/{id}/preferences` | owner or admin | Includes the tier's allowed topics |
-| `PUT /api/profiles/{id}/preferences` | owner or admin | 422 on disallowed interests. Owner may declare a tier once or lower it; raising it, changing trust level and changing parental controls are admin-only |
+| `PUT /api/profiles/{id}/preferences` | owner or admin | 422 on disallowed interests. Owner may lower their tier (the default is adult, so a first declaration is a lowering); raising it, changing trust level, changing parental controls and repairing a damaged record (409 for the owner) are admin-only |
 | `GET /api/moderation/queue/next?limit=1..100` | `get_moderator` roles | Escalated items only for senior roles; others get a count of what was withheld |
-| `GET /api/items/{id}/recommendation?k=1..10` | `get_moderator` roles | 404 unknown item; escalated items need a senior role |
+| `GET /api/items/{id}/recommendation?k=1..10` | `get_moderator` roles | 404 unknown item; escalated items need a senior role; precedents from escalated cases are shown only to senior roles |
 | `POST /api/recommendations/feedback` | any user for engagement; moderator roles for `moderator_override` | Senior role required to resolve an escalated item |
 
 ## Storage
@@ -184,7 +185,10 @@ New data only; no existing table or collection is altered and nothing is migrate
 SQLite: one table per collection (`doc_id`, `data` JSON, `updated_at`) in a separate file,
 `backend/databases/recommendation_data.db`. Firestore: the same collection names.
 `DualDocumentStore` follows the host's pattern: write SQLite then Firestore, read Firestore
-then fall back to SQLite, and never fail a request because Firestore is down.
+then fall back to SQLite, and never fail a request because Firestore is down. One
+difference from the host: a failed Firestore write is recorded in a small SQLite table
+(`rec_pending_sync`), and that document is read from SQLite until it reaches Firestore, so
+a stale Firestore copy cannot override a removal or a tier change.
 
 ## Telemetry
 
@@ -206,6 +210,8 @@ OpenTelemetry API, no-op until the host configures a provider.
   the item. It does not change the host moderation database; the host's own HITL review
   endpoint remains the way to resolve content there, and when it runs the workflow hook
   re-rates the item.
+- Profile, bandit-arm and feed-history updates are read-modify-write without versioning.
+  With several server workers, concurrent requests for one profile can lose an update.
 - Each feed request fits TF-IDF on the current survivors. Fine at the scale tested (800
   items); a production system would cache vectors.
 - The bandit's random source is seeded per process, so feeds are reproducible in tests but
