@@ -40,6 +40,9 @@ Every technique used is established (see `05_related_work.md`). Say so in the in
 - Content rating and age-appropriate design (regulatory context).
 - Safe and constrained recommendation; filter bubbles and radicalization pathways.
 - Bandits for recommendation; uncertainty from ensemble disagreement; case-based reasoning.
+- Start from the five literature-survey papers: agent-based and human-in-the-loop
+  moderation (WATCHED; Kotarcic et al.), recommenders for children (Ungruh), and
+  beyond-accuracy evaluation (Wu et al.). Position against Ungruh most directly.
 - Material: `05_related_work.md`, `references.bib`.
 
 ### 3. System design (2 to 3 pages)
