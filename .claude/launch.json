@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "moderation-backend",
+      "runtimeExecutable": "powershell",
+      "runtimeArgs": [
+        "-NoProfile",
+        "-Command",
+        "Set-Location 'genai-usecases/content-moderation-system/backend'; $env:PYTHONUTF8 = '1'; &'.venv/Scripts/python.exe' main.py"
+      ],
+      "port": 8000
+    },
+    {
+      "name": "moderation-frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "genai-usecases/content-moderation-system/frontend",
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    }
+  ]
+}
