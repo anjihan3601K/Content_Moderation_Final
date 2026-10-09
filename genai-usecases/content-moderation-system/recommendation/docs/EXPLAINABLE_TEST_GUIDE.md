@@ -197,7 +197,7 @@ withheld, that is a finding worth recording.
 $PY -m pytest recommendation/tests -q
 ```
 
-Expected: `1148 passed, 1 skipped` (about 4 minutes; the 1,040-feed invariant and the
+Expected: `1146 passed, 1 skipped` (about 4 minutes; the 1,040-feed invariant and the
 mock-data sweep are the slow parts).
 To run one file: `$PY -m pytest recommendation/tests/test_rec_safety_gate.py -q`.
 Section 7 explains what each file tests.
@@ -433,7 +433,7 @@ order (for example `high_uncertainty`) looks rarer than the rule's real reach.
 | Child/teen combinations served | 15,888 | |
 | Leaks (item served that the ground truth says must be withheld) | 0 | |
 | Leak rate | 0.0 % | |
-| Automated tests | 1148 passed, 1 skipped | |
+| Automated tests | 1146 passed, 1 skipped | |
 | Original project tests | 3 passed | |
 
 "Leak" is judged from the scenario labels the generator assigned, not from the gate's own
@@ -445,7 +445,7 @@ output, so the measurement is not the gate marking its own homework.
 
 | File | Tests | What it proves |
 |---|---|---|
-| `test_rec_rating.py` | 255 (+1 skipped) | Each rating rule; toxicity boundaries; every non-approved status rates at least `adult`; deleting or corrupting any single input never lowers the rating; escalation spelling variants; agent agreement including human review |
+| `test_rec_rating.py` | 253 (+1 skipped) | Each rating rule; toxicity boundaries; every non-approved status rates at least `adult`; deleting or corrupting any single input never lowers the rating; escalation spelling variants; agent agreement including human review |
 | `test_rec_safety_gate.py` | 537 | The full rating x tier x trust matrix; blocked never served; unrated handling; every backend status; uncertainty margin and its scaling; parental controls; escalation; allow-lists; tampered items; invalid profiles |
 | `test_rec_gate_invariants.py` | 4 | 12,000 random profile/item pairs against an independent oracle; decisions unchanged when interests and learned signals are removed; the final check never adds an item |
 | `test_rec_mock_data.py` | 76 | Mock data is reproducible, in the specified size ranges and placeholder-only; all 48 named cases; every gate reason code is exercised; zero leaks over 64,000 combinations; lower trust never sees more; parental controls never widen |

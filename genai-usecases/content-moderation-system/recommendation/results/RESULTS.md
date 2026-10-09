@@ -22,11 +22,11 @@ negative or follows from how the mock data was built, the text says so.
 | Host suite, after Stage 1 | same | 3 passed |
 | Host suite, after Stages 2 and 3 | same | 3 passed |
 | Host suite, after Stage 4 and the final-review fixes | same | 3 passed |
-| Recommendation tests | `backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q` | 1148 passed, 1 skipped (about 4 minutes) |
+| Recommendation tests | `backend/.venv/Scripts/python.exe -m pytest recommendation/tests -q` | 1146 passed, 1 skipped (about 4 minutes) |
 
 | Test file | Passed |
 |---|---|
-| `test_rec_rating.py` | 255 (+1 skipped) |
+| `test_rec_rating.py` | 253 (+1 skipped) |
 | `test_rec_safety_gate.py` | 537 |
 | `test_rec_gate_invariants.py` | 4 |
 | `test_rec_mock_data.py` | 76 |
@@ -353,6 +353,89 @@ Read this one with the most care:
 | The prioritizer reviews high-harm items sooner than FIFO and a risk sort | Yes, largely because escalation is first by rule |
 | Precedents improve suggestions | Only on data constructed to have category norms |
 
+## Live run through the real pipeline (2026-10-09)
+
+Command: `backend/.venv/Scripts/python.exe recommendation/evaluation/run_live_demo.py`.
+Output: `live_demo_report.txt`, `live_demo_results.json`.
+
+16 invented posts, two with image URLs, plus four generated test images, were put through
+the real LangGraph workflow with `USE_ML_MODELS=true` and `RECOMMENDATION_ENABLED=true`.
+
+| Part | In this run |
+|---|---|
+| LangGraph workflow, all agents, routing, human-review triggers | real |
+| ML toxicity model | real: `unitary/toxic-bert` on CPU, from the local cache |
+| Policy keyword checks, reputation scoring, media and image heuristics | real |
+| Audience rating, gate, feed, queue, precedents, feedback | real |
+| **Language model** | **stand-in.** No Gemini or Claude call. `evaluation/standin_llm.py` answers the agents' prompts from keyword lists. Topic and category come from it |
+| Databases | temporary folder; the project's database files were not touched |
+
+The project's default ML model (`distilbert_toxic`) is not in the local cache, so the run
+used `toxic_bert`, which is. The ensemble was off.
+
+### What happened to each post
+
+| Post | ML toxicity | Pipeline outcome | Rating | Reached |
+|---|---|---|---|---|
+| Science fair volcano | 0.00 | approved | all_ages | everyone |
+| Puppy and kitten | 0.00 | approved | all_ages | everyone |
+| Football match | 0.00 | approved | all_ages | everyone except the child whose parent blocked sports |
+| Python bug, phone review | 0.00 | approved | teen | teens and adults |
+| Nightclub opening | 0.00 | approved | adult | adults |
+| Exam stress and anxiety | 0.00 | held for human review (sensitive content) | adult | nobody |
+| Stock tips before the election | 0.00 | held for human review (sensitive content) | adult | nobody |
+| Insults aimed at a person | 0.99 | flagged | blocked | nobody |
+| "That referee was stupid" | 0.87 | flagged | blocked | nobody |
+| Spam phrases | 0.00 | held for human review (agents disagreed) | adult | nobody |
+| "Secret truth, guaranteed cure" | 0.00 | held for human review (agents disagreed) | adult | nobody |
+| Drawing, with an ordinary image URL | 0.00 | approved | adult (media risk medium) | adults |
+| Match photos, image URL containing "nsfw" | 0.00 | approved | adult (media risk high) | adults |
+| Charity talk on suicide prevention | 0.00 | removed (keyword "suicide") | blocked, escalation | nobody |
+| Volcano puzzle | 0.00 | approved | all_ages | everyone |
+
+Feeds: the verified child got 4 items, the child with sports blocked got 3, both teens 6,
+both adults 9. Nothing blocked, flagged or held for review reached anyone. The queue held
+the 6 items awaiting review; resolving one as "remove" stored a precedent and shortened
+the queue to 5.
+
+### Two defects this run found in the rating, both fixed
+
+The mock data could not have shown either, because it was written to my assumptions.
+
+1. **Approved content has no `moderation_action`.** The workflow ends after reputation
+   scoring for approved posts, so the enforcement agent that writes that field never runs.
+   The rating required it to be exactly `approved`, and so rated every clean post `adult`.
+   Now an absent action is accepted; an action that is present must still be `approved`.
+2. **The ReAct synthesis step reports about 0.1 as its confidence.** It is a weighted score,
+   not a probability. The rating took the lowest confidence of any agent, so every item
+   failed the uncertainty margin. That step's verdict is still counted; its score is not.
+
+Before these fixes, on the first live run, child and teen feeds were empty. This is the
+second time real behaviour differed from what the mock data assumed; more differences
+should be expected once a real language model is connected.
+
+### Behaviour of the existing platform seen in this run (not changed)
+
+- **Any image URL raises media risk.** `score_media_urls` gives a single ordinary image
+  URL a score of 0.40 ("medium"), so the rating makes every post with an image `adult`.
+  The score depends only on the file name.
+- **A plain skin-coloured square is rated "severe" and unsafe** by the pixel heuristic in
+  `analyze_uploaded_image` (score 1.0). A plain dark red square is "medium".
+- **"Suicide prevention" is removed.** The keyword check matches the word "suicide" and
+  sets severity critical, whatever the context.
+- **`toxic-bert` is harsh on mild rudeness**: "that referee was stupid" scored 0.87 and
+  was flagged, which the rating then blocks (toxicity at or above 0.75).
+- **Sensitive topics pause for human review** (mental health, politics, finance).
+
+### What this run does not show
+
+- How the pipeline behaves with a real language model. Category and topic extraction, the
+  toxicity second opinion and the written explanations came from keyword rules. A real
+  model will produce free-form categories, most of which are on no allow-list and will
+  therefore rate `adult` until the topic vocabulary is controlled.
+- Anything about real content. All 16 posts are short invented sentences.
+- The HTTP layer and the running server; the workflow was called directly.
+
 ## Independent review of the gate
 
 A separate subagent with a fresh context was given the nine safety rules and the four
@@ -463,8 +546,8 @@ Each fix has a regression test in `tests/test_rec_final_review.py`.
 
 See `docs/02_safety_policy.md`. The two that matter most for reading these results:
 
-- No real moderation run was made. The Gemini-backed pipeline was not invoked, so the
-  rating has been tested on constructed states, not on actual agent output.
+- The real pipeline has been run only with a rule-based stand-in for the language model
+  (see "Live run"). No Gemini or Claude call has been made.
 - Real Firestore has not been used; see "Both databases".
 - The running server was not started. The endpoints were exercised through `TestClient`
   on a fresh app; registration on the real app was checked only by importing

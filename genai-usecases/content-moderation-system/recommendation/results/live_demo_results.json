@@ -1,0 +1,836 @@
+{
+ "run_at": "2026-10-09T13:59:46",
+ "engines": {
+  "ml_preload": {
+   "ml_enabled": true,
+   "preload_requested": true,
+   "models_loaded": true,
+   "primary_model": "toxic_bert",
+   "device": "cpu",
+   "models_available": [
+    "toxic_bert"
+   ],
+   "status": "success"
+  }
+ },
+ "posts": [
+  {
+   "id": "post-01",
+   "text": "We built a baking soda volcano for the science fair and the experiment actually worked!",
+   "image_urls": [],
+   "toxicity_score": 0.0007,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "science",
+   "content_topics": [
+    "science"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "all_ages",
+   "rating_reasons": [],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-02",
+   "text": "Our puppy met a kitten at the zoo today and they became best friends.",
+   "image_urls": [],
+   "toxicity_score": 0.0008,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "animals",
+   "content_topics": [
+    "animals"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "all_ages",
+   "rating_reasons": [],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-03",
+   "text": "Great football match last night, what a comeback in the second half.",
+   "image_urls": [],
+   "toxicity_score": 0.0011,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "sports",
+   "content_topics": [
+    "sports"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "all_ages",
+   "rating_reasons": [],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-04",
+   "text": "Finally fixed that bug in my Python script after three hours of debugging.",
+   "image_urls": [],
+   "toxicity_score": 0.0008,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "coding",
+   "content_topics": [
+    "coding"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "teen",
+   "rating_reasons": [
+    "topic_not_on_child_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-05",
+   "text": "New phone review: the camera is good but the battery on this laptop rival is better.",
+   "image_urls": [],
+   "toxicity_score": 0.0006,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "technology",
+   "content_topics": [
+    "technology"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "teen",
+   "rating_reasons": [
+    "topic_not_on_child_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-06",
+   "text": "Feeling stressed before exams, here is what helps my anxiety: sleep, walks and talking to friends.",
+   "image_urls": [],
+   "toxicity_score": 0.0007,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "mental_health",
+   "content_topics": [
+    "mental_health"
+   ],
+   "status": "pending_human_review",
+   "moderation_action": null,
+   "hitl_required": true,
+   "hitl_trigger_reasons": [
+    "sensitive_content"
+   ],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:await_human"
+   ],
+   "agent_disagreement": 0.25,
+   "audience_rating": "adult",
+   "rating_reasons": [
+    "status_not_approved:pending_human_review",
+    "contains_sensitive_content:True",
+    "not_every_agent_allowed",
+    "topic_not_on_child_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-07",
+   "text": "Stock tips: where to invest before the election results come in.",
+   "image_urls": [],
+   "toxicity_score": 0.0006,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "politics",
+   "content_topics": [
+    "politics",
+    "finance"
+   ],
+   "status": "pending_human_review",
+   "moderation_action": null,
+   "hitl_required": true,
+   "hitl_trigger_reasons": [
+    "sensitive_content"
+   ],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:await_human"
+   ],
+   "agent_disagreement": 0.25,
+   "audience_rating": "adult",
+   "rating_reasons": [
+    "status_not_approved:pending_human_review",
+    "contains_sensitive_content:True",
+    "not_every_agent_allowed",
+    "topic_not_on_teen_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-08",
+   "text": "Went to a nightclub opening downtown, the music was loud and the queue was endless.",
+   "image_urls": [],
+   "toxicity_score": 0.0007,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "nightlife",
+   "content_topics": [
+    "nightlife"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "adult",
+   "rating_reasons": [
+    "topic_not_on_teen_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-09",
+   "text": "You are such an idiot, nobody wants to read your stupid posts. I hate you, loser.",
+   "image_urls": [],
+   "toxicity_score": 0.9923,
+   "toxicity_level": null,
+   "policy_violations": [],
+   "violation_severity": null,
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "general",
+   "content_topics": [],
+   "status": "flagged",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:flag"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "blocked",
+   "rating_reasons": [
+    "status_not_approved:flagged",
+    "toxicity_block",
+    "severity:missing",
+    "not_every_agent_allowed",
+    "topic_not_on_teen_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-10",
+   "text": "Click here and buy now! Limited offer, free money guaranteed, act now!",
+   "image_urls": [],
+   "toxicity_score": 0.0028,
+   "toxicity_level": "none",
+   "policy_violations": [
+    "spam"
+   ],
+   "violation_severity": "medium",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "general",
+   "content_topics": [],
+   "status": "pending_human_review",
+   "moderation_action": null,
+   "hitl_required": true,
+   "hitl_trigger_reasons": [
+    "potential_false_positive",
+    "conflicting_decisions"
+   ],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:flag",
+    "ReAct Decision Loop:await_human"
+   ],
+   "agent_disagreement": 0.5,
+   "audience_rating": "adult",
+   "rating_reasons": [
+    "status_not_approved:pending_human_review",
+    "violation:spam",
+    "severity:medium",
+    "not_every_agent_allowed",
+    "topic_not_on_teen_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-11",
+   "text": "The secret truth they hide: this guaranteed cure works and mainstream media lies about it.",
+   "image_urls": [],
+   "toxicity_score": 0.0013,
+   "toxicity_level": "none",
+   "policy_violations": [
+    "misinformation"
+   ],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "general",
+   "content_topics": [],
+   "status": "pending_human_review",
+   "moderation_action": null,
+   "hitl_required": true,
+   "hitl_trigger_reasons": [
+    "potential_false_positive",
+    "conflicting_decisions"
+   ],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:warn",
+    "ReAct Decision Loop:await_human"
+   ],
+   "agent_disagreement": 0.5,
+   "audience_rating": "adult",
+   "rating_reasons": [
+    "status_not_approved:pending_human_review",
+    "violation:misinformation",
+    "policy_flags_present",
+    "not_every_agent_allowed",
+    "topic_not_on_teen_list"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-12",
+   "text": "Honestly that referee was stupid, what a terrible call in the match.",
+   "image_urls": [],
+   "toxicity_score": 0.8714,
+   "toxicity_level": null,
+   "policy_violations": [],
+   "violation_severity": null,
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "sports",
+   "content_topics": [
+    "sports"
+   ],
+   "status": "flagged",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:flag"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "blocked",
+   "rating_reasons": [
+    "status_not_approved:flagged",
+    "toxicity_block",
+    "severity:missing",
+    "not_every_agent_allowed"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-13",
+   "text": "Look at this drawing I made of a planet with rings!",
+   "image_urls": [
+    "https://example.com/uploads/planet_drawing.png"
+   ],
+   "toxicity_score": 0.0017,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "medium",
+   "media_risk_score": 0.4,
+   "content_category": "science",
+   "content_topics": [
+    "science",
+    "crafts"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "adult",
+   "rating_reasons": [
+    "media_risk:medium"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-14",
+   "text": "Photos from the football match.",
+   "image_urls": [
+    "https://example.com/uploads/nsfw_explicit_photo.jpg"
+   ],
+   "toxicity_score": 0.0006,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "high",
+   "media_risk_score": 0.65,
+   "content_category": "sports",
+   "content_topics": [
+    "sports"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "adult",
+   "rating_reasons": [
+    "media_risk:high"
+   ],
+   "escalation_categories": []
+  },
+  {
+   "id": "post-15",
+   "text": "A local charity talk on suicide prevention and where to find a helpline is on Friday.",
+   "image_urls": [],
+   "toxicity_score": 0.0008,
+   "toxicity_level": "none",
+   "policy_violations": [
+    "self_harm"
+   ],
+   "violation_severity": "critical",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "general",
+   "content_topics": [],
+   "status": "removed",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:remove"
+   ],
+   "agent_disagreement": 0.3333,
+   "audience_rating": "blocked",
+   "rating_reasons": [
+    "removed_or_sanctioned",
+    "status_not_approved:removed",
+    "escalation_category:self_harm",
+    "violation:self_harm",
+    "policy_flags_present",
+    "severity:critical",
+    "not_every_agent_allowed",
+    "topic_not_on_teen_list"
+   ],
+   "escalation_categories": [
+    "self_harm"
+   ]
+  },
+  {
+   "id": "post-16",
+   "text": "Solved a 1000 piece puzzle of a volcano this weekend.",
+   "image_urls": [],
+   "toxicity_score": 0.0007,
+   "toxicity_level": "none",
+   "policy_violations": [],
+   "violation_severity": "none",
+   "media_risk_level": "none",
+   "media_risk_score": 0.0,
+   "content_category": "science",
+   "content_topics": [
+    "science",
+    "puzzles"
+   ],
+   "status": "approved",
+   "moderation_action": null,
+   "hitl_required": false,
+   "hitl_trigger_reasons": [],
+   "agent_verdicts": [
+    "Content Analysis:approve",
+    "Toxicity:approve",
+    "Policy:approve",
+    "ReAct Decision Loop:approve",
+    "User Reputation Scoring:approve"
+   ],
+   "agent_disagreement": 0.0,
+   "audience_rating": "all_ages",
+   "rating_reasons": [],
+   "escalation_categories": []
+  }
+ ],
+ "images": [
+  {
+   "image": "blue_sky",
+   "valid": true,
+   "filename": "blue_sky.png",
+   "width": 64,
+   "height": 64,
+   "format": "png",
+   "risk_score": 0.25,
+   "risk_level": "low",
+   "is_unsafe": false,
+   "skin_ratio": 0.0,
+   "bright_ratio": 0.0,
+   "dark_ratio": 0.0,
+   "saturated_ratio": 0.0
+  },
+  {
+   "image": "bright_green",
+   "valid": true,
+   "filename": "bright_green.png",
+   "width": 64,
+   "height": 64,
+   "format": "png",
+   "risk_score": 0.25,
+   "risk_level": "low",
+   "is_unsafe": false,
+   "skin_ratio": 0.0,
+   "bright_ratio": 0.0,
+   "dark_ratio": 0.0,
+   "saturated_ratio": 0.0
+  },
+  {
+   "image": "skin_tone_block",
+   "valid": true,
+   "filename": "skin_tone_block.png",
+   "width": 64,
+   "height": 64,
+   "format": "png",
+   "risk_score": 1.0,
+   "risk_level": "severe",
+   "is_unsafe": true,
+   "skin_ratio": 1.0,
+   "bright_ratio": 0.0,
+   "dark_ratio": 0.0,
+   "saturated_ratio": 0.0
+  },
+  {
+   "image": "dark_red",
+   "valid": true,
+   "filename": "dark_red.png",
+   "width": 64,
+   "height": 64,
+   "format": "png",
+   "risk_score": 0.45,
+   "risk_level": "medium",
+   "is_unsafe": false,
+   "skin_ratio": 0.0,
+   "bright_ratio": 0.0,
+   "dark_ratio": 1.0,
+   "saturated_ratio": 0.0
+  }
+ ],
+ "feeds": [
+  {
+   "profile": "child-1",
+   "tier": "child",
+   "trust": "verified",
+   "interests": [
+    "science",
+    "animals"
+   ],
+   "controls": {},
+   "served": [
+    "post-02",
+    "post-01",
+    "post-16",
+    "post-03"
+   ],
+   "rejections": {
+    "above_tier": 5,
+    "pending_review": 4,
+    "blocked": 3
+   }
+  },
+  {
+   "profile": "child-2",
+   "tier": "child",
+   "trust": "parent_linked",
+   "interests": [
+    "sports",
+    "puzzles"
+   ],
+   "controls": {
+    "blocked_categories": [
+     "sports"
+    ]
+   },
+   "served": [
+    "post-16",
+    "post-01",
+    "post-02"
+   ],
+   "rejections": {
+    "parental_block": 2,
+    "above_tier": 4,
+    "pending_review": 4,
+    "blocked": 3
+   }
+  },
+  {
+   "profile": "teen-1",
+   "tier": "teen",
+   "trust": "verified",
+   "interests": [
+    "coding",
+    "sports"
+   ],
+   "controls": {},
+   "served": [
+    "post-03",
+    "post-04",
+    "post-05",
+    "post-02",
+    "post-01",
+    "post-16"
+   ],
+   "rejections": {
+    "pending_review": 4,
+    "above_tier": 3,
+    "blocked": 3
+   }
+  },
+  {
+   "profile": "teen-2",
+   "tier": "teen",
+   "trust": "self_declared",
+   "interests": [
+    "technology"
+   ],
+   "controls": {
+    "allowed_sensitive_topics": [
+     "mental_health"
+    ]
+   },
+   "served": [
+    "post-05",
+    "post-16",
+    "post-01",
+    "post-02",
+    "post-04",
+    "post-03"
+   ],
+   "rejections": {
+    "pending_review": 4,
+    "above_tier": 3,
+    "blocked": 3
+   }
+  },
+  {
+   "profile": "adult-1",
+   "tier": "adult",
+   "trust": "verified",
+   "interests": [
+    "finance",
+    "news"
+   ],
+   "controls": {},
+   "served": [
+    "post-08",
+    "post-05",
+    "post-13",
+    "post-04",
+    "post-01",
+    "post-02",
+    "post-14",
+    "post-03",
+    "post-16"
+   ],
+   "rejections": {
+    "not_servable_status": 4,
+    "blocked": 3
+   }
+  }
+ ],
+ "queue": [
+  {
+   "content_id": "post-11",
+   "content_text": "The secret truth they hide: this guaranteed cure works and mainstream media lies about it.",
+   "category": "general",
+   "priority_score": 0.25,
+   "expected_harm": 0.5,
+   "agent_disagreement": 0.5,
+   "exposure_score": 1.0,
+   "learned_multiplier": 1.0,
+   "audience_rating": "adult",
+   "status": "pending_human_review",
+   "is_escalated": false,
+   "requires_senior_moderator": false,
+   "created_at": "2026-10-09T08:30:12.166925+00:00"
+  },
+  {
+   "content_id": "post-09",
+   "content_text": "You are such an idiot, nobody wants to read your stupid posts. I hate you, loser.",
+   "category": "general",
+   "priority_score": 0.1488,
+   "expected_harm": 0.9923,
+   "agent_disagreement": 0.15,
+   "exposure_score": 1.0,
+   "learned_multiplier": 1.0,
+   "audience_rating": "blocked",
+   "status": "flagged",
+   "is_escalated": false,
+   "requires_senior_moderator": false,
+   "created_at": "2026-10-09T08:30:08.129398+00:00"
+  },
+  {
+   "content_id": "post-12",
+   "content_text": "Honestly that referee was stupid, what a terrible call in the match.",
+   "category": "sports",
+   "priority_score": 0.1307,
+   "expected_harm": 0.8714,
+   "agent_disagreement": 0.15,
+   "exposure_score": 1.0,
+   "learned_multiplier": 1.0,
+   "audience_rating": "blocked",
+   "status": "flagged",
+   "is_escalated": false,
+   "requires_senior_moderator": false,
+   "created_at": "2026-10-09T08:30:13.757926+00:00"
+  },
+  {
+   "content_id": "post-10",
+   "content_text": "Click here and buy now! Limited offer, free money guaranteed, act now!",
+   "category": "general",
+   "priority_score": 0.0014,
+   "expected_harm": 0.0028,
+   "agent_disagreement": 0.5,
+   "exposure_score": 1.0,
+   "learned_multiplier": 1.0,
+   "audience_rating": "adult",
+   "status": "pending_human_review",
+   "is_escalated": false,
+   "requires_senior_moderator": false,
+   "created_at": "2026-10-09T08:30:10.192687+00:00"
+  },
+  {
+   "content_id": "post-06",
+   "content_text": "Feeling stressed before exams, here is what helps my anxiety: sleep, walks and talking to friends.",
+   "category": "mental_health",
+   "priority_score": 0.0002,
+   "expected_harm": 0.0007,
+   "agent_disagreement": 0.25,
+   "exposure_score": 1.0,
+   "learned_multiplier": 1.0,
+   "audience_rating": "adult",
+   "status": "pending_human_review",
+   "is_escalated": false,
+   "requires_senior_moderator": false,
+   "created_at": "2026-10-09T08:30:02.548125+00:00"
+  },
+  {
+   "content_id": "post-07",
+   "content_text": "Stock tips: where to invest before the election results come in.",
+   "category": "politics",
+   "priority_score": 0.0001,
+   "expected_harm": 0.0006,
+   "agent_disagreement": 0.25,
+   "exposure_score": 1.0,
+   "learned_multiplier": 1.0,
+   "audience_rating": "adult",
+   "status": "pending_human_review",
+   "is_escalated": false,
+   "requires_senior_moderator": false,
+   "created_at": "2026-10-09T08:30:04.474113+00:00"
+  }
+ ],
+ "feedback": {
+  "item": "post-11",
+  "suggested": "approve",
+  "source": "rules",
+  "override": true,
+  "status_after": "removed"
+ }
+}

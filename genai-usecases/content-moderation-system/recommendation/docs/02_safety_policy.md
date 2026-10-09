@@ -26,10 +26,13 @@ Tiers: `child` (1), `teen` (2), `adult` (3). An item is served only if rating ra
 
 The item starts at `all_ages`; each rule can only raise it. Rating below `adult` requires all of:
 
-- `status` is exactly `approved` and `moderation_action` is exactly `approved`; `content_removed` is `False`.
+- `status` is exactly `approved`; `moderation_action` is either absent (the pipeline does
+  not write it for content approved on the normal path) or exactly `approved`;
+  `content_removed` is `False`.
 - Every judging agent's verdict is "allow", or the last decision is a human approval.
-  The Action Enforcement and HITL Checkpoint agents are not counted: they always report
-  approve/1.0.
+  Approvals from the Action Enforcement and HITL Checkpoint agents are not counted: they
+  always report approve/1.0. The ReAct synthesis step's verdict is counted, but the score
+  it reports is not treated as a confidence.
 - `toxicity_score` is a number in [0, 1] below the threshold.
 - `policy_violations` is a list containing nothing beyond `spam`/`copyright`; `policy_flags`
   is an empty list.

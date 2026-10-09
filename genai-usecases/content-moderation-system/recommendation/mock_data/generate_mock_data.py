@@ -175,12 +175,14 @@ def build_state(rng: random.Random, scenario: str, content_id: str) -> Dict[str,
             ]
     elif scenario == "malformed":
         defect = rng.choice(
-            ["no_severity", "no_action", "flags_string", "category_none", "toxicity_text", "no_decisions"]
+            ["no_severity", "no_flags", "flags_string", "category_none", "toxicity_text", "no_decisions"]
         )
         if defect == "no_severity":
             del state["violation_severity"]
-        elif defect == "no_action":
-            del state["moderation_action"]
+        elif defect == "no_flags":
+            # (A missing moderation_action is not a defect: the real pipeline does not
+            # write it for content approved on the normal path.)
+            del state["policy_flags"]
         elif defect == "flags_string":
             state["policy_flags"] = "self_harm"
         elif defect == "category_none":

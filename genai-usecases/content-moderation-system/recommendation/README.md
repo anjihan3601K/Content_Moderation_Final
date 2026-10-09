@@ -62,6 +62,7 @@ backend/.venv/Scripts/python.exe recommendation/mock_data/generate_mock_data.py
 backend/.venv/Scripts/python.exe recommendation/evaluation/run_gate_report.py
 backend/.venv/Scripts/python.exe recommendation/evaluation/check_case.py --help
 backend/.venv/Scripts/python.exe recommendation/evaluation/run_evaluation.py   # about 4 minutes; needs matplotlib
+backend/.venv/Scripts/python.exe recommendation/evaluation/run_live_demo.py    # real pipeline, ML on, stand-in LLM
 ```
 
 No network, API key or database server is needed.

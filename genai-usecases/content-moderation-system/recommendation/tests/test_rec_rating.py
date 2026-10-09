@@ -285,7 +285,7 @@ def test_no_judging_decisions_means_unknown(decisions):
 # ─── missing or malformed signals never lower the rating (review 1) ─────────────
 
 REQUIRED_FIELDS = [
-    "moderation_action", "content_removed", "policy_violations", "policy_flags",
+    "content_removed", "policy_violations", "policy_flags",
     "violation_severity", "contains_sensitive_content", "explicit_content_detected",
     "hate_speech_detected", "harassment_detected", "media_risk_level", "toxicity_score",
     "agent_decisions", "status",
@@ -316,9 +316,32 @@ def test_any_policy_flag_keeps_the_item_from_minors(flags):
     assert RATING_RANK[rating_of(policy_flags=flags)] >= RATING_RANK[AudienceRating.ADULT]
 
 
-@pytest.mark.parametrize("action", ["remove", "ban_user", "flagged", "warned", "Removed.", "approved."])
-def test_moderation_action_must_be_exactly_approved(action):
+@pytest.mark.parametrize("action", ["remove", "ban_user", "flagged", "warned", "Removed.", "approved.", "", 0, [], {"a": 1}])
+def test_a_moderation_action_that_is_present_must_be_exactly_approved(action):
     assert RATING_RANK[rating_of(moderation_action=action)] >= RATING_RANK[AudienceRating.ADULT]
+
+
+def test_absent_moderation_action_is_the_normal_approved_path():
+    """Found in a live run: the enforcement agent, which writes the action, is skipped for approved content."""
+    assert rating_of(moderation_action=None) == AudienceRating.ALL_AGES
+    state = clean_state()
+    del state["moderation_action"]
+    assert derive_audience_rating(state).rating == AudienceRating.ALL_AGES
+    assert rating_of(moderation_action=None, status="flagged") == AudienceRating.ADULT
+
+
+def test_synthesis_agent_score_is_not_used_as_a_confidence():
+    """Found in a live run: the ReAct loop reports a weighted score of about 0.1, not a probability."""
+    decisions = clean_state()["agent_decisions"] + [
+        _AgentDecision("ReAct Decision Loop", _Decision.APPROVE, 0.1),
+        _AgentDecision("User Reputation Scoring Agent", _Decision.APPROVE, 0.8),
+    ]
+    assert compute_agent_signals(decisions) == AgentSignals(0.0, 0.8, True)
+    held = clean_state()["agent_decisions"] + [{"agent_name": "ReAct Decision Loop", "decision": "await_human", "confidence": 0.1}]
+    signals = compute_agent_signals(held)
+    assert not signals.all_allow and signals.disagreement == 0.25 and signals.confidence == 0.85
+    only_synthesis = [_AgentDecision("ReAct Decision Loop", _Decision.APPROVE, 0.1)]
+    assert compute_agent_signals(only_synthesis) == AgentSignals(0.0, None, True)
 
 
 @pytest.mark.parametrize(

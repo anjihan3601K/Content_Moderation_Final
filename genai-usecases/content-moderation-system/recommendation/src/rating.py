@@ -49,6 +49,11 @@ RATING_RANK: Dict[AudienceRating, int] = {
 # would hide real disagreement. Any other verdict from them is counted like any agent's.
 BOOKKEEPING_AGENTS = frozenset({"action enforcement agent", "hitl checkpoint agent"})
 HUMAN_REVIEW_AGENT = "hitl human review"
+# The ReAct loop synthesises the other agents' verdicts. Its verdict is counted like any
+# other, but the "confidence" it reports is a weighted score (weight x confidence x
+# priority, about 0.1 to 0.2 for a unanimous approval), not a probability, so it is left
+# out of the confidence floor. Seen in a live run of the pipeline, not in the mock data.
+SYNTHESIS_AGENTS = frozenset({"react decision loop"})
 ALLOW = "allow"
 
 # Collapse DecisionType values into verdict groups before measuring agreement.
@@ -185,7 +190,8 @@ def compute_agent_signals(agent_decisions: Any) -> AgentSignals:
             # A decision that cannot be read counts as a dissenting, zero-confidence vote.
             verdict, confidence = "unreadable", 0.0
         verdicts.append(verdict)
-        confidences.append(confidence)
+        if agent_name not in SYNTHESIS_AGENTS or verdict == "unreadable":
+            confidences.append(confidence)
         last_is_human_allow = agent_name == HUMAN_REVIEW_AGENT and verdict == ALLOW
         human_confidence = confidence if last_is_human_allow else None
 
@@ -196,7 +202,8 @@ def compute_agent_signals(agent_decisions: Any) -> AgentSignals:
 
     largest_group = max(verdicts.count(v) for v in set(verdicts))
     disagreement = round(1.0 - (largest_group / len(verdicts)), 4)
-    return AgentSignals(disagreement, min(confidences), all(v == ALLOW for v in verdicts))
+    lowest_confidence = min(confidences) if confidences else None
+    return AgentSignals(disagreement, lowest_confidence, all(v == ALLOW for v in verdicts))
 
 
 def derive_audience_rating(state: Mapping[str, Any]) -> RatingResult:
@@ -228,8 +235,13 @@ def derive_audience_rating(state: Mapping[str, Any]) -> RatingResult:
         raise_to(AudienceRating.BLOCKED, "removed_or_sanctioned")
     if not approved:
         raise_to(AudienceRating.ADULT, f"status_not_approved:{status or 'missing'}")
-    if not (isinstance(raw_action, str) and normalize_enum_value(raw_action) == APPROVED_STATUS):
-        raise_to(AudienceRating.ADULT, f"action_not_approved:{action or 'missing'}")
+    # The pipeline only writes moderation_action when the enforcement agent runs, and it
+    # does not run for content approved on the normal path. So an absent action is fine;
+    # an action that is present must say "approved".
+    if raw_action is not None and not (
+        isinstance(raw_action, str) and normalize_enum_value(raw_action) == APPROVED_STATUS
+    ):
+        raise_to(AudienceRating.ADULT, f"action_not_approved:{action or 'malformed'}")
     if state.get("content_removed") is not False:
         raise_to(AudienceRating.ADULT, "content_removed_unknown")
 

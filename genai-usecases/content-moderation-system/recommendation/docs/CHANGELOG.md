@@ -197,3 +197,25 @@ New dependencies
 Migrations
 - None for existing data. The feature's own SQLite file gains one table,
   `rec_pending_sync`, created with `CREATE TABLE IF NOT EXISTS`.
+
+## Live run and the fixes it led to (2026-10-09)
+
+Created
+- `recommendation/evaluation/standin_llm.py` - rule-based stand-in for the language model,
+  used only by the demo
+- `recommendation/evaluation/run_live_demo.py` - sample posts and images through the real
+  workflow with ML models and the feature on
+- `recommendation/results/live_demo_report.txt`, `live_demo_results.json`
+
+Modified (inside recommendation/)
+- `src/rating.py` - an absent `moderation_action` is accepted for approved content; the
+  ReAct synthesis step's score is not used as a confidence. Both found by the live run.
+- `tests/test_rec_rating.py` - tests for both
+
+Existing files modified: none. Dependencies: none. Migrations: none.
+The demo patches the agents' model class in memory for its own process only; no backend
+file is edited and no provider is called.
+- `mock_data/generate_mock_data.py`, `items.json` - one mock item (`item-0799`) was labelled
+  "malformed" for having no `moderation_action`. That is now known to be normal, so its
+  defect was changed to a missing `policy_flags`. No other mock record changed, and the
+  gate report and evaluation metrics are byte-identical to before.
