@@ -305,10 +305,26 @@ class PrecedentCase(BaseModel):
     resolved_at: str = Field(default_factory=_now_iso)
 
 
+class AudienceSuitability(BaseModel):
+    """Whether a verified viewer of one age tier, with no parental controls, would be served the item."""
+
+    age_tier: AgeTier
+    served: bool
+    reason: Optional[GateReason] = Field(None, description="Why it is withheld, when it is")
+
+
 class RecommendationDetailResponse(BaseModel):
     item_id: str
     content_text: str
     category: str
+    content_topics: List[str] = Field(default_factory=list)
+    policy_violations: List[str] = Field(default_factory=list)
+    status: Optional[str] = None
+    toxicity_score: Optional[float] = None
+    agent_disagreement: Optional[float] = None
+    overall_confidence: Optional[float] = None
+    human_reviewed: bool = False
+    suitable_for: List[AudienceSuitability] = Field(default_factory=list)
     suggested_action: str
     confidence: float
     suggestion_source: str = Field(..., description="precedents or rules")

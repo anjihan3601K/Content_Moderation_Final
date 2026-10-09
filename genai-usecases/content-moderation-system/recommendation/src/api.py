@@ -22,9 +22,11 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query
 from recommendation.src.bandit import ThompsonSamplingBandit
 from recommendation.src.config import ADMIN_ROLE, RANKING_SEED, SENIOR_MODERATOR_ROLES, recommendation_db_path
 from recommendation.src.feedback import FeedbackService, ItemNotFoundError
-from recommendation.src.integration import set_repository
+from recommendation.src.integration import set_container_provider, set_repository
 from recommendation.src.models import (
     AgeTier,
+    AgeTrustLevel,
+    AudienceSuitability,
     EventType,
     FeedbackEvent,
     FeedbackResponse,
@@ -43,7 +45,7 @@ from recommendation.src.moderator_queue import (
 )
 from recommendation.src.personalization import InterestNotAllowedError, ProfileRanker, TierTopicGuard
 from recommendation.src.rating import find_escalation_categories
-from recommendation.src.safety_gate import TIER_RANK
+from recommendation.src.safety_gate import TIER_RANK, SafetyGate
 from recommendation.src.service import FeedService
 from recommendation.src.store import (
     DualDocumentStore,
@@ -90,6 +92,16 @@ def _preferences(profile: ViewerProfileModel) -> PreferencesResponse:
         parental_controls=profile.parental_controls,
         allowed_topics=sorted(allowed) if allowed is not None else None,
     )
+
+
+def _suitability(item: Any) -> list:
+    """The gate's decision for a verified viewer of each tier with no parental controls."""
+    results = []
+    for tier in AgeTier:
+        viewer = ViewerProfileModel(profile_id="preview", age_tier=tier, age_trust_level=AgeTrustLevel.VERIFIED)
+        decision = SafetyGate.evaluate_item(viewer, item)
+        results.append(AudienceSuitability(age_tier=tier, served=decision.passed, reason=decision.rejection_reason))
+    return results
 
 
 def create_recommendation_router(
@@ -248,6 +260,14 @@ def create_recommendation_router(
                 audience_rating=item.audience_rating,
                 is_escalated=escalated,
                 precedents=precedents,
+                content_topics=item.content_topics,
+                policy_violations=item.policy_violations,
+                status=item.status,
+                toxicity_score=item.toxicity_score,
+                agent_disagreement=item.agent_disagreement,
+                overall_confidence=item.overall_confidence,
+                human_reviewed=item.human_reviewed,
+                suitable_for=_suitability(item),
             )
         except HTTPException:
             raise
@@ -308,4 +328,5 @@ def register_recommendation_routes(
         return state["container"]
 
     app.include_router(create_recommendation_router(get_current_user, get_moderator, get_container))
+    set_container_provider(get_container)
     logger.info("Recommendation endpoints registered")

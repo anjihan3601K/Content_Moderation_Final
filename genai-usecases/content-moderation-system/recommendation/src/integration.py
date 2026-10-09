@@ -7,7 +7,7 @@ registered, stores the rated item so the feed and the moderator queue can see it
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Callable, Dict, Optional
 
 from recommendation.src import rating
 from recommendation.src.config import BLOCKED_STATUSES
@@ -17,12 +17,30 @@ from recommendation.src.store import RecommendationRepository
 logger = logging.getLogger(__name__)
 
 _repository: Optional[RecommendationRepository] = None
+_container_provider: Optional[Callable[[], Any]] = None
 
 
 def set_repository(repository: Optional[RecommendationRepository]) -> None:
     """Register the repository that moderated items are stored in (None to clear)."""
     global _repository
     _repository = repository
+
+
+def set_container_provider(provider: Optional[Callable[[], Any]]) -> None:
+    """
+    Register a function returning the feature's service container (None to clear).
+
+    The container opens its storage on first use, so registering the provider at startup
+    lets the workflow hook store items even before any recommendation endpoint is called.
+    """
+    global _container_provider
+    _container_provider = provider
+
+
+def _current_repository() -> Optional[RecommendationRepository]:
+    if _repository is not None:
+        return _repository
+    return _container_provider().repository if _container_provider is not None else None
 
 
 def on_moderation_complete(state: Dict[str, Any]) -> None:
@@ -40,7 +58,14 @@ def on_moderation_complete(state: Dict[str, Any]) -> None:
     updated, so ``rec_items`` should be rebuilt after the flag has been off for a while.
     """
     result = rating.apply_audience_rating(state)
-    if result is None or _repository is None:
+    if result is None:
+        return
+    try:
+        repository = _current_repository()
+    except Exception as error:
+        logger.error(f"Recommendation storage unavailable: {error}")
+        return
+    if repository is None:
         return
     content_id = state.get("content_id")
     if not isinstance(content_id, str) or not content_id.strip():
@@ -48,7 +73,7 @@ def on_moderation_complete(state: Dict[str, Any]) -> None:
         return
     try:
         item = rating.build_item_from_state(state)
-        existing = _repository.get_item(content_id)
+        existing = repository.get_item(content_id)
         if existing is not None and existing.human_reviewed:
             existing_status = normalize_enum_value(existing.status) if existing.status else ""
             if existing_status in BLOCKED_STATUSES or existing.audience_rating == AudienceRating.BLOCKED:
@@ -61,6 +86,52 @@ def on_moderation_complete(state: Dict[str, Any]) -> None:
                 and rating.RATING_RANK[existing.audience_rating] > rating.RATING_RANK[item.audience_rating]
             ):
                 item.audience_rating = existing.audience_rating
-        _repository.upsert_item(item)
+        repository.upsert_item(item)
     except Exception as error:
         logger.error(f"Could not store rated item {content_id}: {error}")
+
+
+MANUAL_REVIEW_ACTIONS = ("approve", "warn", "remove", "escalate")
+
+
+def on_manual_review(content: Dict[str, Any], decision: str, reviewer: str = "moderator") -> bool:
+    """
+    Tell the recommender about a decision made through the host's manual-review endpoints,
+    which update only the moderation database.
+
+    The decision is applied exactly like a moderator decision sent to the feedback
+    endpoint: it marks the item human-reviewed, updates its status, records a precedent,
+    and an approval makes the item servable to adults at most. Rating an item for teens or
+    children takes a full pipeline run, because that needs the agents' topic and safety
+    signals. An item the recommender has never seen is created from the content row,
+    unrated, before the decision is applied.
+
+    Returns True when the decision was applied. Never raises.
+    """
+    from recommendation.src.config import is_recommendation_enabled
+    from recommendation.src.models import FeedbackEvent, RecommendationItemModel
+
+    if not is_recommendation_enabled() or _container_provider is None:
+        return False
+    action = str(decision or "").strip().lower()
+    content_id = content.get("content_id") if isinstance(content, dict) else None
+    if action not in MANUAL_REVIEW_ACTIONS or not isinstance(content_id, str) or not content_id.strip():
+        return False
+    try:
+        container = _container_provider()
+        if container.repository.get_item(content_id) is None:
+            container.repository.upsert_item(RecommendationItemModel(
+                item_id=content_id,
+                content_text=str(content.get("content_text") or ""),
+                status=content.get("current_status") or content.get("status"),
+                toxicity_score=content.get("toxicity_score"),
+            ))
+        container.feedback_service.handle_override(
+            FeedbackEvent(event_type="moderator_override", item_id=content_id, final_action=action,
+                          notes=f"Manual review by {reviewer}"[:2000]),
+            moderator_id=str(reviewer),
+        )
+        return True
+    except Exception as error:
+        logger.error(f"Could not apply manual review of {content_id} to the recommender: {error}")
+        return False

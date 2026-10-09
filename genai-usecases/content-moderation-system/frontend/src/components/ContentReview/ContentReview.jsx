@@ -39,6 +39,7 @@ import {
 } from '@mui/icons-material';
 import { contentAPI } from '../../services/api';
 import api from '../../services/api';
+import RecommendationInsights from './RecommendationInsights';
 
 export default function ContentReview() {
   const { contentId } = useParams();
@@ -497,6 +498,9 @@ export default function ContentReview() {
               )}
             </CardContent>
           </Card>
+
+          {/* Recommendation: audience rating, tags, suggested audience */}
+          <RecommendationInsights contentId={contentId} refreshKey={content} />
         </Grid>
       </Grid>
 

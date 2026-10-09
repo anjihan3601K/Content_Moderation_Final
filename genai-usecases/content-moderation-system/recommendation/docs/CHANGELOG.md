@@ -256,3 +256,27 @@ Existing files modified
   model objects are wrapped in a new `TextChatModel`, which returns the reply as plain
   text because current Gemini models return a list of content blocks.
 - `backend/.env.example` - documents `GEMINI_MODEL`.
+
+## Recommendation details in the admin review page (2026-10-09)
+
+Created
+- `frontend/src/components/ContentReview/RecommendationInsights.jsx` - panel on the content
+  review page: audience rating, tags, which age groups the item is suggested for (with the
+  reason when it is not), agent agreement, suggested moderator action, similar past cases
+- `recommendation/tests/test_rec_admin_view.py`
+
+Modified (inside recommendation/)
+- `src/models.py`, `src/api.py` - `GET /api/items/{id}/recommendation` also returns topics,
+  violations, status, toxicity, agreement signals, `human_reviewed` and `suitable_for`.
+  Additive; existing fields unchanged.
+- `src/integration.py` - `on_manual_review`, and a container provider so the workflow hook
+  stores items from startup. Before this, items moderated before the first call to any
+  recommendation endpoint were rated but not stored.
+
+Existing files modified
+- `backend/main.py` - new `notify_recommender_of_review` helper, called from the two
+  manual-review endpoints after they update the content status. No-op when the flag is off.
+  Before this, a manual approval updated only the moderation database and the item never
+  became servable in a feed.
+- `frontend/src/components/ContentReview/ContentReview.jsx` - imports and renders the panel.
+- `frontend/src/services/api.js` - `recommendationAPI.getItemRecommendation`.

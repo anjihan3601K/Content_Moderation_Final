@@ -254,6 +254,17 @@ if os.getenv("RECOMMENDATION_ENABLED", "false").lower() == "true":
     register_recommendation_routes(app, get_current_user, get_moderator)
 
 
+def notify_recommender_of_review(content: Dict[str, Any], decision: str, reviewer: str) -> None:
+    """Pass a manual review decision on to the recommendation feature (no-op when it is off)."""
+    if os.getenv("RECOMMENDATION_ENABLED", "false").lower() != "true":
+        return
+    try:
+        from recommendation.src.integration import on_manual_review
+        on_manual_review(content, decision, reviewer)
+    except Exception as e:
+        logger.warning(f"Recommender not updated for manual review: {e}")
+
+
 # ═══════════════════════════════════════════════════════════════════════════════
 # Pydantic models for API
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1374,6 +1385,7 @@ async def manual_review(review: ManualReviewRequest):
             moderation_action=review.decision,
             action_reason=review.notes
         )
+        notify_recommender_of_review(content, review.decision, review.reviewer_name)
 
         # Determine appeal outcome (compare original decision vs manual review decision)
         original_decision = content.get("moderation_action", "")
@@ -1450,6 +1462,7 @@ async def manual_review_by_id(content_id: str, review: dict):
             moderation_action=decision,
             action_reason=notes
         )
+        notify_recommender_of_review(content, decision, reviewer_name)
 
         # Update story/comment visibility if this is story content
         content_type = content.get("content_type", "")
