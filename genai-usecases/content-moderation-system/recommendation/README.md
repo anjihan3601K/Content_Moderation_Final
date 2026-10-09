@@ -34,13 +34,17 @@ stored for the feed and the queue.
 
 Details and access rules: `docs/01_design.md`.
 
-## Profile page
+## Screens in the frontend
 
-With the flag on, the existing Settings page in the frontend shows a "Viewer Profile" card
-(`frontend/src/components/Settings/ViewerProfile.jsx`). The viewer enters a date of birth;
-the page works out the age group and sends only the age group. The date of birth is never
-sent to the server or stored. Interests are chosen from the topics allowed for that age
-group. Parental controls are shown read-only; an admin sets them through the API.
+All of these need the flag on; with it off each shows a notice.
+
+| Where | Who | What |
+|---|---|---|
+| For You (menu) | every user | The recommendation feed, with Interested / Not for me buttons, and the viewer profile card |
+| Settings | every user | The same viewer profile card: date of birth (only the age group is sent or stored), interests |
+| Content review page | moderator roles | Recommendation panel: audience rating, editable tags, who the post is suggested for, suggested action, similar past cases |
+| Priority Queue (menu) | moderator roles | Posts awaiting review, most urgent first; high-risk posts are shown to senior roles only |
+| User Management | admin | Per user: age group, age confirmation and parental controls |
 
 ## Config flags
 

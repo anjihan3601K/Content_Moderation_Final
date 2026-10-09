@@ -311,3 +311,25 @@ Existing files modified
 - `frontend/src/components/ContentReview/RecommendationInsights.jsx` (created earlier today)
   - tags are now editable, with a Save Tags button
 - `frontend/src/services/api.js` - `recommendationAPI.updateItemTags`
+
+## Frontend for the recommendation feature (2026-10-09)
+
+Created
+- `frontend/src/components/Recommendations/ForYou.jsx` - "For You" page: the viewer's
+  feed with rating and tags per post, Interested / Not for me buttons that send
+  engagement feedback, and the viewer profile card beside it
+- `frontend/src/components/Recommendations/ReviewQueue.jsx` - "Priority Queue" page for
+  moderator roles: the prioritized review queue with a link to each post's review page
+
+Existing files modified
+- `frontend/src/components/Settings/ViewerProfile.jsx` (created in Stage 4) - can now edit
+  another user's profile in an admin mode: age group, age confirmation, strictness,
+  highest rating, blocked topics, sensitive topics allowed
+- `frontend/src/components/Admin/UserManagement.jsx` - a new action button per user opens
+  that admin profile dialog. This is the first UI for setting parental controls.
+- `frontend/src/App.jsx` - routes `/for-you` (all users) and `/review-queue` (moderator roles)
+- `frontend/src/components/Layout/Layout.jsx` - "For You" and "Priority Queue" menu items
+  and page titles
+- `frontend/src/services/api.js` - `recommendationAPI.sendFeedback`, `getQueue`
+
+No backend change. Every page shows a notice instead of failing when the feature flag is off.

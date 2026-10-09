@@ -36,6 +36,8 @@ import {
   AutoStories,
   ManageAccounts,
   Settings as SettingsIcon,
+  Recommend,
+  LowPriority,
 } from '@mui/icons-material';
 import { useAuthStore } from '../../store/authStore';
 import { useModerationStore } from '../../store/moderationStore';
@@ -117,6 +119,13 @@ export default function Layout({ children }) {
       path: '/community',
     });
 
+    // For You - recommendation feed for all logged in users
+    items.push({
+      text: 'For You',
+      icon: <Recommend />,
+      path: '/for-you',
+    });
+
     // My Appeals - for all users (to submit and track their appeals)
     items.push({
       text: 'My Appeals',
@@ -132,6 +141,15 @@ export default function Layout({ children }) {
         path: '/dashboard',
         badge: pendingContent.length,
         divider: true,
+      });
+    }
+
+    // Priority Review Queue - for all moderators
+    if (isModerator()) {
+      items.push({
+        text: 'Priority Queue',
+        icon: <LowPriority />,
+        path: '/review-queue',
       });
     }
 
@@ -296,6 +314,8 @@ export default function Layout({ children }) {
             {location.pathname.startsWith('/review/') && 'Content Review'}
             {location.pathname === '/user-management' && 'User Management'}
             {location.pathname === '/settings' && 'Account Settings'}
+            {location.pathname === '/for-you' && 'For You'}
+            {location.pathname === '/review-queue' && 'Priority Review Queue'}
           </Typography>
 
           {/* Notifications */}

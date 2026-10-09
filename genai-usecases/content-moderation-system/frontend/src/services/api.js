@@ -285,6 +285,16 @@ export const recommendationAPI = {
     const response = await api.get('/api/recommendations/feed', { params: { limit } });
     return response.data;
   },
+
+  sendFeedback: async (event) => {
+    const response = await api.post('/api/recommendations/feedback', event);
+    return response.data;
+  },
+
+  getQueue: async (limit = 20) => {
+    const response = await api.get('/api/moderation/queue/next', { params: { limit } });
+    return response.data;
+  },
 };
 
 export default api;

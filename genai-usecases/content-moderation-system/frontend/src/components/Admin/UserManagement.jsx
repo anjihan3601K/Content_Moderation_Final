@@ -31,8 +31,10 @@ import {
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
   PersonAdd as PersonAddIcon,
+  FamilyRestroom as FamilyRestroomIcon,
 } from '@mui/icons-material';
 import { authAPI } from '../../services/api';
+import ViewerProfile from '../Settings/ViewerProfile';
 
 const roleOptions = [
   { value: 'user', label: 'User', color: 'default' },
@@ -64,6 +66,9 @@ const UserManagement = () => {
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
+
+  // Viewer profile (age group, parental controls) dialog
+  const [profileUser, setProfileUser] = useState(null);
 
   useEffect(() => {
     loadUsers();
@@ -265,6 +270,15 @@ const UserManagement = () => {
                         <EditIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
+                    <Tooltip title="Age Group & Parental Controls">
+                      <IconButton
+                        size="small"
+                        onClick={() => setProfileUser(user)}
+                        color="primary"
+                      >
+                        <FamilyRestroomIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
                     <Tooltip title="Delete User">
                       <IconButton
                         size="small"
@@ -289,6 +303,17 @@ const UserManagement = () => {
           </Box>
         )}
       </Paper>
+
+      {/* Viewer Profile Dialog */}
+      <Dialog open={Boolean(profileUser)} onClose={() => setProfileUser(null)} maxWidth="md" fullWidth>
+        <DialogTitle>Viewer profile: {profileUser?.username}</DialogTitle>
+        <DialogContent>
+          {profileUser && <ViewerProfile profileId={profileUser.user_id} adminMode />}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setProfileUser(null)}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Edit User Dialog */}
       <Dialog open={editDialog} onClose={handleEditClose} maxWidth="sm" fullWidth>
