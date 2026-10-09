@@ -1,0 +1,32 @@
+[
+ {
+  "id": "C01",
+  "group": "good",
+  "expect": "approved",
+  "text": "Nice story, thanks for sharing!"
+ },
+ {
+  "id": "C02",
+  "group": "good",
+  "expect": "approved",
+  "text": "I had the same experience last year."
+ },
+ {
+  "id": "C03",
+  "group": "bad",
+  "expect": "flagged or removed",
+  "text": "This is a stupid story and you are an idiot."
+ },
+ {
+  "id": "C04",
+  "group": "bad",
+  "expect": "warned or flagged",
+  "text": "Click here, buy now, free money!"
+ },
+ {
+  "id": "C05",
+  "group": "false-positive check",
+  "expect": "ideally approved",
+  "text": "That ending killed me, so funny."
+ }
+]

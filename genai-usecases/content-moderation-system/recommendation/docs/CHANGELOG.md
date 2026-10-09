@@ -280,3 +280,11 @@ Existing files modified
   became servable in a feed.
 - `frontend/src/components/ContentReview/ContentReview.jsx` - imports and renders the panel.
 - `frontend/src/services/api.js` - `recommendationAPI.getItemRecommendation`.
+
+## Manual test set (2026-10-09)
+
+Created, outside `recommendation/` at the owner's request
+- `test-posts/` - generator script, 38 text posts and 5 comments, 16 generated images,
+  image/video/audio URL lists, two tone files, 5 edge-case files, a README and
+  `RESULTS_FROM_LOCAL_CHECKS.md` (output of the platform's own non-LLM checks on the set).
+  No existing file changed.

@@ -1,0 +1,17 @@
+[V01] good
+https://example.com/videos/school_sports_day.mp4
+
+[V02] good
+https://example.com/videos/cooking_pasta_tutorial.mp4
+
+[V03] bad
+https://example.com/videos/street_fights_compilation.mp4
+
+[V04] bad
+https://example.com/videos/explicit_nsfw_clip.mp4
+
+[V05] bad
+https://example.com/videos/gore_attack_footage.mp4
+
+[V06] false-positive check
+https://example.com/videos/heart_attack_first_aid_training.mp4

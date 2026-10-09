@@ -1,0 +1,14 @@
+[A01] good
+https://example.com/audio/morning_birdsong.wav
+
+[A02] good
+https://example.com/audio/piano_practice.mp3
+
+[A03] bad
+https://example.com/audio/hate_threat_voicemail.mp3
+
+[A04] bad
+https://example.com/audio/violent_abuse_recording.wav
+
+[A05] false-positive check
+https://example.com/audio/anti_harassment_training_talk.mp3
