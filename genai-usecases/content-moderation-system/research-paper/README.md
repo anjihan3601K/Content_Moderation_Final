@@ -1,7 +1,6 @@
 # Research paper kit
 
-Everything needed to write up the Age-Gated Profile Recommender, in one folder. Nothing
-here is the paper itself; these are the facts, tables, figures and cautions to write it from.
+Everything needed to write up the Age-Gated Profile Recommender, in one folder. The paper is `paper.tex`; the numbered files are the facts, tables, figures and cautions to write it from.
 
 | File | Use it for |
 |---|---|
@@ -13,6 +12,9 @@ here is the paper itself; these are the facts, tables, figures and cautions to w
 | `references.bib` | BibTeX for those papers. **Verify every entry before submitting** |
 | `06_reproducibility.md` | Environment, seeds and the exact commands behind each table |
 | `figures/` | The six charts (PNG), with captions in `03_results.md` |
+| `paper.tex`, `paper.pdf` | The paper itself, in IEEE conference format (IEEEtran). Upload this folder to Overleaf to edit and compile |
+| `make_ieee_figures.py` | Draws the paper's nine figures into `figures/ieee/` from the files in `data/` |
+| `measure_latency.py` | Times the rating, the gate and a feed request; writes `data/latency.json` (machine-dependent) |
 | `data/` | The raw CSV and JSON behind the tables and charts |
 
 ## Three things to keep straight while writing
