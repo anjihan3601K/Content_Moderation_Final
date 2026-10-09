@@ -247,3 +247,12 @@ Not changed
 
 Also: `evaluation/run_live_demo.py` gained a `--real-llm` mode that uses the backend's
 configured provider with a key taken from the process environment only.
+
+## Gemini model update (2026-10-09, at the owner's request)
+
+Existing files modified
+- `backend/src/agents/agents.py` - the agents' model name now comes from `GEMINI_MODEL`
+  (default `gemini-3.8-flash`) instead of the hard-coded, retired `gemini-2.0-flash`; both
+  model objects are wrapped in a new `TextChatModel`, which returns the reply as plain
+  text because current Gemini models return a list of content blocks.
+- `backend/.env.example` - documents `GEMINI_MODEL`.
