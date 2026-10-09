@@ -3,6 +3,13 @@ Live end-to-end demo: sample posts and images through the REAL moderation pipeli
 the ML models and the recommendation feature switched on.
 
     backend/.venv/Scripts/python.exe recommendation/evaluation/run_live_demo.py
+    backend/.venv/Scripts/python.exe recommendation/evaluation/run_live_demo.py --real-llm
+
+With ``--real-llm`` the agents call the language model the backend is configured for
+(Gemini today), using GOOGLE_API_KEY from the environment of this process. The key is
+read from the environment only; this script never writes it anywhere. The sample posts
+are sent to that provider. Output then goes to ``live_demo_real_llm_report.txt`` and
+``live_demo_real_llm_results.json``.
 
 What is real in this run
     - the LangGraph workflow and every agent in backend/src/agents
@@ -40,6 +47,9 @@ os.environ["ML_PRELOAD_MODELS"] = "true"
 os.environ["ENABLE_FAST_MODE"] = "false"
 os.environ["CHROMA_DB_PATH"] = str(WORK_DIR / "chroma")
 os.environ["RECOMMENDATION_DB_PATH"] = str(WORK_DIR / "recommendation_data.db")
+REAL_LLM = "--real-llm" in sys.argv
+if REAL_LLM and not os.environ.get("GOOGLE_API_KEY"):
+    sys.exit("--real-llm needs GOOGLE_API_KEY in the environment of this process")
 os.environ.setdefault("GOOGLE_API_KEY", "not-used-standin-llm")
 os.environ.setdefault("ANONYMIZED_TELEMETRY", "False")
 # Use the toxicity model that is already in the local Hugging Face cache, so the demo
@@ -56,7 +66,58 @@ os.chdir(WORK_DIR)
 import src.agents.agents as agents_module  # noqa: E402
 from standin_llm import StandInLLM  # noqa: E402
 
-agents_module.ChatGoogleGenerativeAI = StandInLLM
+REAL_LLM_MODEL = os.environ.get("DEMO_LLM_MODEL", "gemini-3.8-flash")
+LLM_CALLS = {"count": 0, "failures": 0, "seconds": 0.0}
+
+
+class RealLLMAdapter:
+    """
+    The backend's real Gemini chat model, with the two adjustments it needs to run today.
+
+    1. ``backend/src/agents/agents.py`` asks for ``gemini-2.0-flash``, which the provider
+       has retired (HTTP 404). The model named in DEMO_LLM_MODEL is used instead.
+    2. Current Gemini models return ``content`` as a list of blocks; the agents treat it
+       as a string (``.find``, ``.strip``, ``in``). The text blocks are joined here.
+
+    Both are applied in this process only. No backend file is edited.
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        kwargs["model"] = REAL_LLM_MODEL
+        kwargs.setdefault("max_retries", 2)
+        self.inner = _RealChatModel(*args, **kwargs)
+
+    def invoke(self, prompt: Any) -> Any:
+        import time
+
+        from standin_llm import StandInResponse
+
+        started = time.perf_counter()
+        for attempt in range(5):
+            try:
+                response = self.inner.invoke(prompt)
+                break
+            except Exception as failure:
+                LLM_CALLS["failures"] += 1
+                if attempt == 4 or "429" not in str(failure) and "quota" not in str(failure).lower():
+                    raise
+                time.sleep(15 * (attempt + 1))
+        LLM_CALLS["count"] += 1
+        LLM_CALLS["seconds"] += time.perf_counter() - started
+        content = response.content
+        if isinstance(content, list):
+            content = "".join(
+                block.get("text", "") if isinstance(block, dict) else str(block)
+                for block in content if not isinstance(block, dict) or block.get("type") == "text"
+            )
+        return StandInResponse(str(content))
+
+
+if REAL_LLM:
+    _RealChatModel = agents_module.ChatGoogleGenerativeAI
+    agents_module.ChatGoogleGenerativeAI = RealLLMAdapter
+else:
+    agents_module.ChatGoogleGenerativeAI = StandInLLM
 
 from src.agents.workflow import create_moderation_workflow, process_content  # noqa: E402
 from src.core.models import ContentMetadata, ContentStatus, UserProfile  # noqa: E402
@@ -180,7 +241,8 @@ def main() -> int:
     results: Dict[str, Any] = {"run_at": datetime.now().isoformat(timespec="seconds")}
 
     out("=" * 100)
-    out("LIVE DEMO - real moderation pipeline, ML models on, recommendation feature on, stand-in LLM")
+    out("LIVE DEMO - real moderation pipeline, ML models on, recommendation feature on, "
+        + ("REAL language model (Gemini)" if REAL_LLM else "stand-in LLM"))
     out("=" * 100)
 
     # 1. Engines
@@ -193,7 +255,8 @@ def main() -> int:
         ["ML preload status", ml_preload.get("status")],
         ["ML device", ml_preload.get("device", ml_status.get("device", "n/a"))],
         ["ML models available", ", ".join(ml_preload.get("models_available", []) or ["none"])],
-        ["Language model", "STAND-IN (keyword rules); no Gemini or Claude call is made"],
+        ["Language model", f"REAL: {REAL_LLM_MODEL} through the backend's own agent code and prompts" if REAL_LLM
+         else "STAND-IN (keyword rules); no Gemini or Claude call is made"],
         ["Databases", f"temporary folder {WORK_DIR}"],
     ])
     results["engines"] = {"ml_preload": {k: v for k, v in ml_preload.items() if isinstance(v, (str, int, float, bool, list))}}
@@ -343,12 +406,18 @@ def main() -> int:
     else:
         out("\n7. FEEDBACK LOOP - skipped, nothing was queued for review")
 
+    if REAL_LLM:
+        out(f"\n8. LANGUAGE MODEL USAGE - {LLM_CALLS['count']} calls to {REAL_LLM_MODEL}, "
+            f"{LLM_CALLS['seconds']:.0f} s in total, {LLM_CALLS['failures']} failed attempts")
+        results["llm_usage"] = {"model": REAL_LLM_MODEL, **LLM_CALLS}
+
     integration.set_repository(None)
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    (RESULTS_DIR / "live_demo_report.txt").write_text("\n".join(LINES) + "\n", encoding="utf-8", newline="\n")
-    (RESULTS_DIR / "live_demo_results.json").write_text(
+    stem = "live_demo_real_llm" if REAL_LLM else "live_demo"
+    (RESULTS_DIR / f"{stem}_results.json").write_text(
         json.dumps(results, indent=1, default=str) + "\n", encoding="utf-8", newline="\n")
-    out(f"\nSaved: {RESULTS_DIR / 'live_demo_report.txt'} and live_demo_results.json")
+    out(f"\nSaved: {RESULTS_DIR / (stem + '_report.txt')} and {stem}_results.json")
+    (RESULTS_DIR / f"{stem}_report.txt").write_text("\n".join(LINES) + "\n", encoding="utf-8", newline="\n")
     return 0
 
 

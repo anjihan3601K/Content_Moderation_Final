@@ -219,3 +219,31 @@ file is edited and no provider is called.
   "malformed" for having no `moderation_action`. That is now known to be normal, so its
   defect was changed to a missing `policy_flags`. No other mock record changed, and the
   gate report and evaluation metrics are byte-identical to before.
+
+## Firebase removed from the platform (2026-10-09, at the owner's request)
+
+Existing files modified
+- `backend/main.py` - the global `db` is now a `ModerationDatabase` (SQLite) instead of
+  `FirebaseDatabaseManager`; the two Firebase user-sync blocks (registration and user
+  update) are removed; the recommendation routes are registered without a Firestore client.
+  Side effect: 18 methods `main.py` called that the Firebase manager never defined (for
+  example `update_user_reputation`, `record_user_action`, `save_manual_review`) now resolve,
+  because `ModerationDatabase` has them. Signatures of the shared methods were compared and
+  are identical.
+- `backend/requirements.txt` - `firebase-admin` removed.
+- `frontend/package.json` - `firebase` removed.
+
+Existing files deleted (all Firebase-only, none imported elsewhere; recoverable from git)
+- `backend/src/database/firebase_db.py`
+- `backend/scripts/initialize_firebase_users.py`, `migrate_sqlite_to_firebase.py`, `test_registration.py`
+- `frontend/src/firebase.js`
+
+Not changed
+- The recommendation feature still contains its optional Firestore store
+  (`src/store.py`) and the in-memory fake used by its tests. Nothing passes it a client
+  any more, so it runs on SQLite only.
+- `firebase-admin` is still installed in `backend/.venv`, and `firebase` in
+  `frontend/node_modules`; they are just no longer required.
+
+Also: `evaluation/run_live_demo.py` gained a `--real-llm` mode that uses the backend's
+configured provider with a key taken from the process environment only.
