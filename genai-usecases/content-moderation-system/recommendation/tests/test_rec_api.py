@@ -33,7 +33,7 @@ from src.database.auth_db import AuthDatabase  # noqa: E402
 ROLES = ["user", "moderator", "senior_moderator", "content_analyst", "policy_specialist", "admin"]
 NEW_PATHS = {
     "/api/recommendations/feed", "/api/profiles/{profile_id}/preferences", "/api/moderation/queue/next",
-    "/api/items/{item_id}/recommendation", "/api/recommendations/feedback",
+    "/api/items/{item_id}/recommendation", "/api/items/{item_id}/tags", "/api/recommendations/feedback",
 }
 
 

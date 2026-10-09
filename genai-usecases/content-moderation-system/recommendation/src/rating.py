@@ -396,6 +396,42 @@ def build_item_from_state(
     )
 
 
+def rating_for_human_reviewed_item(item: RecommendationItemModel) -> AudienceRating:
+    """
+    Rating for an item that a moderator has approved AND tagged by hand.
+
+    The moderator's approval and tags stand in for the agents' judgement and topic
+    extraction, which is what makes it possible to rate an item below ``adult`` when the
+    language model was unavailable. Every machine signal that is on the item still
+    counts and can only raise the rating: toxicity (unknown means adult), policy
+    violations, escalation labels and the topic allow-lists.
+    """
+    labels = [normalize_label(label) for label in [item.content_category, *item.content_topics] if label]
+    violations = {normalize_label(v) for v in item.policy_violations} - NO_VIOLATION_LABELS
+    rank = RATING_RANK[AudienceRating.ALL_AGES]
+
+    def at_least(rating: AudienceRating) -> None:
+        nonlocal rank
+        rank = max(rank, RATING_RANK[rating])
+
+    if item.escalated or find_escalation_categories(labels + sorted(violations)):
+        at_least(AudienceRating.ADULT)
+    toxicity = item.toxicity_score
+    if toxicity is None or toxicity >= TOXICITY_ADULT_THRESHOLD:
+        at_least(AudienceRating.ADULT)
+    elif toxicity >= TOXICITY_TEEN_THRESHOLD:
+        at_least(AudienceRating.TEEN)
+    if violations - TEEN_TOLERATED_VIOLATIONS:
+        at_least(AudienceRating.ADULT)
+    elif violations:
+        at_least(AudienceRating.TEEN)
+    if not labels or not all(l in TEEN_ALLOWED_TOPICS or l in SENSITIVE_TEEN_TOPICS for l in labels):
+        at_least(AudienceRating.ADULT)
+    elif not all(l in CHILD_SAFE_TOPICS for l in labels):
+        at_least(AudienceRating.TEEN)
+    return next(r for r, value in RATING_RANK.items() if value == rank)
+
+
 def _raw_list(value: Any) -> List[Any]:
     """A list-like field as a list; anything else as empty."""
     return list(value) if isinstance(value, (list, tuple, set, frozenset)) else []

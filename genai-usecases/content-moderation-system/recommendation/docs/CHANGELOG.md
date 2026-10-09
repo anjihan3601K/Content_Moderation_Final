@@ -288,3 +288,26 @@ Created, outside `recommendation/` at the owner's request
   image/video/audio URL lists, two tone files, 5 edge-case files, a README and
   `RESULTS_FROM_LOCAL_CHECKS.md` (output of the platform's own non-LLM checks on the set).
   No existing file changed.
+
+## Moderator tags (2026-10-09)
+
+Modified (inside recommendation/)
+- `src/api.py` - new `PUT /api/items/{id}/tags` (moderator roles; senior for escalated items)
+- `src/feedback.py` - `handle_tags`; an approval now also sets disagreement to 0 and
+  confidence to 1, as a human approval does in the pipeline
+- `src/rating.py` - `rating_for_human_reviewed_item`
+- `src/integration.py` - a moderator's tags are kept when the pipeline re-runs
+- `src/models.py` - `tags_source` on items, `ItemTagsRequest`, `known_topics` in the detail response
+- `tests/test_rec_admin_view.py`, `tests/test_rec_api.py`, `tests/test_rec_final_review.py`
+
+Policy change, also recorded in `02_safety_policy.md`
+- Until now only a full pipeline run could rate an item `teen` or `all_ages`. Now an item
+  that a moderator has both approved and tagged by hand is rated from those tags. Machine
+  signals on the item still cap the rating (toxicity, with unknown meaning adult; policy
+  violations; escalation labels; topic allow-lists). Pipeline-generated tags plus an
+  approval still give `adult` until a moderator saves the tags.
+
+Existing files modified
+- `frontend/src/components/ContentReview/RecommendationInsights.jsx` (created earlier today)
+  - tags are now editable, with a Save Tags button
+- `frontend/src/services/api.js` - `recommendationAPI.updateItemTags`

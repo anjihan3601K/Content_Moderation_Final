@@ -20,7 +20,14 @@ from typing import Any, Callable, Dict, Optional
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query
 
 from recommendation.src.bandit import ThompsonSamplingBandit
-from recommendation.src.config import ADMIN_ROLE, RANKING_SEED, SENIOR_MODERATOR_ROLES, recommendation_db_path
+from recommendation.src.config import (
+    ADMIN_ROLE,
+    RANKING_SEED,
+    SENIOR_MODERATOR_ROLES,
+    SENSITIVE_TEEN_TOPICS,
+    TEEN_ALLOWED_TOPICS,
+    recommendation_db_path,
+)
 from recommendation.src.feedback import FeedbackService, ItemNotFoundError
 from recommendation.src.integration import set_container_provider, set_repository
 from recommendation.src.models import (
@@ -31,6 +38,7 @@ from recommendation.src.models import (
     FeedbackEvent,
     FeedbackResponse,
     FeedResponse,
+    ItemTagsRequest,
     PreferencesResponse,
     PreferencesUpdateRequest,
     QueueResponse,
@@ -102,6 +110,32 @@ def _suitability(item: Any) -> list:
         decision = SafetyGate.evaluate_item(viewer, item)
         results.append(AudienceSuitability(age_tier=tier, served=decision.passed, reason=decision.rejection_reason))
     return results
+
+
+def _item_detail(container: "RecommendationContainer", item: Any, precedents: list) -> RecommendationDetailResponse:
+    """Everything the review page shows about one item."""
+    action, confidence, source = container.precedents.suggest_action(item, precedents)
+    return RecommendationDetailResponse(
+        item_id=item.item_id,
+        content_text=item.content_text,
+        category=item_category(item),
+        suggested_action=action,
+        confidence=confidence,
+        suggestion_source=source,
+        audience_rating=item.audience_rating,
+        is_escalated=is_escalated(item),
+        precedents=precedents,
+        content_topics=item.content_topics,
+        policy_violations=item.policy_violations,
+        status=item.status,
+        toxicity_score=item.toxicity_score,
+        agent_disagreement=item.agent_disagreement,
+        overall_confidence=item.overall_confidence,
+        human_reviewed=item.human_reviewed,
+        tags_source=item.tags_source,
+        known_topics=sorted(set(TEEN_ALLOWED_TOPICS) | set(SENSITIVE_TEEN_TOPICS)),
+        suitable_for=_suitability(item),
+    )
 
 
 def create_recommendation_router(
@@ -249,30 +283,38 @@ def create_recommendation_router(
                     if not case.is_escalated and not find_escalation_categories([case.category, *case.topics])
                 ]
             precedents = container.precedents.get_similar_precedents(item, cases, k)
-            action, confidence, source = container.precedents.suggest_action(item, precedents)
-            return RecommendationDetailResponse(
-                item_id=item.item_id,
-                content_text=item.content_text,
-                category=item_category(item),
-                suggested_action=action,
-                confidence=confidence,
-                suggestion_source=source,
-                audience_rating=item.audience_rating,
-                is_escalated=escalated,
-                precedents=precedents,
-                content_topics=item.content_topics,
-                policy_violations=item.policy_violations,
-                status=item.status,
-                toxicity_score=item.toxicity_score,
-                agent_disagreement=item.agent_disagreement,
-                overall_confidence=item.overall_confidence,
-                human_reviewed=item.human_reviewed,
-                suitable_for=_suitability(item),
-            )
+            return _item_detail(container, item, precedents)
         except HTTPException:
             raise
         except Exception as e:
             logger.error(f"Error building item recommendation: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+
+    @router.put("/api/items/{item_id}/tags", response_model=RecommendationDetailResponse)
+    async def set_item_tags(
+        item_id: str,
+        request: ItemTagsRequest,
+        user: Dict[str, Any] = Depends(get_moderator),
+    ):
+        """
+        Replace an item's tags with the moderator's own. The first tag becomes the category.
+
+        Tags that are not on an age-group topic list are accepted, but such an item can
+        only be rated ``adult``. Escalated items need a senior role.
+        """
+        try:
+            container = get_container()
+            item = container.repository.get_item(item_id)
+            if item is None:
+                raise HTTPException(status_code=404, detail="Item not found")
+            if is_escalated(item) and user["role"] not in SENIOR_MODERATOR_ROLES:
+                raise HTTPException(status_code=403, detail="Senior moderator access required")
+            updated = container.feedback_service.handle_tags(item_id, request.topics, str(user["user_id"]))
+            return _item_detail(container, updated, [])
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Error setting item tags: {e}")
             raise HTTPException(status_code=500, detail=str(e))
 
     @router.post("/api/recommendations/feedback", response_model=FeedbackResponse)

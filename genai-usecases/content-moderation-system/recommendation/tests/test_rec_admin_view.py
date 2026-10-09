@@ -145,3 +145,122 @@ def test_manual_review_does_nothing_when_the_feature_is_off(linked, monkeypatch)
     monkeypatch.setenv("RECOMMENDATION_ENABLED", "false")
     assert integration.on_manual_review(content_row("a"), "approve") is False
     assert linked.repository.list_items() == []
+
+
+# ─── moderator tags ─────────────────────────────────────────────────────────────
+
+def stuck_state(content_id="stuck"):
+    """A post whose language-model call failed: under review, no category, no topics."""
+    state = base_state(content_id)
+    state.update(status="under_review", content_category=None, content_topics=[], moderation_action=None,
+                 violation_severity=None, agent_decisions=[
+                     {"agent_name": "Content Analysis Agent", "decision": "needs_review", "confidence": 0.0}])
+    return state
+
+
+def set_tags(client, item_id, topics, role="moderator"):
+    return client.call("put", f"/api/items/{item_id}/tags", "staff", role, json={"topics": topics})
+
+
+def served_tiers(body):
+    return [entry["age_tier"] for entry in body["suitable_for"] if entry["served"]]
+
+
+def test_tags_alone_do_not_make_an_unapproved_item_servable(linked):
+    integration.on_moderation_complete(stuck_state())
+    response = set_tags(linked, "stuck", ["Science", "animals"])
+    assert response.status_code == 200
+    body = response.json()
+    assert body["category"] == "science" and body["content_topics"] == ["science", "animals"]
+    assert body["tags_source"] == "moderator"
+    assert body["audience_rating"] == "adult" and served_tiers(body) == []
+    assert "science" in body["known_topics"] and "mental_health" in body["known_topics"]
+
+
+@pytest.mark.parametrize("topics, rating, tiers", [
+    (["science", "animals"], "all_ages", ["child", "teen", "adult"]),
+    (["coding"], "teen", ["teen", "adult"]),
+    (["science", "coding"], "teen", ["teen", "adult"]),
+    (["news"], "adult", ["adult"]),
+    (["science", "my_own_tag"], "adult", ["adult"]),
+])
+def test_approved_and_tagged_by_a_moderator_is_rated_from_the_tags(linked, topics, rating, tiers):
+    integration.on_moderation_complete(stuck_state())
+    assert integration.on_manual_review(content_row("stuck"), "approve") is True
+    body = set_tags(linked, "stuck", topics).json()
+    assert body["audience_rating"] == rating
+    assert served_tiers(body) == tiers
+    assert body["human_reviewed"] is True
+
+
+def test_order_does_not_matter_tag_first_then_approve(linked):
+    integration.on_moderation_complete(stuck_state())
+    set_tags(linked, "stuck", ["science"])
+    assert integration.on_manual_review(content_row("stuck"), "approve") is True
+    body = detail(linked, "stuck").json()
+    assert body["audience_rating"] == "all_ages" and served_tiers(body) == ["child", "teen", "adult"]
+
+
+def test_pipeline_tags_plus_approval_stay_adult_until_a_moderator_confirms_the_tags(linked):
+    state = base_state("item")
+    state.update(status="under_review")
+    integration.on_moderation_complete(state)
+    integration.on_manual_review(content_row("item"), "approve")
+    assert detail(linked, "item").json()["audience_rating"] == "adult"
+    assert set_tags(linked, "item", ["science"]).json()["audience_rating"] == "all_ages"
+
+
+@pytest.mark.parametrize("overrides, expected", [
+    ({"toxicity_score": 0.2}, "teen"), ({"toxicity_score": 0.5}, "adult"), ({"toxicity_score": None}, "adult"),
+    ({"policy_violations": ["spam"]}, "teen"), ({"policy_violations": ["hate_speech"]}, "adult"),
+])
+def test_machine_signals_still_cap_the_rating_of_a_tagged_item(linked, overrides, expected):
+    linked.repository.upsert_item(make_item(item_id="i", status="under_review", audience_rating="adult", **overrides))
+    integration.on_manual_review(content_row("i"), "approve")
+    assert set_tags(linked, "i", ["science"]).json()["audience_rating"] == expected
+
+
+def test_tagging_a_removed_item_does_not_unblock_it(linked):
+    integration.on_moderation_complete(stuck_state())
+    integration.on_manual_review(content_row("stuck"), "remove")
+    body = set_tags(linked, "stuck", ["science"]).json()
+    assert body["audience_rating"] == "blocked" and served_tiers(body) == []
+
+
+def test_a_high_risk_tag_escalates_the_item(linked):
+    integration.on_moderation_complete(stuck_state())
+    integration.on_manual_review(content_row("stuck"), "approve")
+    body = set_tags(linked, "stuck", ["science", "self harm"]).json()
+    assert body["is_escalated"] is True and body["audience_rating"] == "adult"
+    assert served_tiers(body) == ["adult"]
+    assert set_tags(linked, "stuck", ["science"]).status_code == 403            # now senior-only
+    assert set_tags(linked, "stuck", ["science"], role="senior_moderator").status_code == 200
+    assert linked.repository.get_item("stuck").escalated is True                  # escalation is not undone by retagging
+
+
+def test_moderator_tags_survive_a_pipeline_rerun(linked):
+    integration.on_moderation_complete(stuck_state())
+    integration.on_manual_review(content_row("stuck"), "approve")
+    set_tags(linked, "stuck", ["coding"])
+    rerun = base_state("stuck")                                                   # the pipeline now says "science"
+    integration.on_moderation_complete(rerun)
+    stored = linked.repository.get_item("stuck")
+    assert stored.content_topics == ["coding"] and stored.tags_source == "moderator"
+    assert stored.audience_rating.value == "teen"
+
+
+def test_tag_endpoint_access_and_validation(linked):
+    integration.on_moderation_complete(stuck_state())
+    assert set_tags(linked, "stuck", ["science"], role="user").status_code == 403
+    assert set_tags(linked, "missing", ["science"]).status_code == 404
+    for bad in ([], [""], ["x" * 41], ["animаls"], ["t"] * 11 + ["u" + str(n) for n in range(11)], "science"):
+        assert set_tags(linked, "stuck", bad).status_code == 422, bad
+    assert set_tags(linked, "stuck", ["Science", "science", " SCIENCE "]).json()["content_topics"] == ["science"]
+
+
+def test_approval_settles_agent_disagreement(linked):
+    linked.repository.upsert_item(make_item(item_id="i", status="pending_human_review", audience_rating="adult",
+                                            agent_disagreement=0.5, overall_confidence=0.3))
+    integration.on_manual_review(content_row("i"), "approve")
+    stored = linked.repository.get_item("i")
+    assert (stored.agent_disagreement, stored.overall_confidence) == (0.0, 1.0)

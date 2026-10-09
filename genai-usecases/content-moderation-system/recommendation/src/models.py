@@ -225,6 +225,7 @@ class RecommendationItemModel(BaseModel):
     is_borderline: bool = False
     escalated: bool = False
     human_reviewed: bool = Field(False, description="A moderator has decided on this item")
+    tags_source: str = Field("pipeline", description="Who set category and topics: pipeline or moderator")
     exposure_count: int = Field(0, ge=0)
     created_at: str = Field(default_factory=_now_iso)
 
@@ -324,6 +325,8 @@ class RecommendationDetailResponse(BaseModel):
     agent_disagreement: Optional[float] = None
     overall_confidence: Optional[float] = None
     human_reviewed: bool = False
+    tags_source: str = "pipeline"
+    known_topics: List[str] = Field(default_factory=list, description="Topics that have an age-group list")
     suitable_for: List[AudienceSuitability] = Field(default_factory=list)
     suggested_action: str
     confidence: float
@@ -331,6 +334,24 @@ class RecommendationDetailResponse(BaseModel):
     audience_rating: Optional[AudienceRating] = None
     is_escalated: bool
     precedents: List[PrecedentCase]
+
+
+class ItemTagsRequest(BaseModel):
+    """Body of PUT /api/items/{id}/tags. The first tag becomes the item's category."""
+
+    topics: List[str] = Field(..., min_length=1, max_length=10, description="Tags chosen by the moderator")
+
+    @field_validator("topics")
+    @classmethod
+    def _tags_must_be_plain_text(cls, values: List[str]) -> List[str]:
+        cleaned = []
+        for value in values:
+            label = normalize_label(value)
+            if not label or not label.isascii() or len(label) > 40:
+                raise ValueError(f"tag must be 1 to 40 plain ASCII characters: {value!r}")
+            if label not in cleaned:
+                cleaned.append(label)
+        return cleaned
 
 
 class EventType(str, Enum):

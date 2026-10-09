@@ -74,6 +74,10 @@ def on_moderation_complete(state: Dict[str, Any]) -> None:
     try:
         item = rating.build_item_from_state(state)
         existing = repository.get_item(content_id)
+        if existing is not None and existing.tags_source == "moderator":
+            item.content_category = existing.content_category
+            item.content_topics = existing.content_topics
+            item.tags_source = "moderator"
         if existing is not None and existing.human_reviewed:
             existing_status = normalize_enum_value(existing.status) if existing.status else ""
             if existing_status in BLOCKED_STATUSES or existing.audience_rating == AudienceRating.BLOCKED:

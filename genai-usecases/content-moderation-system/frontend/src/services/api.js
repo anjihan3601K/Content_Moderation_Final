@@ -276,6 +276,11 @@ export const recommendationAPI = {
     return response.data;
   },
 
+  updateItemTags: async (itemId, topics) => {
+    const response = await api.put(`/api/items/${itemId}/tags`, { topics });
+    return response.data;
+  },
+
   getFeed: async (limit = 10) => {
     const response = await api.get('/api/recommendations/feed', { params: { limit } });
     return response.data;

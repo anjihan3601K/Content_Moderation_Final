@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 import pytest
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.testclient import TestClient
 
 from conftest import make_item, make_profile
@@ -50,8 +50,8 @@ class Client:
         def current_user(x_user: str = Header(...), x_role: str = Header("user")):
             return {"user_id": x_user, "role": x_role}
 
-        def moderator(user: dict = None, x_user: str = Header(None), x_role: str = Header("user")):
-            user = user if isinstance(user, dict) else {"user_id": x_user, "role": x_role}
+        def moderator(user: dict = Depends(current_user)):
+            # Same shape as the host's get_moderator: depends on the current user.
             if user["role"] not in MODERATOR_ROLES:
                 raise HTTPException(status_code=403, detail="Moderator access required")
             return user

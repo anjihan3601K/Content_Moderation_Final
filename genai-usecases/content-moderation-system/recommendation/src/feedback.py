@@ -29,7 +29,7 @@ from recommendation.src.models import (
 )
 from recommendation.src.moderator_queue import is_escalated, item_category, queue_arm_key, rule_based_suggestion
 from recommendation.src.personalization import TierTopicGuard, primary_topic
-from recommendation.src.rating import RATING_RANK
+from recommendation.src.rating import RATING_RANK, find_escalation_categories, rating_for_human_reviewed_item
 from recommendation.src.safety_gate import SafetyGate
 from recommendation.src.store import RecommendationRepository
 from recommendation.src.telemetry import RecommendationTelemetry, get_telemetry
@@ -147,11 +147,19 @@ class FeedbackService:
             item.audience_rating = AudienceRating.BLOCKED
         elif final_action == ModeratorAction.ESCALATE:
             item.escalated = True
+        elif final_action == ModeratorAction.APPROVE and item.tags_source == "moderator":
+            # Approved and tagged by a moderator: rated from the moderator's tags plus
+            # whatever machine signals the item carries.
+            item.audience_rating = rating_for_human_reviewed_item(item)
         elif item.audience_rating in (None, AudienceRating.BLOCKED) or RATING_RANK[item.audience_rating] < RATING_RANK[AudienceRating.ADULT]:
-            # Approving or warning through this endpoint makes an item adult-servable at
-            # most. It lifts a block, and it never leaves a reviewed item rated for
-            # minors: only a full pipeline run can produce an all_ages or teen rating.
+            # Approving or warning makes an item adult-servable at most. It lifts a block,
+            # and it never leaves a reviewed item rated for minors: that takes a full
+            # pipeline run, or a moderator's own tags (above).
             item.audience_rating = AudienceRating.ADULT
+        if final_action == ModeratorAction.APPROVE:
+            # A human approval settles the agents' disagreement, as it does in the pipeline.
+            item.agent_disagreement = 0.0
+            item.overall_confidence = 1.0
         self.repository.upsert_item(item)
 
         self.repository.record_event(str(uuid.uuid4()), {
@@ -171,6 +179,31 @@ class FeedbackService:
             detail="Override recorded." if overridden else "Decision recorded; it matches the agent verdict.",
             override_occurred=overridden,
         )
+
+    def handle_tags(self, item_id: str, topics: list, moderator_id: str) -> RecommendationItemModel:
+        """
+        Replace an item's tags with a moderator's choice. The first tag becomes the category.
+
+        Tags alone never make an item servable: status and the gate still decide that. If
+        the item has already been approved by a moderator, its rating is recalculated from
+        the new tags. A tag in a high-risk category marks the item escalated.
+        """
+        item = self._item(item_id)
+        item.content_category = topics[0]
+        item.content_topics = list(topics)
+        item.tags_source = "moderator"
+        if find_escalation_categories(topics):
+            item.escalated = True
+        approved = bool(item.status) and item.status.strip().lower() == "approved"
+        if approved and item.human_reviewed and item.audience_rating != AudienceRating.BLOCKED:
+            item.audience_rating = rating_for_human_reviewed_item(item)
+        self.repository.upsert_item(item)
+        self.repository.record_event(str(uuid.uuid4()), {
+            "event_type": "moderator_tags", "item_id": item.item_id, "moderator_id": str(moderator_id),
+            "topics": list(topics), "timestamp": _now_iso(),
+        })
+        logger.info(f"moderator_tags item_id={item.item_id} topics={topics} rating={item.audience_rating}")
+        return item
 
     @staticmethod
     def _seconds_since(created_at: str) -> Optional[float]:
