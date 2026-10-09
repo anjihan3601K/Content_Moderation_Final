@@ -1,0 +1,21 @@
+{
+ "repeats": 5,
+ "rating": {
+  "items": 800,
+  "microseconds_per_item_median": 25.1
+ },
+ "gate": {
+  "decisions_per_run": 64000,
+  "seconds_per_run_median": 1.484,
+  "microseconds_per_decision_median": 23.2,
+  "decisions_per_second_best_run": 48005
+ },
+ "feed": {
+  "requests": 400,
+  "candidate_pool": 800,
+  "feed_size": 10,
+  "milliseconds_median": 19.0,
+  "milliseconds_p95": 23.3,
+  "milliseconds_max": 35.0
+ }
+}

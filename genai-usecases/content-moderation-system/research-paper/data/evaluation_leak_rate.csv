@@ -1,0 +1,5 @@
+system,tier,feeds,items_served,feeds_with_above_tier_item,leak_rate_percent,above_tier_items_served,feeds_with_later_flagged_item,later_flagged_rate_percent
+gate_on,child,130,1300,0,0.0,0,24,18.46
+gate_on,teen,140,1400,0,0.0,0,19,13.57
+gate_off,child,130,1300,126,96.92,424,18,13.85
+gate_off,teen,140,1400,93,66.43,229,16,11.43

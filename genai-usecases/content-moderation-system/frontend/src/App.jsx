@@ -17,6 +17,8 @@ import StoryDetail from './components/Stories/StoryDetail';
 import CommunityDashboard from './components/CommunityDashboard/CommunityDashboard';
 import UserManagement from './components/Admin/UserManagement';
 import UserSettings from './components/Settings/UserSettings';
+import ForYou from './components/Recommendations/ForYou';
+import ReviewQueue from './components/Recommendations/ReviewQueue';
 
 // Theme
 const theme = createTheme({
@@ -227,6 +229,26 @@ function App() {
             element={
               <ProtectedRoute requiredRoles={['admin']}>
                 <UserManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* For You - recommendation feed for all authenticated users */}
+          <Route
+            path="/for-you"
+            element={
+              <UserRoute>
+                <ForYou />
+              </UserRoute>
+            }
+          />
+
+          {/* Priority Review Queue - for moderators */}
+          <Route
+            path="/review-queue"
+            element={
+              <ProtectedRoute requiredRoles={['moderator', 'senior_moderator', 'content_analyst', 'policy_specialist', 'admin']}>
+                <ReviewQueue />
               </ProtectedRoute>
             }
           />

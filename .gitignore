@@ -39,6 +39,7 @@ coverage/
 
 # Large generated artifacts
 backend.zip
+frontend.zip
 
 
 # Secret / local credentials

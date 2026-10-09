@@ -53,6 +53,35 @@ from ..core.llm_schemas import (
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
 
+class LLMTextResponse:
+    """LLM reply with ``content`` as plain text."""
+
+    def __init__(self, content: str):
+        self.content = content
+
+
+class TextChatModel:
+    """
+    Wraps the chat model so ``invoke()`` always returns ``content`` as a string.
+
+    Current Gemini models return content as a list of blocks
+    (``[{"type": "text", "text": ...}, ...]``); the agents below parse it as text.
+    """
+
+    def __init__(self, llm: Any):
+        self.llm = llm
+
+    def invoke(self, prompt: Any) -> LLMTextResponse:
+        content = self.llm.invoke(prompt).content
+        if isinstance(content, list):
+            content = "".join(
+                block.get("text", "") if isinstance(block, dict) else str(block)
+                for block in content
+                if not isinstance(block, dict) or block.get("type") == "text"
+            )
+        return LLMTextResponse(str(content))
+
+
 class ContentModerationAgents:
     """
     Container for all 6 content moderation agents.
@@ -68,23 +97,25 @@ class ContentModerationAgents:
         if not google_api_key:
             logger.error("WARNING: GOOGLE_API_KEY is not set!")
 
-        logger.info("Initializing LLM...")
+        # gemini-2.0-flash has been retired by the provider; override with GEMINI_MODEL if needed
+        gemini_model = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
+        logger.info(f"Initializing LLM ({gemini_model})...")
         try:
-            self.llm_flash = ChatGoogleGenerativeAI(
-                model="gemini-2.0-flash",
+            self.llm_flash = TextChatModel(ChatGoogleGenerativeAI(
+                model=gemini_model,
                 temperature=0.1,
                 google_api_key=google_api_key
-            )
+            ))
         except Exception as e:
             logger.error(f"Failed to initialize llm_flash: {e}")
             raise
 
         try:
-            self.llm_pro = ChatGoogleGenerativeAI(
-                model="gemini-2.0-flash",
+            self.llm_pro = TextChatModel(ChatGoogleGenerativeAI(
+                model=gemini_model,
                 temperature=0.1,
                 google_api_key=google_api_key
-            )
+            ))
         except Exception as e:
             logger.error(f"Failed to initialize llm_pro: {e}")
             raise

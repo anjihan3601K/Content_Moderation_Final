@@ -28,10 +28,11 @@ from dotenv import load_dotenv
 
 # Add src to path
 sys.path.append(str(Path(__file__).parent))
+# Project root, so the optional recommendation/ package is importable
+sys.path.append(str(Path(__file__).parent.parent))
 
 from src.database.moderation_db import ModerationDatabase
 from src.database.auth_db import AuthDatabase
-from src.database.firebase_db import FirebaseDatabaseManager
 from src.memory.memory import ModerationMemoryManager
 from src.agents.workflow import create_moderation_workflow, process_content, resume_from_hitl
 from src.core.models import (
@@ -52,7 +53,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
 
 # Global instances
-db: FirebaseDatabaseManager = None
+db: ModerationDatabase = None
 sqlite_mod_db: ModerationDatabase = None
 auth_db: AuthDatabase = None
 workflow = None
@@ -76,10 +77,9 @@ async def lifespan(app: FastAPI):
     logger.info("=" * 40)
 
     # Initialize database connections
-    logger.info("\nInitializing databases (Firebase Firestore + SQLite backup)...")
-    firebase_project_id = os.getenv("FIREBASE_PROJECT_ID", "finalyearproject-ae788")
-    db = FirebaseDatabaseManager(project_id=firebase_project_id)
-    sqlite_mod_db = db.sqlite_mod
+    logger.info("\nInitializing databases (SQLite)...")
+    db = ModerationDatabase()
+    sqlite_mod_db = db
     auth_db = AuthDatabase("databases/moderation_auth.db")
 
     # Initialize workflow
@@ -243,6 +243,26 @@ def get_admin(user: Dict[str, Any] = Depends(get_current_user)):
     if user['role'] != 'admin':
         raise HTTPException(status_code=403, detail="Admin access required")
     return user
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Recommendation feature (optional; see recommendation/README.md)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+if os.getenv("RECOMMENDATION_ENABLED", "false").lower() == "true":
+    from recommendation.src.api import register_recommendation_routes
+    register_recommendation_routes(app, get_current_user, get_moderator)
+
+
+def notify_recommender_of_review(content: Dict[str, Any], decision: str, reviewer: str) -> None:
+    """Pass a manual review decision on to the recommendation feature (no-op when it is off)."""
+    if os.getenv("RECOMMENDATION_ENABLED", "false").lower() != "true":
+        return
+    try:
+        from recommendation.src.integration import on_manual_review
+        on_manual_review(content, decision, reviewer)
+    except Exception as e:
+        logger.warning(f"Recommender not updated for manual review: {e}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -425,21 +445,6 @@ async def register(request: RegisterRequest):
         if not success:
             raise HTTPException(status_code=400, detail="Username already exists")
 
-        # Dual-sync newly registered user to Cloud Firebase
-        if db:
-            try:
-                db.create_or_update_auth_user({
-                    "username": request.username,
-                    "password": request.password,
-                    "full_name": request.full_name,
-                    "role": "user",
-                    "email": request.email,
-                    "phone": request.phone
-                })
-                logger.info(f"Successfully synced newly registered user '{request.username}' to Cloud Firebase")
-            except Exception as fe:
-                logger.error(f"Error syncing user '{request.username}' to Cloud Firebase: {fe}")
-
         return {
             "success": True,
             "message": "Registration successful! Please login with your credentials."
@@ -537,23 +542,6 @@ async def update_user(user_id: int, request: UpdateUserRequest):
 
         if not success:
             raise HTTPException(status_code=500, detail="Failed to update user")
-
-        if db and user.get('email'):
-            try:
-                db.create_or_update_auth_user({
-                    "user_id": user_id,
-                    "username": user['username'],
-                    "full_name": request.full_name or user['full_name'],
-                    "role": request.role or user['role'],
-                    "email": request.email or user.get('email'),
-                    "phone": request.phone or user.get('phone'),
-                    "is_active": request.is_active if request.is_active is not None else user.get('is_active', 1),
-                    "created_at": user.get('created_at') or datetime.now().isoformat(),
-                    "last_login": user.get('last_login')
-                })
-                logger.info(f"Synced updated role for '{user['username']}' to Firebase custom claims and user docs")
-            except Exception as e:
-                logger.error(f"Failed to sync updated role to Firebase for user {user_id}: {e}")
 
         return {
             "success": True,
@@ -1397,6 +1385,7 @@ async def manual_review(review: ManualReviewRequest):
             moderation_action=review.decision,
             action_reason=review.notes
         )
+        notify_recommender_of_review(content, review.decision, review.reviewer_name)
 
         # Determine appeal outcome (compare original decision vs manual review decision)
         original_decision = content.get("moderation_action", "")
@@ -1473,6 +1462,7 @@ async def manual_review_by_id(content_id: str, review: dict):
             moderation_action=decision,
             action_reason=notes
         )
+        notify_recommender_of_review(content, decision, reviewer_name)
 
         # Update story/comment visibility if this is story content
         content_type = content.get("content_type", "")

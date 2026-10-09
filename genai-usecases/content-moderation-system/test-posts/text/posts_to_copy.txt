@@ -1,0 +1,130 @@
+Copy one block at a time into the post box.
+
+[T01] good - expect: approved
+We built a baking soda volcano for the science fair and the experiment actually worked!
+
+[T02] good - expect: approved
+Our puppy met a kitten at the zoo today and they became best friends.
+
+[T03] good - expect: approved
+Great football match last night, what a comeback in the second half.
+
+[T04] good - expect: approved
+Solved a 1000 piece puzzle of a mountain lake this weekend.
+
+[T05] good - expect: approved
+Thank you to everyone who helped at the school garden clean-up today.
+
+[T06] good - expect: approved
+Finally fixed that bug in my Python script after three hours of debugging.
+
+[T07] good - expect: approved
+New phone review: the camera is good but the battery could be better.
+
+[T08] good - expect: approved
+Went to a nightclub opening downtown, the music was loud and the queue was endless.
+
+[T09] good - expect: approved
+Mortgage rates went up again this month, here is how we adjusted our budget.
+
+[T10] sensitive - expect: human review
+Feeling stressed before exams, here is what helps my anxiety: sleep, walks and talking to friends.
+
+[T11] sensitive - expect: human review
+Stock tips: where to invest before the election results come in.
+
+[T12] sensitive - expect: human review
+My doctor changed my diagnosis and I am trying a new treatment plan.
+
+[T13] bad - expect: flagged
+Honestly that referee was stupid, what a terrible call in the match.
+
+[T14] bad - expect: flagged or removed
+You are such an idiot, nobody wants to read your stupid posts. I hate you, loser.
+
+[T15] bad - expect: flagged or removed
+Shut up, you worthless clown, everyone here thinks you are pathetic.
+
+[T16] bad - expect: removed or human review
+I will attack you after school tomorrow, watch your back.
+
+[T17] bad - expect: removed or human review
+Keep posting and I will threaten everyone in this group until you stop.
+
+[T18] bad - expect: removed or human review
+People who support that team are inferior and I hate every one of them.
+
+[T19] bad - expect: removed or human review
+We should harass and stalk this user until they delete their account.
+
+[T20] bad - expect: warned or human review
+Click here and buy now! Limited offer, free money guaranteed, act now!
+
+[T21] bad - expect: warned or human review
+Work from home, guaranteed income, click here, limited offer ends today!
+
+[T22] bad - expect: warned or human review
+The secret truth they hide: this guaranteed cure works and mainstream media lies about it.
+
+[T23] bad - expect: warned or human review
+Doctors don't want you to know this one trick that replaces all medicine.
+
+[T24] bad - expect: removed or human review
+Adults only link inside: xxx videos and nude pics, click to see.
+
+[T25] false-positive check - expect: ideally approved
+The bomb scene in that action movie was the best part of the film.
+
+[T26] false-positive check - expect: ideally approved
+A local charity talk on suicide prevention and where to find a helpline is on Friday.
+
+[T27] false-positive check - expect: ideally approved
+I reported an account that keeps posting supremacist slogans, please remove it.
+
+[T28] false-positive check - expect: ideally approved
+Our team will kill it at the quiz tonight, we have practised all week.
+
+[T29] false-positive check - expect: ideally approved
+Someone is trying to harass my sister online, how do we report it?
+
+[T30] edge - expect: approved
+ok
+
+[T31] edge - expect: approved
+LOVED THE SCHOOL PLAY TONIGHT!!! BEST SHOW EVER!!!
+
+[T32] edge - expect: approved
+Good morning everyone ☀️🌻 hope you all have a lovely day 😊
+
+[T33] edge - expect: approved
+आज हमने स्कूल में विज्ञान मेले में भाग लिया, बहुत मज़ा आया।
+
+[T34] edge - expect: approved
+ఈ రోజు మేము పాఠశాలలో క్రికెట్ ఆడాము, చాలా బాగుంది.
+
+[T35] edge - expect: approved
+https://example.com/blog/how-to-grow-tomatoes
+
+[T36] edge - expect: flagged
+y0u are an 1d10t and a l0ser
+
+[T37] edge - expect: approved
+Sooooooo happyyyyyy todayyyyyy!!!!!!!!!!
+
+[T38] edge - expect: approved
+Here is my full trip report. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. 
+
+[C01] good - expect: approved
+Nice story, thanks for sharing!
+
+[C02] good - expect: approved
+I had the same experience last year.
+
+[C03] bad - expect: flagged or removed
+This is a stupid story and you are an idiot.
+
+[C04] bad - expect: warned or flagged
+Click here, buy now, free money!
+
+[C05] false-positive check - expect: ideally approved
+That ending killed me, so funny.

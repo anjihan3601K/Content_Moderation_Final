@@ -52,6 +52,37 @@ The platform includes a full-stack React web application serving six distinct us
 
 
 
+### Run this repository on another machine
+
+The steps below are for a fresh clone of this repository (branch `feature/recommendation-system`) on Windows. The virtual environment, `node_modules`, the `.env` file and the zip archives are not in git, so the first run needs the install steps.
+
+**Backend (first terminal)**
+```bash
+git clone -b feature/recommendation-system https://github.com/anjihan3601K/Content_Moderation_Final.git
+cd Content_Moderation_Final\genai-usecases\content-moderation-system\backend
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy .env.example .env
+python main.py
+```
+
+- Edit `.env` and set `GOOGLE_API_KEY` before starting. Set `RECOMMENDATION_ENABLED=true` to turn on the For You feed and the moderator priority queue.
+- The install downloads PyTorch, so it takes a while. Use Python 3.12.
+- The databases in `backend/databases/` are committed, so the existing accounts and content come with the clone. To start from clean demo accounts instead, run `python scripts/initialize_users.py`.
+- On later runs only `.venv\Scripts\activate` and `python main.py` are needed.
+
+**Frontend (second terminal)**
+```bash
+cd Content_Moderation_Final\genai-usecases\content-moderation-system\frontend
+npm i
+npm run dev
+```
+
+The API runs at `http://localhost:8000` and the frontend at `http://localhost:3000`.
+
+Keep the `backend`, `frontend` and `recommendation` folders side by side: the backend imports the `recommendation` package from the folder next to it.
+
 ### Backend Setup (In one terminal)
 
 **Step 1: Clone the repository and open it in VS Code (or any IDE/terminal of your choice)**
@@ -508,7 +539,6 @@ rmdir /s /q databases\chroma_moderation_db
 
 ---
 
-## 📝 Resume Talking Points
 
 > Developed a **full-stack content moderation platform** with a **multi-agent AI backend** powered by **Google Gemini and LangGraph**, and a **React frontend** using **Material-UI**. Implemented **specialized AI agents** with **ReAct Decision Loop** and **Human-in-the-Loop (HITL) checkpoints** for intelligent content moderation. Built the Think-Act-Observe reasoning pattern for synthesizing agent decisions with configurable consensus thresholds.
 >

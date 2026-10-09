@@ -1,0 +1,4 @@
+policy,queue_length,high_harm_items,mean_time_to_review_high_harm,mean_time_to_review_escalated,mean_time_to_review_all,high_harm_in_first_n_percent,exposure_weighted_wait
+prioritizer,64,35,20.0,12.5,32.5,88.57,1466.9
+risk_score_sort,64,35,22.6,26.9583,32.5,74.29,1680.8
+fifo,64,35,42.6,52.5,32.5,28.57,2289.2

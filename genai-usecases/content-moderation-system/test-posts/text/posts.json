@@ -1,0 +1,230 @@
+[
+ {
+  "id": "T01",
+  "group": "good",
+  "expect": "approved",
+  "text": "We built a baking soda volcano for the science fair and the experiment actually worked!"
+ },
+ {
+  "id": "T02",
+  "group": "good",
+  "expect": "approved",
+  "text": "Our puppy met a kitten at the zoo today and they became best friends."
+ },
+ {
+  "id": "T03",
+  "group": "good",
+  "expect": "approved",
+  "text": "Great football match last night, what a comeback in the second half."
+ },
+ {
+  "id": "T04",
+  "group": "good",
+  "expect": "approved",
+  "text": "Solved a 1000 piece puzzle of a mountain lake this weekend."
+ },
+ {
+  "id": "T05",
+  "group": "good",
+  "expect": "approved",
+  "text": "Thank you to everyone who helped at the school garden clean-up today."
+ },
+ {
+  "id": "T06",
+  "group": "good",
+  "expect": "approved",
+  "text": "Finally fixed that bug in my Python script after three hours of debugging."
+ },
+ {
+  "id": "T07",
+  "group": "good",
+  "expect": "approved",
+  "text": "New phone review: the camera is good but the battery could be better."
+ },
+ {
+  "id": "T08",
+  "group": "good",
+  "expect": "approved",
+  "text": "Went to a nightclub opening downtown, the music was loud and the queue was endless."
+ },
+ {
+  "id": "T09",
+  "group": "good",
+  "expect": "approved",
+  "text": "Mortgage rates went up again this month, here is how we adjusted our budget."
+ },
+ {
+  "id": "T10",
+  "group": "sensitive",
+  "expect": "human review",
+  "text": "Feeling stressed before exams, here is what helps my anxiety: sleep, walks and talking to friends."
+ },
+ {
+  "id": "T11",
+  "group": "sensitive",
+  "expect": "human review",
+  "text": "Stock tips: where to invest before the election results come in."
+ },
+ {
+  "id": "T12",
+  "group": "sensitive",
+  "expect": "human review",
+  "text": "My doctor changed my diagnosis and I am trying a new treatment plan."
+ },
+ {
+  "id": "T13",
+  "group": "bad",
+  "expect": "flagged",
+  "text": "Honestly that referee was stupid, what a terrible call in the match."
+ },
+ {
+  "id": "T14",
+  "group": "bad",
+  "expect": "flagged or removed",
+  "text": "You are such an idiot, nobody wants to read your stupid posts. I hate you, loser."
+ },
+ {
+  "id": "T15",
+  "group": "bad",
+  "expect": "flagged or removed",
+  "text": "Shut up, you worthless clown, everyone here thinks you are pathetic."
+ },
+ {
+  "id": "T16",
+  "group": "bad",
+  "expect": "removed or human review",
+  "text": "I will attack you after school tomorrow, watch your back."
+ },
+ {
+  "id": "T17",
+  "group": "bad",
+  "expect": "removed or human review",
+  "text": "Keep posting and I will threaten everyone in this group until you stop."
+ },
+ {
+  "id": "T18",
+  "group": "bad",
+  "expect": "removed or human review",
+  "text": "People who support that team are inferior and I hate every one of them."
+ },
+ {
+  "id": "T19",
+  "group": "bad",
+  "expect": "removed or human review",
+  "text": "We should harass and stalk this user until they delete their account."
+ },
+ {
+  "id": "T20",
+  "group": "bad",
+  "expect": "warned or human review",
+  "text": "Click here and buy now! Limited offer, free money guaranteed, act now!"
+ },
+ {
+  "id": "T21",
+  "group": "bad",
+  "expect": "warned or human review",
+  "text": "Work from home, guaranteed income, click here, limited offer ends today!"
+ },
+ {
+  "id": "T22",
+  "group": "bad",
+  "expect": "warned or human review",
+  "text": "The secret truth they hide: this guaranteed cure works and mainstream media lies about it."
+ },
+ {
+  "id": "T23",
+  "group": "bad",
+  "expect": "warned or human review",
+  "text": "Doctors don't want you to know this one trick that replaces all medicine."
+ },
+ {
+  "id": "T24",
+  "group": "bad",
+  "expect": "removed or human review",
+  "text": "Adults only link inside: xxx videos and nude pics, click to see."
+ },
+ {
+  "id": "T25",
+  "group": "false-positive check",
+  "expect": "ideally approved",
+  "text": "The bomb scene in that action movie was the best part of the film."
+ },
+ {
+  "id": "T26",
+  "group": "false-positive check",
+  "expect": "ideally approved",
+  "text": "A local charity talk on suicide prevention and where to find a helpline is on Friday."
+ },
+ {
+  "id": "T27",
+  "group": "false-positive check",
+  "expect": "ideally approved",
+  "text": "I reported an account that keeps posting supremacist slogans, please remove it."
+ },
+ {
+  "id": "T28",
+  "group": "false-positive check",
+  "expect": "ideally approved",
+  "text": "Our team will kill it at the quiz tonight, we have practised all week."
+ },
+ {
+  "id": "T29",
+  "group": "false-positive check",
+  "expect": "ideally approved",
+  "text": "Someone is trying to harass my sister online, how do we report it?"
+ },
+ {
+  "id": "T30",
+  "group": "edge",
+  "expect": "approved",
+  "text": "ok"
+ },
+ {
+  "id": "T31",
+  "group": "edge",
+  "expect": "approved",
+  "text": "LOVED THE SCHOOL PLAY TONIGHT!!! BEST SHOW EVER!!!"
+ },
+ {
+  "id": "T32",
+  "group": "edge",
+  "expect": "approved",
+  "text": "Good morning everyone ☀️🌻 hope you all have a lovely day 😊"
+ },
+ {
+  "id": "T33",
+  "group": "edge",
+  "expect": "approved",
+  "text": "आज हमने स्कूल में विज्ञान मेले में भाग लिया, बहुत मज़ा आया।"
+ },
+ {
+  "id": "T34",
+  "group": "edge",
+  "expect": "approved",
+  "text": "ఈ రోజు మేము పాఠశాలలో క్రికెట్ ఆడాము, చాలా బాగుంది."
+ },
+ {
+  "id": "T35",
+  "group": "edge",
+  "expect": "approved",
+  "text": "https://example.com/blog/how-to-grow-tomatoes"
+ },
+ {
+  "id": "T36",
+  "group": "edge",
+  "expect": "flagged",
+  "text": "y0u are an 1d10t and a l0ser"
+ },
+ {
+  "id": "T37",
+  "group": "edge",
+  "expect": "approved",
+  "text": "Sooooooo happyyyyyy todayyyyyy!!!!!!!!!!"
+ },
+ {
+  "id": "T38",
+  "group": "edge",
+  "expect": "approved",
+  "text": "Here is my full trip report. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. "
+ }
+]

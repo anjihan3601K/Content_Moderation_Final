@@ -1,0 +1,2002 @@
+[
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-001",
+  "category": "cartoons",
+  "content_id": "item-0667",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 001.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T10:51:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-002",
+  "category": "gaming_family",
+  "content_id": "item-0640",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 002.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T11:02:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-003",
+  "category": "grooming",
+  "content_id": "item-0752",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 003.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T11:13:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-004",
+  "category": "animals",
+  "content_id": "item-0523",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 004.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T11:24:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-005",
+  "category": "cartoons",
+  "content_id": "item-0705",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 005.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T11:35:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-006",
+  "category": "self_harm_promotion",
+  "content_id": "item-0746",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 006.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T11:46:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-007",
+  "category": "pop_culture",
+  "content_id": "item-0592",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 007.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T11:57:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-008",
+  "category": "movies",
+  "content_id": "item-0591",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 008.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T12:08:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-009",
+  "category": "cartoons",
+  "content_id": "item-0605",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 009.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T12:19:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-010",
+  "category": "puzzles",
+  "content_id": "item-0720",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 010.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T12:30:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-011",
+  "category": "grooming",
+  "content_id": "item-0743",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 011.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T12:41:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-012",
+  "category": "technology",
+  "content_id": "item-0567",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 012.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T12:52:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-013",
+  "category": "gaming_family",
+  "content_id": "item-0615",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 013.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T13:03:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-014",
+  "category": "music_kids",
+  "content_id": "item-0537",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 014.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T13:14:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-015",
+  "category": "sports",
+  "content_id": "item-0536",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 015.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T13:25:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-016",
+  "category": "crafts",
+  "content_id": "item-0519",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 016.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T13:36:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-017",
+  "category": "gaming_general",
+  "content_id": "item-0588",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 017.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T13:47:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-018",
+  "category": "movies",
+  "content_id": "item-0566",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 018.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T13:58:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-019",
+  "category": "puzzles",
+  "content_id": "item-0664",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 019.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T14:09:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-020",
+  "category": "sports",
+  "content_id": "item-0647",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 020.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T14:20:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-021",
+  "category": "sports",
+  "content_id": "item-0677",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 021.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T14:31:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-022",
+  "category": "violent_extremism",
+  "content_id": "item-0759",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 022.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T14:42:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-023",
+  "category": "gaming_family",
+  "content_id": "item-0665",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 023.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T14:53:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-024",
+  "category": "science",
+  "content_id": "item-0627",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 024.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T15:04:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-025",
+  "category": "nature",
+  "content_id": "item-0556",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 025.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T15:15:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-026",
+  "category": "cartoons",
+  "content_id": "item-0525",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 026.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T15:26:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-027",
+  "category": "animals",
+  "content_id": "item-0681",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 027.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T15:37:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-028",
+  "category": "science",
+  "content_id": "item-0627",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 028.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T15:48:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-029",
+  "category": "sports",
+  "content_id": "item-0722",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 029.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T15:59:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-030",
+  "category": "education",
+  "content_id": "item-0547",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 030.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T16:10:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-031",
+  "category": "cartoons",
+  "content_id": "item-0525",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 031.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T16:21:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-032",
+  "category": "violent_extremism",
+  "content_id": "item-0744",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 032.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T16:32:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-033",
+  "category": "animals",
+  "content_id": "item-0549",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 033.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T16:43:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-034",
+  "category": "crafts",
+  "content_id": "item-0653",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 034.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T16:54:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-035",
+  "category": "violent_extremism",
+  "content_id": "item-0741",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 035.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T17:05:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-036",
+  "category": "cartoons",
+  "content_id": "item-0639",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 036.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T17:16:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-037",
+  "category": "grooming",
+  "content_id": "item-0751",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 037.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T17:27:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-038",
+  "category": "education",
+  "content_id": "item-0511",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 038.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T17:38:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-039",
+  "category": "cartoons",
+  "content_id": "item-0639",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 039.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T17:49:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-040",
+  "category": "coding",
+  "content_id": "item-0575",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 040.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T18:00:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-041",
+  "category": "puzzles",
+  "content_id": "item-0539",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 041.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T18:11:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-042",
+  "category": "animals",
+  "content_id": "item-0549",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 042.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T18:22:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-043",
+  "category": "violent_extremism",
+  "content_id": "item-0748",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 043.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T18:33:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-044",
+  "category": "nature",
+  "content_id": "item-0614",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 044.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T18:44:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-045",
+  "category": "animals",
+  "content_id": "item-0549",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 045.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T18:55:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-046",
+  "category": "music_kids",
+  "content_id": "item-0652",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 046.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T19:06:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-047",
+  "category": "cartoons",
+  "content_id": "item-0675",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 047.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T19:17:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-048",
+  "category": "education",
+  "content_id": "item-0560",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 048.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T19:28:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-049",
+  "category": "pop_culture",
+  "content_id": "item-0585",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 049.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T19:39:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-050",
+  "category": "fashion",
+  "content_id": "item-0578",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 050.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T19:50:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-051",
+  "category": "puzzles",
+  "content_id": "item-0602",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 051.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T20:01:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-052",
+  "category": "science",
+  "content_id": "item-0713",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 052.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T20:12:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-053",
+  "category": "music_kids",
+  "content_id": "item-0626",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 053.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T20:23:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-054",
+  "category": "cartoons",
+  "content_id": "item-0617",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 054.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T20:34:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-055",
+  "category": "animals",
+  "content_id": "item-0681",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 055.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T20:45:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-056",
+  "category": "music_kids",
+  "content_id": "item-0537",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 056.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T20:56:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-057",
+  "category": "grooming",
+  "content_id": "item-0758",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 057.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T21:07:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-058",
+  "category": "puzzles",
+  "content_id": "item-0632",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 058.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T21:18:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-059",
+  "category": "music_kids",
+  "content_id": "item-0708",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 059.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T21:29:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-060",
+  "category": "education",
+  "content_id": "item-0604",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 060.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T21:40:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-061",
+  "category": "science",
+  "content_id": "item-0644",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 061.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T21:51:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-062",
+  "category": "sports",
+  "content_id": "item-0722",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 062.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T22:02:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-063",
+  "category": "puzzles",
+  "content_id": "item-0659",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 063.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T22:13:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-064",
+  "category": "cartoons",
+  "content_id": "item-0675",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 064.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T22:24:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-065",
+  "category": "self_harm_promotion",
+  "content_id": "item-0732",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 065.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T22:35:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-066",
+  "category": "fashion",
+  "content_id": "item-0600",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 066.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T22:46:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-067",
+  "category": "self_harm_promotion",
+  "content_id": "item-0750",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 067.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T22:57:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-068",
+  "category": "pop_culture",
+  "content_id": "item-0582",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 068.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T23:08:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-069",
+  "category": "gaming_general",
+  "content_id": "item-0565",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 069.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T23:19:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-070",
+  "category": "music_kids",
+  "content_id": "item-0684",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 070.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T23:30:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-071",
+  "category": "education",
+  "content_id": "item-0673",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 071.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-11T23:41:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-072",
+  "category": "cartoons",
+  "content_id": "item-0697",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 072.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-11T23:52:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-073",
+  "category": "education",
+  "content_id": "item-0559",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 073.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T00:03:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-074",
+  "category": "cartoons",
+  "content_id": "item-0545",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 074.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T00:14:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-075",
+  "category": "music_kids",
+  "content_id": "item-0684",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 075.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T00:25:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-076",
+  "category": "sports",
+  "content_id": "item-0527",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 076.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T00:36:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-077",
+  "category": "gaming_family",
+  "content_id": "item-0615",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 077.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T00:47:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-078",
+  "category": "crafts",
+  "content_id": "item-0682",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 078.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T00:58:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-079",
+  "category": "pop_culture",
+  "content_id": "item-0592",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 079.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T01:09:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-080",
+  "category": "cartoons",
+  "content_id": "item-0718",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 080.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T01:20:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-081",
+  "category": "science",
+  "content_id": "item-0627",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 081.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T01:31:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-082",
+  "category": "grooming",
+  "content_id": "item-0752",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 082.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T01:42:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-083",
+  "category": "nature",
+  "content_id": "item-0531",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 083.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T01:53:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-084",
+  "category": "nature",
+  "content_id": "item-0698",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 084.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T02:04:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-085",
+  "category": "movies",
+  "content_id": "item-0569",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 085.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T02:15:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-086",
+  "category": "fashion",
+  "content_id": "item-0600",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 086.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T02:26:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-087",
+  "category": "music_kids",
+  "content_id": "item-0702",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 087.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T02:37:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-088",
+  "category": "sports",
+  "content_id": "item-0654",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 088.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T02:48:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-089",
+  "category": "puzzles",
+  "content_id": "item-0602",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 089.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T02:59:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-090",
+  "category": "education",
+  "content_id": "item-0608",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 090.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T03:10:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-091",
+  "category": "movies",
+  "content_id": "item-0568",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 091.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T03:21:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-092",
+  "category": "science",
+  "content_id": "item-0710",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 092.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T03:32:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-093",
+  "category": "nature",
+  "content_id": "item-0730",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 093.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T03:43:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-094",
+  "category": "music_kids",
+  "content_id": "item-0514",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 094.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T03:54:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-095",
+  "category": "sports",
+  "content_id": "item-0609",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 095.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T04:05:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-096",
+  "category": "self_harm_promotion",
+  "content_id": "item-0750",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 096.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T04:16:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-097",
+  "category": "gaming_family",
+  "content_id": "item-0552",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 097.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T04:27:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-098",
+  "category": "nature",
+  "content_id": "item-0693",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 098.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T04:38:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-099",
+  "category": "education",
+  "content_id": "item-0560",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 099.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T04:49:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-100",
+  "category": "animals",
+  "content_id": "item-0691",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 100.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T05:00:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-101",
+  "category": "gaming_family",
+  "content_id": "item-0729",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 101.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T05:11:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-102",
+  "category": "pop_culture",
+  "content_id": "item-0582",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 102.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T05:22:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-103",
+  "category": "sports",
+  "content_id": "item-0536",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 103.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T05:33:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-104",
+  "category": "science",
+  "content_id": "item-0700",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 104.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T05:44:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-105",
+  "category": "nature",
+  "content_id": "item-0642",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 105.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T05:55:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-106",
+  "category": "puzzles",
+  "content_id": "item-0714",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 106.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T06:06:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-107",
+  "category": "puzzles",
+  "content_id": "item-0704",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 107.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T06:17:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-108",
+  "category": "gaming_family",
+  "content_id": "item-0715",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 108.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T06:28:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-109",
+  "category": "nature",
+  "content_id": "item-0694",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 109.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T06:39:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-110",
+  "category": "puzzles",
+  "content_id": "item-0687",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 110.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T06:50:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-111",
+  "category": "sports",
+  "content_id": "item-0618",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 111.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T07:01:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-112",
+  "category": "violent_extremism",
+  "content_id": "item-0739",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 112.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T07:12:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-113",
+  "category": "nature",
+  "content_id": "item-0531",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 113.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T07:23:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-114",
+  "category": "education",
+  "content_id": "item-0604",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 114.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T07:34:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-115",
+  "category": "self_harm_promotion",
+  "content_id": "item-0732",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 115.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T07:45:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-116",
+  "category": "books",
+  "content_id": "item-0589",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 116.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T07:56:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-117",
+  "category": "books",
+  "content_id": "item-0589",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 117.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T08:07:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-118",
+  "category": "music_kids",
+  "content_id": "item-0626",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 118.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T08:18:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-119",
+  "category": "education",
+  "content_id": "item-0540",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 119.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T08:29:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-120",
+  "category": "crafts",
+  "content_id": "item-0653",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 120.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T08:40:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-121",
+  "category": "violent_extremism",
+  "content_id": "item-0739",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 121.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T08:51:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-122",
+  "category": "movies",
+  "content_id": "item-0566",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 122.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T09:02:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-123",
+  "category": "animals",
+  "content_id": "item-0723",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 123.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T09:13:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-124",
+  "category": "puzzles",
+  "content_id": "item-0721",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 124.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T09:24:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-125",
+  "category": "cartoons",
+  "content_id": "item-0678",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 125.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T09:35:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-126",
+  "category": "science",
+  "content_id": "item-0700",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 126.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T09:46:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-127",
+  "category": "technology",
+  "content_id": "item-0584",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 127.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T09:57:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-128",
+  "category": "grooming",
+  "content_id": "item-0747",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 128.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T10:08:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-129",
+  "category": "animals",
+  "content_id": "item-0613",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 129.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T10:19:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-130",
+  "category": "animals",
+  "content_id": "item-0538",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 130.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T10:30:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-131",
+  "category": "science",
+  "content_id": "item-0644",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 131.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T10:41:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-132",
+  "category": "sports",
+  "content_id": "item-0609",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 132.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T10:52:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-133",
+  "category": "music_kids",
+  "content_id": "item-0533",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 133.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T11:03:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-134",
+  "category": "cartoons",
+  "content_id": "item-0621",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 134.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T11:14:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-135",
+  "category": "grooming",
+  "content_id": "item-0751",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 135.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T11:25:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-136",
+  "category": "violent_extremism",
+  "content_id": "item-0735",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 136.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T11:36:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-137",
+  "category": "violent_extremism",
+  "content_id": "item-0759",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 137.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T11:47:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-138",
+  "category": "grooming",
+  "content_id": "item-0742",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 138.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T11:58:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-139",
+  "category": "nature",
+  "content_id": "item-0616",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 139.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T12:09:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-140",
+  "category": "gaming_family",
+  "content_id": "item-0624",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 140.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T12:20:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-141",
+  "category": "sports",
+  "content_id": "item-0654",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 141.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T12:31:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-142",
+  "category": "gaming_family",
+  "content_id": "item-0542",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 142.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T12:42:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-143",
+  "category": "education",
+  "content_id": "item-0543",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 143.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T12:53:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-144",
+  "category": "science",
+  "content_id": "item-0627",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 144.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T13:04:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-145",
+  "category": "gaming_family",
+  "content_id": "item-0534",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 145.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T13:15:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-146",
+  "category": "sports",
+  "content_id": "item-0536",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 146.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T13:26:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-147",
+  "category": "puzzles",
+  "content_id": "item-0659",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 147.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T13:37:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-148",
+  "category": "pop_culture",
+  "content_id": "item-0592",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 148.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T13:48:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-149",
+  "category": "cartoons",
+  "content_id": "item-0712",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 149.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T13:59:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-150",
+  "category": "sports",
+  "content_id": "item-0524",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 150.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T14:10:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-151",
+  "category": "cartoons",
+  "content_id": "item-0525",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 151.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T14:21:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-152",
+  "category": "education",
+  "content_id": "item-0604",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 152.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T14:32:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-153",
+  "category": "education",
+  "content_id": "item-0717",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 153.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T14:43:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-154",
+  "category": "gaming_family",
+  "content_id": "item-0534",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 154.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T14:54:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-155",
+  "category": "cartoons",
+  "content_id": "item-0688",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 155.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T15:05:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-156",
+  "category": "sports",
+  "content_id": "item-0528",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 156.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T15:16:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-157",
+  "category": "animals",
+  "content_id": "item-0656",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 157.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T15:27:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-158",
+  "category": "nature",
+  "content_id": "item-0531",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 158.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T15:38:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-159",
+  "category": "cartoons",
+  "content_id": "item-0639",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 159.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T15:49:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-160",
+  "category": "education",
+  "content_id": "item-0559",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 160.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T16:00:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-161",
+  "category": "violent_extremism",
+  "content_id": "item-0735",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 161.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T16:11:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-162",
+  "category": "nature",
+  "content_id": "item-0668",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 162.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T16:22:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-163",
+  "category": "movies",
+  "content_id": "item-0562",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 163.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T16:33:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-164",
+  "category": "cartoons",
+  "content_id": "item-0641",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 164.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T16:44:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-165",
+  "category": "grooming",
+  "content_id": "item-0743",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 165.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T16:55:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-166",
+  "category": "gaming_family",
+  "content_id": "item-0640",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 166.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T17:06:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-167",
+  "category": "education",
+  "content_id": "item-0608",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 167.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T17:17:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-168",
+  "category": "science",
+  "content_id": "item-0544",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 168.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T17:28:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-169",
+  "category": "grooming",
+  "content_id": "item-0737",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 169.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T17:39:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-170",
+  "category": "self_harm_promotion",
+  "content_id": "item-0750",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 170.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T17:50:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-171",
+  "category": "gaming_general",
+  "content_id": "item-0599",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 171.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T18:01:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-172",
+  "category": "nature",
+  "content_id": "item-0698",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 172.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T18:12:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-173",
+  "category": "sports",
+  "content_id": "item-0629",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 173.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T18:23:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-174",
+  "category": "movies",
+  "content_id": "item-0566",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 174.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T18:34:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-175",
+  "category": "sports",
+  "content_id": "item-0527",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 175.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T18:45:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-176",
+  "category": "violent_extremism",
+  "content_id": "item-0755",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 176.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T18:56:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-177",
+  "category": "cartoons",
+  "content_id": "item-0680",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 177.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T19:07:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-178",
+  "category": "science",
+  "content_id": "item-0633",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 178.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T19:18:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-179",
+  "category": "pop_culture",
+  "content_id": "item-0582",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 179.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T19:29:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-180",
+  "category": "music_kids",
+  "content_id": "item-0719",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 180.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T19:40:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-181",
+  "category": "education",
+  "content_id": "item-0540",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 181.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T19:51:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-182",
+  "category": "violent_extremism",
+  "content_id": "item-0739",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 182.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T20:02:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-183",
+  "category": "movies",
+  "content_id": "item-0590",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 183.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T20:13:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-184",
+  "category": "science",
+  "content_id": "item-0709",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 184.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T20:24:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-185",
+  "category": "gaming_family",
+  "content_id": "item-0634",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 185.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T20:35:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-186",
+  "category": "cartoons",
+  "content_id": "item-0705",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 186.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T20:46:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-187",
+  "category": "fashion",
+  "content_id": "item-0600",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 187.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T20:57:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-188",
+  "category": "violent_extremism",
+  "content_id": "item-0753",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 188.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T21:08:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-189",
+  "category": "nature",
+  "content_id": "item-0614",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 189.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T21:19:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-190",
+  "category": "gaming_family",
+  "content_id": "item-0624",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 190.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T21:30:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-191",
+  "category": "movies",
+  "content_id": "item-0598",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 191.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T21:41:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-192",
+  "category": "puzzles",
+  "content_id": "item-0602",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 192.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T21:52:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-193",
+  "category": "puzzles",
+  "content_id": "item-0714",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 193.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T22:03:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-194",
+  "category": "science",
+  "content_id": "item-0646",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 194.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T22:14:00+00:00"
+ },
+ {
+  "agent_verdict": "warn",
+  "case_id": "case-195",
+  "category": "cartoons",
+  "content_id": "item-0550",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 195.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T22:25:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-196",
+  "category": "coding",
+  "content_id": "item-0575",
+  "final_human_action": "warn",
+  "moderator_notes": "Placeholder note for case 196.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T22:36:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-197",
+  "category": "art",
+  "content_id": "item-0587",
+  "final_human_action": "approve",
+  "moderator_notes": "Placeholder note for case 197.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T22:47:00+00:00"
+ },
+ {
+  "agent_verdict": "remove",
+  "case_id": "case-198",
+  "category": "science",
+  "content_id": "item-0713",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 198.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T22:58:00+00:00"
+ },
+ {
+  "agent_verdict": "approve",
+  "case_id": "case-199",
+  "category": "science",
+  "content_id": "item-0627",
+  "final_human_action": "remove",
+  "moderator_notes": "Placeholder note for case 199.",
+  "override_occurred": true,
+  "resolved_at": "2026-03-12T23:09:00+00:00"
+ },
+ {
+  "agent_verdict": "escalate",
+  "case_id": "case-200",
+  "category": "violent_extremism",
+  "content_id": "item-0760",
+  "final_human_action": "escalate",
+  "moderator_notes": "Placeholder note for case 200.",
+  "override_occurred": false,
+  "resolved_at": "2026-03-12T23:20:00+00:00"
+ }
+]

@@ -1,0 +1,17 @@
+[U01] good
+https://example.com/uploads/planet_drawing.png
+
+[U02] good
+https://example.com/photos/school_trip_group.jpg
+
+[U03] bad
+https://example.com/uploads/nsfw_explicit_photo.jpg
+
+[U04] bad
+https://example.com/img/gore_blood_scene.png
+
+[U05] bad
+https://example.com/img/weapon_violent_poster.jpg
+
+[U06] false-positive check
+https://example.com/recipes/blood_orange_cake.jpg

@@ -1,0 +1,6 @@
+# Development and test dependencies for the recommendation feature.
+# Both are already present in backend/.venv but were not listed anywhere.
+pytest==9.1.1
+httpx==0.28.1
+# Charts in evaluation/run_evaluation.py only. Installed for Stage 4; not needed at runtime.
+matplotlib==3.11.2

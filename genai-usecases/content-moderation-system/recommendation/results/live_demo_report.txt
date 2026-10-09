@@ -1,0 +1,133 @@
+====================================================================================================
+LIVE DEMO - real moderation pipeline, ML models on, recommendation feature on, stand-in LLM
+====================================================================================================
+
+1. ENGINES
+engine                                           state                                                                   
+-----------------------------------------------  ------------------------------------------------------------------------
+Recommendation feature (RECOMMENDATION_ENABLED)  true                                                                    
+ML models (USE_ML_MODELS)                        true                                                                    
+ML preload status                                success                                                                 
+ML device                                        cpu                                                                     
+ML models available                              toxic_bert                                                              
+Language model                                   STAND-IN (keyword rules); no Gemini or Claude call is made              
+Databases                                        temporary folder C:\Users\User\AppData\Local\Temp\rec_live_demo_scv59u8r
+
+2. MODERATION PIPELINE - one row per post
+post     text                                          ML tox  violations      severity  category       status                rating    why this rating                                             
+-------  --------------------------------------------  ------  --------------  --------  -------------  --------------------  --------  ------------------------------------------------------------
+post-01  We built a baking soda volcano for the scie…  0.00    -               none      science        approved              all_ages  no rule raised the rating                                   
+post-02  Our puppy met a kitten at the zoo today and…  0.00    -               none      animals        approved              all_ages  no rule raised the rating                                   
+post-03  Great football match last night, what a com…  0.00    -               none      sports         approved              all_ages  no rule raised the rating                                   
+post-04  Finally fixed that bug in my Python script …  0.00    -               none      coding         approved              teen      topic_not_on_child_list                                     
+post-05  New phone review: the camera is good but th…  0.00    -               none      technology     approved              teen      topic_not_on_child_list                                     
+post-06  Feeling stressed before exams, here is what…  0.00    -               none      mental_health  pending_human_review  adult     status_not_approved:pending_human_review; contains_sensitiv…
+post-07  Stock tips: where to invest before the elec…  0.00    -               none      politics       pending_human_review  adult     status_not_approved:pending_human_review; contains_sensitiv…
+post-08  Went to a nightclub opening downtown, the m…  0.00    -               none      nightlife      approved              adult     topic_not_on_teen_list                                      
+post-09  You are such an idiot, nobody wants to read…  0.99    -               -         general        flagged               blocked   status_not_approved:flagged; toxicity_block; severity:missi…
+post-10  Click here and buy now! Limited offer, free…  0.00    spam            medium    general        pending_human_review  adult     status_not_approved:pending_human_review; violation:spam; s…
+post-11  The secret truth they hide: this guaranteed…  0.00    misinformation  none      general        pending_human_review  adult     status_not_approved:pending_human_review; violation:misinfo…
+post-12  Honestly that referee was stupid, what a te…  0.87    -               -         sports         flagged               blocked   status_not_approved:flagged; toxicity_block; severity:missi…
+post-13  Look at this drawing I made of a planet wit…  0.00    -               none      science        approved              adult     media_risk:medium                                           
+post-14  Photos from the football match.               0.00    -               none      sports         approved              adult     media_risk:high                                             
+post-15  A local charity talk on suicide prevention …  0.00    self_harm       critical  general        removed               blocked   removed_or_sanctioned; status_not_approved:removed; escalat…
+post-16  Solved a 1000 piece puzzle of a volcano thi…  0.00    -               none      science        approved              all_ages  no rule raised the rating                                   
+
+   Agent verdicts per post
+post     verdicts (agent:decision)                                                                         disagreement  human review needed                                
+-------  ------------------------------------------------------------------------------------------------  ------------  ---------------------------------------------------
+post-01  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-02  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-03  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-04  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-05  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-06  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:await_human          0.25          yes: sensitive_content                             
+post-07  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:await_human          0.25          yes: sensitive_content                             
+post-08  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-09  Content Analysis:flag                                                                             0.0           no                                                 
+post-10  Content Analysis:approve Toxicity:approve Policy:flag ReAct Decision Loop:await_human             0.5           yes: potential_false_positive,conflicting_decisions
+post-11  Content Analysis:approve Toxicity:approve Policy:warn ReAct Decision Loop:await_human             0.5           yes: potential_false_positive,conflicting_decisions
+post-12  Content Analysis:flag                                                                             0.0           no                                                 
+post-13  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-14  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+post-15  Content Analysis:approve Toxicity:approve Policy:remove                                           0.3333        no                                                 
+post-16  Content Analysis:approve Toxicity:approve Policy:approve ReAct Decision Loop:approve User Reput…  0.0           no                                                 
+
+3. IMAGE ANALYSIS - generated test images through analyze_uploaded_image (pixel heuristics)
+image            risk score  risk level  unsafe  skin ratio  dark ratio  saturated ratio
+---------------  ----------  ----------  ------  ----------  ----------  ---------------
+blue_sky         0.25        low         False   0.0         0.0         0.0            
+bright_green     0.25        low         False   0.0         0.0         0.0            
+skin_tone_block  1.0         severe      True    1.0         0.0         0.0            
+dark_red         0.45        medium      False   0.0         1.0         0.0            
+   Image URLs attached to posts are scored separately, from the file name only (score_media_urls):
+post     image url                                            media risk  
+-------  ---------------------------------------------------  ------------
+post-13  https://example.com/uploads/planet_drawing.png       medium (0.4)
+post-14  https://example.com/uploads/nsfw_explicit_photo.jpg  high (0.65) 
+
+4. RECOMMENDER STORE - 16 items stored by the workflow hook
+item     rating    status                category       topics            disagreement  confidence  escalated
+-------  --------  --------------------  -------------  ----------------  ------------  ----------  ---------
+post-01  all_ages  approved              science        science           0.0           0.8         False    
+post-02  all_ages  approved              animals        animals           0.0           0.8         False    
+post-03  all_ages  approved              sports         sports            0.0           0.8         False    
+post-04  teen      approved              coding         coding            0.0           0.8         False    
+post-05  teen      approved              technology     technology        0.0           0.8         False    
+post-06  adult     pending_human_review  mental_health  mental_health     0.25          0.85        False    
+post-07  adult     pending_human_review  politics       politics,finance  0.25          0.85        False    
+post-08  adult     approved              nightlife      nightlife         0.0           0.8         False    
+post-09  blocked   flagged               general        -                 0.0           0.85        False    
+post-10  adult     pending_human_review  general        -                 0.5           0.65        False    
+post-11  adult     pending_human_review  general        -                 0.5           0.65        False    
+post-12  blocked   flagged               sports         sports            0.0           0.85        False    
+post-13  adult     approved              science        science,crafts    0.0           0.8         False    
+post-14  adult     approved              sports         sports            0.0           0.8         False    
+post-15  blocked   removed               general        -                 0.3333        0.85        True     
+post-16  all_ages  approved              science        science,puzzles   0.0           0.8         False    
+
+5. FEEDS - what each viewer is served, and why the rest was withheld
+viewer             tier             trust          interests        parental controls                                served (ranked)                                                          withheld, by reason                                                      
+-----------------  ---------------  -------------  ---------------  -----------------------------------------------  -----------------------------------------------------------------------  -------------------------------------------------------------------------
+child-1            child            verified       science,animals  -                                                post-02 post-01 post-16 post-03                                          {"above_tier": 5, "blocked": 3, "pending_review": 4}                     
+child-2            child            parent_linked  sports,puzzles   {"blocked_categories": ["sports"]}               post-16 post-01 post-02                                                  {"above_tier": 4, "blocked": 3, "parental_block": 2, "pending_review": 4}
+teen-1             teen             verified       coding,sports    -                                                post-03 post-04 post-05 post-02 post-01 post-16                          {"above_tier": 3, "blocked": 3, "pending_review": 4}                     
+teen-2             teen             self_declared  technology       {"allowed_sensitive_topics": ["mental_health"]}  post-05 post-16 post-01 post-02 post-04 post-03                          {"above_tier": 3, "blocked": 3, "pending_review": 4}                     
+adult-1            adult            verified       finance,news     -                                                post-08 post-05 post-13 post-04 post-01 post-02 post-14 post-03 post-16  {"blocked": 3, "not_servable_status": 4}                                 
+brand-new-account  adult (default)  self_declared  -                -                                                post-14 post-08 post-13 post-02 post-03 post-04 post-05 post-01 post-16  {"blocked": 3, "not_servable_status": 4}                                 
+
+   Gate decision for every item, per viewer (S = served, otherwise the rejection reason)
+item     rating    child-1         child-2         teen-1          teen-2          adult-1            
+-------  --------  --------------  --------------  --------------  --------------  -------------------
+post-01  all_ages  S               S               S               S               S                  
+post-02  all_ages  S               S               S               S               S                  
+post-03  all_ages  S               parental_block  S               S               S                  
+post-04  teen      above_tier      above_tier      S               S               S                  
+post-05  teen      above_tier      above_tier      S               S               S                  
+post-06  adult     pending_review  pending_review  pending_review  pending_review  not_servable_status
+post-07  adult     pending_review  pending_review  pending_review  pending_review  not_servable_status
+post-08  adult     above_tier      above_tier      above_tier      above_tier      S                  
+post-09  blocked   blocked         blocked         blocked         blocked         blocked            
+post-10  adult     pending_review  pending_review  pending_review  pending_review  not_servable_status
+post-11  adult     pending_review  pending_review  pending_review  pending_review  not_servable_status
+post-12  blocked   blocked         blocked         blocked         blocked         blocked            
+post-13  adult     above_tier      above_tier      above_tier      above_tier      S                  
+post-14  adult     above_tier      parental_block  above_tier      above_tier      S                  
+post-15  blocked   blocked         blocked         blocked         blocked         blocked            
+post-16  all_ages  S               S               S               S               S                  
+
+6. MODERATOR QUEUE - as a senior moderator sees it
+#  item     status                escalated  priority  harm    uncertainty  exposure
+-  -------  --------------------  ---------  --------  ------  -----------  --------
+1  post-11  pending_human_review  False      0.25      0.5     0.5          1.0     
+2  post-09  flagged               False      0.1488    0.9923  0.15         1.0     
+3  post-12  flagged               False      0.1307    0.8714  0.15         1.0     
+4  post-10  pending_human_review  False      0.0014    0.0028  0.5          1.0     
+5  post-06  pending_human_review  False      0.0002    0.0007  0.25         1.0     
+6  post-07  pending_human_review  False      0.0001    0.0006  0.25         1.0     
+
+7. FEEDBACK LOOP - moderator resolves post-11
+   Suggested action before any precedent exists: approve (confidence 0.9987, source: rules)
+   Moderator action: remove -> override of the agents: True
+   Item now: status=removed, rating=blocked, human_reviewed=True
+   Precedents stored: 1; queue length now: 5
