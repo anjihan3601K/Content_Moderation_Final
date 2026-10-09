@@ -54,11 +54,11 @@ The platform includes a full-stack React web application serving six distinct us
 
 ### Run this repository on another machine
 
-The steps below are for a fresh clone of this repository (branch `feature/recommendation-system`) on Windows. The virtual environment, `node_modules`, the `.env` file and the zip archives are not in git, so the first run needs the install steps.
+The steps below are for a fresh clone of this repository (branch `anjani`) on Windows. The virtual environment, `node_modules`, the `.env` file and the zip archives are not in git, so the first run needs the install steps.
 
 **Backend (first terminal)**
 ```bash
-git clone -b feature/recommendation-system https://github.com/anjihan3601K/Content_Moderation_Final.git
+git clone -b anjani https://github.com/anjihan3601K/Content_Moderation_Final.git
 cd Content_Moderation_Final\genai-usecases\content-moderation-system\backend
 python -m venv .venv
 .venv\Scripts\activate

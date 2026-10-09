@@ -14,7 +14,7 @@
 | pytest / Matplotlib | 9.1.1 / 3.11.2 |
 | ML toxicity model | `unitary/toxic-bert`, CPU (live run only) |
 | Random seed | 20261008 for data generation, tests and evaluation |
-| Code version | git branch `feature/recommendation-system`; note the commit hash you ran from |
+| Code version | git branch `anjani` (merged from `feature/recommendation-system`); note the commit hash you ran from |
 
 No network, API key or database server is needed for any command below.
 
