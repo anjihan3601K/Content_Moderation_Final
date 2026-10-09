@@ -1,0 +1,13 @@
+system,tier,profiles,distinct_topics,outside_interest_share,borderline_share
+full_system,child,26,2.2692,0.0,0.0
+full_system,teen,28,4.0357,0.0,0.0571
+full_system,adult,26,5.0385,0.2,0.1038
+bandit_off,child,26,1.9615,0.0,0.0
+bandit_off,teen,28,3.5357,0.0,0.0536
+bandit_off,adult,26,4.4615,0.2,0.1231
+interest_only,child,26,4.8462,0.0,0.0
+interest_only,teen,28,4.7143,0.0,0.0143
+interest_only,adult,26,5.0,0.0,0.0346
+random,child,26,6.1923,0.4654,0.0
+random,teen,28,7.9643,0.6964,0.0643
+random,adult,26,8.6538,0.7923,0.1385

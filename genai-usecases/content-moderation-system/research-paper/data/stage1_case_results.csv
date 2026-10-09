@@ -1,0 +1,49 @@
+case,title,viewer,expected_rating,actual_rating,expected_outcome,actual_outcome,result
+R01,"Removed content, adult viewer",adult/verified,blocked,blocked,rejected: blocked,rejected: blocked,PASS
+R02,Author banned for the content,adult/verified,blocked,blocked,rejected: blocked,rejected: blocked,PASS
+R03,Approved but toxicity 0.90,adult/verified,blocked,blocked,rejected: blocked,rejected: blocked,PASS
+R04,"Adult-rated item, child viewer",child/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R05,"Adult-rated item, teen viewer",teen/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R06,"Teen-rated item, child viewer",child/verified,teen,teen,rejected: above_tier,rejected: above_tier,PASS
+R07,"Legacy unrated item, child viewer",child/verified,unrated,unrated,rejected: unrated,rejected: unrated,PASS
+R08,"Legacy unrated item, teen viewer",teen/verified,unrated,unrated,rejected: unrated,rejected: unrated,PASS
+R09,"Legacy unrated item, self-declared adult",adult/self_declared,unrated,unrated,rejected: unrated,rejected: unrated,PASS
+R10,"Flagged item, child viewer",child/verified,adult,adult,rejected: pending_review,rejected: pending_review,PASS
+R11,"Awaiting human review, teen viewer",teen/verified,adult,adult,rejected: pending_review,rejected: pending_review,PASS
+R12,"Under review, teen viewer",teen/verified,adult,adult,rejected: pending_review,rejected: pending_review,PASS
+R13,"Flagged item, verified adult",adult/verified,adult,adult,rejected: not_servable_status,rejected: not_servable_status,PASS
+R14,"Not yet moderated (submitted), verified adult",adult/verified,adult,adult,rejected: not_servable_status,rejected: not_servable_status,PASS
+R15,"violent_extremism label awaiting review, adult viewer",adult/verified,blocked,blocked,rejected: blocked,rejected: blocked,PASS
+R16,"grooming label, moderator-approved, child viewer",child/verified,adult,adult,rejected: escalation,rejected: escalation,PASS
+R17,"self_harm_promotion label, moderator-approved, teen viewer",teen/verified,adult,adult,rejected: escalation,rejected: escalation,PASS
+R18,"Escalation label misspelled as 'selfharm', teen viewer",teen/verified,adult,adult,rejected: escalation,rejected: escalation,PASS
+R19,"Wrong all_ages rating on a grooming-labelled item, child viewer",child/verified,adult,adult,rejected: escalation,rejected: escalation,PASS
+R20,"One agent flagged the item, child viewer",child/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R21,"All agents voted remove but status says approved, child viewer",child/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R22,"Disagreement 0.50 on an all_ages item, child viewer",child/verified,all_ages,all_ages,rejected: high_uncertainty,rejected: high_uncertainty,PASS
+R23,"Confidence 0.30 on an all_ages item, teen viewer",teen/verified,all_ages,all_ages,rejected: high_uncertainty,rejected: high_uncertainty,PASS
+R24,"Confidence signals missing, child viewer",child/verified,all_ages,all_ages,rejected: missing_signals,rejected: missing_signals,PASS
+R25,"Disagreement 0.33, self-declared teen",teen/self_declared,all_ages,all_ages,rejected: high_uncertainty,rejected: high_uncertainty,PASS
+R26,"Disagreement 0.30, teen under strict parental setting",teen/verified,all_ages,all_ages,rejected: high_uncertainty,rejected: high_uncertainty,PASS
+R27,"Parent blocked 'gaming'; item is gaming_family, child viewer",child/verified,all_ages,all_ages,rejected: parental_block,rejected: parental_block,PASS
+R28,"Parent capped rating at all_ages; teen item, teen viewer",teen/verified,teen,teen,rejected: parental_block,rejected: parental_block,PASS
+R29,Blocked category applies to an adult profile too,adult/verified,adult,adult,rejected: parental_block,rejected: parental_block,PASS
+R30,"mental_health topic, teen without parental allowance",teen/verified,teen,teen,rejected: sensitive_topic,rejected: sensitive_topic,PASS
+R31,"Borderline item (toxicity 0.30), teen under strict setting",teen/verified,teen,teen,rejected: borderline,rejected: borderline,PASS
+R32,"Wrong all_ages rating on a 'general' topic, child viewer",child/verified,adult,adult,rejected: unlisted_topic,rejected: unlisted_topic,PASS
+R33,"Wrong all_ages rating with a hate_speech violation, teen viewer",teen/verified,adult,adult,rejected: policy_violation,rejected: policy_violation,PASS
+R34,"Wrong all_ages rating with toxicity 0.60, child viewer",child/verified,adult,adult,rejected: toxicity,rejected: toxicity,PASS
+R35,"Pipeline omitted violation_severity, child viewer",child/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R36,"Policy agent raised a flag, teen viewer",teen/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R37,"content_category missing, child viewer",child/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R38,"Action is 'warned' although status is approved, teen viewer",teen/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+R39,"Warned item, self-declared adult",adult/self_declared,adult,adult,rejected: pending_review,rejected: pending_review,PASS
+R40,"Status 'approved' with a hidden zero-width character, child viewer",child/verified,adult,adult,rejected: pending_review,rejected: pending_review,PASS
+R41,"Item altered after rating (disagreement set to 7), child viewer",child/verified,all_ages,all_ages,rejected: invalid,rejected: invalid,PASS
+R42,Child whose interests and learned signals point at adult topics,child/verified,adult,adult,rejected: above_tier,rejected: above_tier,PASS
+C01,"Clean all_ages item, child viewer",child/verified,all_ages,all_ages,served,served,PASS
+C02,"Clean teen item, teen viewer",teen/verified,teen,teen,served,served,PASS
+C03,"Adult-rated item, verified adult",adult/verified,adult,adult,served,served,PASS
+C04,"Disagreement 0.33, verified teen (same item as R25)",teen/verified,all_ages,all_ages,served,served,PASS
+C05,"mental_health topic, teen with parental allowance (same item as R30)",teen/verified,teen,teen,served,served,PASS
+C06,"Moderator-approved escalation item, verified adult (same item as R16)",adult/verified,adult,adult,served,served,PASS

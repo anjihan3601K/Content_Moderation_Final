@@ -1,0 +1,1038 @@
+{
+ "bandit_by_round": [
+  {
+   "click_rate": 0.5917,
+   "round": 1,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5583,
+   "round": 2,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.55,
+   "round": 3,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5417,
+   "round": 4,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5667,
+   "round": 5,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.525,
+   "round": 6,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5667,
+   "round": 7,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 8,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5917,
+   "round": 9,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5167,
+   "round": 10,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5,
+   "round": 1,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.6,
+   "round": 2,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5667,
+   "round": 3,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 4,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5167,
+   "round": 5,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.6167,
+   "round": 6,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 7,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.575,
+   "round": 8,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 9,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5417,
+   "round": 10,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.4417,
+   "round": 1,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5,
+   "round": 2,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.4167,
+   "round": 3,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.3917,
+   "round": 4,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5,
+   "round": 5,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5583,
+   "round": 6,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.375,
+   "round": 7,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.4167,
+   "round": 8,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.4333,
+   "round": 9,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 10,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate": 0.525,
+   "round": 1,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5583,
+   "round": 2,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.6083,
+   "round": 3,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 4,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5417,
+   "round": 5,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5667,
+   "round": 6,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.6167,
+   "round": 7,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.4917,
+   "round": 8,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5833,
+   "round": 9,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.55,
+   "round": 10,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 1,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.575,
+   "round": 2,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5667,
+   "round": 3,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.6417,
+   "round": 4,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 5,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5583,
+   "round": 6,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 7,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.55,
+   "round": 8,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 9,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 10,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.4083,
+   "round": 1,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.4,
+   "round": 2,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.4167,
+   "round": 3,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.475,
+   "round": 4,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.5,
+   "round": 5,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.4583,
+   "round": 6,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.3667,
+   "round": 7,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.4083,
+   "round": 8,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.475,
+   "round": 9,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.4417,
+   "round": 10,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate": 0.525,
+   "round": 1,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5667,
+   "round": 2,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5833,
+   "round": 3,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 4,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5,
+   "round": 5,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.575,
+   "round": 6,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.6333,
+   "round": 7,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.475,
+   "round": 8,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5917,
+   "round": 9,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.525,
+   "round": 10,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 1,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.575,
+   "round": 2,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.575,
+   "round": 3,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.6333,
+   "round": 4,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 5,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.575,
+   "round": 6,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 7,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5667,
+   "round": 8,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 9,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.525,
+   "round": 10,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.4083,
+   "round": 1,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.4083,
+   "round": 2,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.35,
+   "round": 3,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.4417,
+   "round": 4,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.425,
+   "round": 5,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.4917,
+   "round": 6,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.3667,
+   "round": 7,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.35,
+   "round": 8,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.4083,
+   "round": 9,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.4333,
+   "round": 10,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate": 0.5917,
+   "round": 1,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5,
+   "round": 2,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 3,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 4,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5833,
+   "round": 5,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5417,
+   "round": 6,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5083,
+   "round": 7,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.55,
+   "round": 8,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5583,
+   "round": 9,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.5333,
+   "round": 10,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.3083,
+   "round": 1,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.2667,
+   "round": 2,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.425,
+   "round": 3,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.35,
+   "round": 4,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.3167,
+   "round": 5,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.3583,
+   "round": 6,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.3167,
+   "round": 7,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.35,
+   "round": 8,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.3917,
+   "round": 9,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.3417,
+   "round": 10,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.25,
+   "round": 1,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.175,
+   "round": 2,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.2,
+   "round": 3,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.225,
+   "round": 4,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.2583,
+   "round": 5,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.2,
+   "round": 6,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.25,
+   "round": 7,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.2833,
+   "round": 8,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.2167,
+   "round": 9,
+   "tier": "adult",
+   "variant": "random"
+  },
+  {
+   "click_rate": 0.3083,
+   "round": 10,
+   "tier": "adult",
+   "variant": "random"
+  }
+ ],
+ "bandit_summary": [
+  {
+   "click_rate_overall": 0.5542,
+   "click_rate_rounds_1_3": 0.5667,
+   "click_rate_rounds_8_10": 0.5472,
+   "tier": "child",
+   "variant": "full_system"
+  },
+  {
+   "click_rate_overall": 0.5517,
+   "click_rate_rounds_1_3": 0.5556,
+   "click_rate_rounds_8_10": 0.55,
+   "tier": "teen",
+   "variant": "full_system"
+  },
+  {
+   "click_rate_overall": 0.4542,
+   "click_rate_rounds_1_3": 0.4528,
+   "click_rate_rounds_8_10": 0.4528,
+   "tier": "adult",
+   "variant": "full_system"
+  },
+  {
+   "click_rate_overall": 0.555,
+   "click_rate_rounds_1_3": 0.5639,
+   "click_rate_rounds_8_10": 0.5417,
+   "tier": "child",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate_overall": 0.5533,
+   "click_rate_rounds_1_3": 0.5583,
+   "click_rate_rounds_8_10": 0.5306,
+   "tier": "teen",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate_overall": 0.435,
+   "click_rate_rounds_1_3": 0.4083,
+   "click_rate_rounds_8_10": 0.4417,
+   "tier": "adult",
+   "variant": "bandit_off"
+  },
+  {
+   "click_rate_overall": 0.5483,
+   "click_rate_rounds_1_3": 0.5583,
+   "click_rate_rounds_8_10": 0.5306,
+   "tier": "child",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate_overall": 0.5533,
+   "click_rate_rounds_1_3": 0.5611,
+   "click_rate_rounds_8_10": 0.5333,
+   "tier": "teen",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate_overall": 0.4083,
+   "click_rate_rounds_1_3": 0.3889,
+   "click_rate_rounds_8_10": 0.3972,
+   "tier": "adult",
+   "variant": "no_learning"
+  },
+  {
+   "click_rate_overall": 0.5408,
+   "click_rate_rounds_1_3": 0.5417,
+   "click_rate_rounds_8_10": 0.5472,
+   "tier": "child",
+   "variant": "random"
+  },
+  {
+   "click_rate_overall": 0.3425,
+   "click_rate_rounds_1_3": 0.3333,
+   "click_rate_rounds_8_10": 0.3611,
+   "tier": "teen",
+   "variant": "random"
+  },
+  {
+   "click_rate_overall": 0.2367,
+   "click_rate_rounds_1_3": 0.2083,
+   "click_rate_rounds_8_10": 0.2694,
+   "tier": "adult",
+   "variant": "random"
+  }
+ ],
+ "diversity_drift": [
+  {
+   "borderline_share": 0.0,
+   "distinct_topics": 2.2692,
+   "outside_interest_share": 0.0,
+   "profiles": 26,
+   "system": "full_system",
+   "tier": "child"
+  },
+  {
+   "borderline_share": 0.0571,
+   "distinct_topics": 4.0357,
+   "outside_interest_share": 0.0,
+   "profiles": 28,
+   "system": "full_system",
+   "tier": "teen"
+  },
+  {
+   "borderline_share": 0.1038,
+   "distinct_topics": 5.0385,
+   "outside_interest_share": 0.2,
+   "profiles": 26,
+   "system": "full_system",
+   "tier": "adult"
+  },
+  {
+   "borderline_share": 0.0,
+   "distinct_topics": 1.9615,
+   "outside_interest_share": 0.0,
+   "profiles": 26,
+   "system": "bandit_off",
+   "tier": "child"
+  },
+  {
+   "borderline_share": 0.0536,
+   "distinct_topics": 3.5357,
+   "outside_interest_share": 0.0,
+   "profiles": 28,
+   "system": "bandit_off",
+   "tier": "teen"
+  },
+  {
+   "borderline_share": 0.1231,
+   "distinct_topics": 4.4615,
+   "outside_interest_share": 0.2,
+   "profiles": 26,
+   "system": "bandit_off",
+   "tier": "adult"
+  },
+  {
+   "borderline_share": 0.0,
+   "distinct_topics": 4.8462,
+   "outside_interest_share": 0.0,
+   "profiles": 26,
+   "system": "interest_only",
+   "tier": "child"
+  },
+  {
+   "borderline_share": 0.0143,
+   "distinct_topics": 4.7143,
+   "outside_interest_share": 0.0,
+   "profiles": 28,
+   "system": "interest_only",
+   "tier": "teen"
+  },
+  {
+   "borderline_share": 0.0346,
+   "distinct_topics": 5.0,
+   "outside_interest_share": 0.0,
+   "profiles": 26,
+   "system": "interest_only",
+   "tier": "adult"
+  },
+  {
+   "borderline_share": 0.0,
+   "distinct_topics": 6.1923,
+   "outside_interest_share": 0.4654,
+   "profiles": 26,
+   "system": "random",
+   "tier": "child"
+  },
+  {
+   "borderline_share": 0.0643,
+   "distinct_topics": 7.9643,
+   "outside_interest_share": 0.6964,
+   "profiles": 28,
+   "system": "random",
+   "tier": "teen"
+  },
+  {
+   "borderline_share": 0.1385,
+   "distinct_topics": 8.6538,
+   "outside_interest_share": 0.7923,
+   "profiles": 26,
+   "system": "random",
+   "tier": "adult"
+  }
+ ],
+ "feed_size": 10,
+ "leak_rate": [
+  {
+   "above_tier_items_served": 0,
+   "feeds": 130,
+   "feeds_with_above_tier_item": 0,
+   "feeds_with_later_flagged_item": 24,
+   "items_served": 1300,
+   "later_flagged_rate_percent": 18.46,
+   "leak_rate_percent": 0.0,
+   "system": "gate_on",
+   "tier": "child"
+  },
+  {
+   "above_tier_items_served": 0,
+   "feeds": 140,
+   "feeds_with_above_tier_item": 0,
+   "feeds_with_later_flagged_item": 19,
+   "items_served": 1400,
+   "later_flagged_rate_percent": 13.57,
+   "leak_rate_percent": 0.0,
+   "system": "gate_on",
+   "tier": "teen"
+  },
+  {
+   "above_tier_items_served": 424,
+   "feeds": 130,
+   "feeds_with_above_tier_item": 126,
+   "feeds_with_later_flagged_item": 18,
+   "items_served": 1300,
+   "later_flagged_rate_percent": 13.85,
+   "leak_rate_percent": 96.92,
+   "system": "gate_off",
+   "tier": "child"
+  },
+  {
+   "above_tier_items_served": 229,
+   "feeds": 140,
+   "feeds_with_above_tier_item": 93,
+   "feeds_with_later_flagged_item": 16,
+   "items_served": 1400,
+   "later_flagged_rate_percent": 11.43,
+   "leak_rate_percent": 66.43,
+   "system": "gate_off",
+   "tier": "teen"
+  }
+ ],
+ "precedents": [
+  {
+   "accuracy_on_agreement_cases_percent": 77.5,
+   "accuracy_on_override_cases_percent": 58.33,
+   "accuracy_percent": 66.0,
+   "agreement_cases": 80,
+   "cases": 200,
+   "override_cases": 120,
+   "system": "with_precedents"
+  },
+  {
+   "accuracy_on_agreement_cases_percent": 100.0,
+   "accuracy_on_override_cases_percent": 0.0,
+   "accuracy_percent": 40.0,
+   "agreement_cases": 80,
+   "cases": 200,
+   "override_cases": 120,
+   "system": "rules_only"
+  }
+ ],
+ "queue": [
+  {
+   "exposure_weighted_wait": 1466.9,
+   "high_harm_in_first_n_percent": 88.57,
+   "high_harm_items": 35,
+   "mean_time_to_review_all": 32.5,
+   "mean_time_to_review_escalated": 12.5,
+   "mean_time_to_review_high_harm": 20.0,
+   "policy": "prioritizer",
+   "queue_length": 64
+  },
+  {
+   "exposure_weighted_wait": 1680.8,
+   "high_harm_in_first_n_percent": 74.29,
+   "high_harm_items": 35,
+   "mean_time_to_review_all": 32.5,
+   "mean_time_to_review_escalated": 26.9583,
+   "mean_time_to_review_high_harm": 22.6,
+   "policy": "risk_score_sort",
+   "queue_length": 64
+  },
+  {
+   "exposure_weighted_wait": 2289.2,
+   "high_harm_in_first_n_percent": 28.57,
+   "high_harm_items": 35,
+   "mean_time_to_review_all": 32.5,
+   "mean_time_to_review_escalated": 52.5,
+   "mean_time_to_review_high_harm": 42.6,
+   "policy": "fifo",
+   "queue_length": 64
+  }
+ ],
+ "relevance": [
+  {
+   "hit_rate_at_10": 1.0,
+   "ndcg_at_10": 0.8631,
+   "precision_at_10": 0.935,
+   "profiles": 80,
+   "system": "full_system"
+  },
+  {
+   "hit_rate_at_10": 1.0,
+   "ndcg_at_10": 0.8917,
+   "precision_at_10": 0.935,
+   "profiles": 80,
+   "system": "bandit_off"
+  },
+  {
+   "hit_rate_at_10": 1.0,
+   "ndcg_at_10": 0.8704,
+   "precision_at_10": 1.0,
+   "profiles": 80,
+   "system": "interest_only"
+  },
+  {
+   "hit_rate_at_10": 0.9625,
+   "ndcg_at_10": 0.2611,
+   "precision_at_10": 0.3475,
+   "profiles": 80,
+   "system": "random"
+  }
+ ],
+ "seed": 20261008
+}

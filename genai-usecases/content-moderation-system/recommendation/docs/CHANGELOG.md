@@ -333,3 +333,10 @@ Existing files modified
 - `frontend/src/services/api.js` - `recommendationAPI.sendFeedback`, `getQueue`
 
 No backend change. Every page shows a notice instead of failing when the feature flag is off.
+
+## Research paper kit (2026-10-09)
+
+Created, outside `recommendation/` at the owner's request
+- `research-paper/` - outline, method description, results tables, claims and limitations,
+  related work with `references.bib` (written from memory; must be verified), reproducibility
+  notes, and copies of the charts and raw result files. No existing file changed.
