@@ -358,7 +358,7 @@ def test_escalation_spelling_variants_are_caught(label):
 # ─── pipeline hook ──────────────────────────────────────────────────────────────
 
 def test_apply_is_a_noop_when_flag_off(monkeypatch):
-    monkeypatch.delenv("RECOMMENDATION_ENABLED", raising=False)
+    monkeypatch.setenv("RECOMMENDATION_ENABLED", "false")
     state = clean_state()
     assert apply_audience_rating(state) is None
     assert "audience_rating" not in state

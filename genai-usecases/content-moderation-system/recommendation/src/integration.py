@@ -37,6 +37,45 @@ def set_container_provider(provider: Optional[Callable[[], Any]]) -> None:
     _container_provider = provider
 
 
+_content_lookup: Optional[Callable[[str], Optional[Dict[str, Any]]]] = None
+
+
+def set_content_lookup(lookup: Optional[Callable[[str], Optional[Dict[str, Any]]]]) -> None:
+    """Register a function returning the host's content row for a content id (None to clear)."""
+    global _content_lookup
+    _content_lookup = lookup
+
+
+def item_from_content_row(content: Dict[str, Any]) -> Any:
+    """An unrated, untagged item built from a host content row. Unrated items are never served."""
+    from recommendation.src.models import RecommendationItemModel
+
+    return RecommendationItemModel(
+        item_id=content["content_id"],
+        content_text=str(content.get("content_text") or ""),
+        status=content.get("current_status") or content.get("status"),
+        toxicity_score=content.get("toxicity_score"),
+    )
+
+
+def item_from_host_content(content_id: str) -> Any:
+    """
+    The item for a post the recommender has never seen, built from the host's content
+    row, or None when no lookup is registered or the host has no such post. Lookup
+    failures are logged and treated as "not found".
+    """
+    if _content_lookup is None:
+        return None
+    try:
+        content = _content_lookup(content_id)
+    except Exception as error:
+        logger.error(f"Content lookup failed for {content_id}: {error}")
+        return None
+    if not isinstance(content, dict) or content.get("content_id") != content_id:
+        return None
+    return item_from_content_row(content)
+
+
 def _current_repository() -> Optional[RecommendationRepository]:
     if _repository is not None:
         return _repository
@@ -78,6 +117,11 @@ def on_moderation_complete(state: Dict[str, Any]) -> None:
             item.content_category = existing.content_category
             item.content_topics = existing.content_topics
             item.tags_source = "moderator"
+            # A moderator's audience tags keep raising the rating after a re-run.
+            item.audience_tags = existing.audience_tags
+            floor = rating.audience_tag_floor(item.audience_tags)
+            if item.audience_rating is not None and rating.RATING_RANK[item.audience_rating] < rating.RATING_RANK[floor]:
+                item.audience_rating = floor
         if existing is not None and existing.human_reviewed:
             existing_status = normalize_enum_value(existing.status) if existing.status else ""
             if existing_status in BLOCKED_STATUSES or existing.audience_rating == AudienceRating.BLOCKED:
@@ -113,7 +157,7 @@ def on_manual_review(content: Dict[str, Any], decision: str, reviewer: str = "mo
     Returns True when the decision was applied. Never raises.
     """
     from recommendation.src.config import is_recommendation_enabled
-    from recommendation.src.models import FeedbackEvent, RecommendationItemModel
+    from recommendation.src.models import FeedbackEvent
 
     if not is_recommendation_enabled() or _container_provider is None:
         return False
@@ -124,12 +168,7 @@ def on_manual_review(content: Dict[str, Any], decision: str, reviewer: str = "mo
     try:
         container = _container_provider()
         if container.repository.get_item(content_id) is None:
-            container.repository.upsert_item(RecommendationItemModel(
-                item_id=content_id,
-                content_text=str(content.get("content_text") or ""),
-                status=content.get("current_status") or content.get("status"),
-                toxicity_score=content.get("toxicity_score"),
-            ))
+            container.repository.upsert_item(item_from_content_row(content))
         container.feedback_service.handle_override(
             FeedbackEvent(event_type="moderator_override", item_id=content_id, final_action=action,
                           notes=f"Manual review by {reviewer}"[:2000]),

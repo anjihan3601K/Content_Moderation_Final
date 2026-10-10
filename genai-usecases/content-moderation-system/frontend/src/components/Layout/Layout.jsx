@@ -38,6 +38,7 @@ import {
   Settings as SettingsIcon,
   Recommend,
   LowPriority,
+  LocalOffer,
 } from '@mui/icons-material';
 import { useAuthStore } from '../../store/authStore';
 import { useModerationStore } from '../../store/moderationStore';
@@ -182,6 +183,15 @@ export default function Layout({ children }) {
       });
     }
 
+    // Content Tags - for admins only
+    if (user?.role === 'admin') {
+      items.push({
+        text: 'Content Tags',
+        icon: <LocalOffer />,
+        path: '/content-tags',
+      });
+    }
+
     // Settings - for all users
     items.push({
       text: 'Settings',
@@ -196,7 +206,7 @@ export default function Layout({ children }) {
   const currentRole = roleConfig[user?.role] || roleConfig.user;
 
   const drawer = (
-    <div>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <Toolbar sx={{ flexDirection: 'column', alignItems: 'flex-start', py: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
           <Shield sx={{ mr: 1, color: 'primary.main', fontSize: 28 }} />
@@ -232,7 +242,8 @@ export default function Layout({ children }) {
       </Box>
       <Divider />
 
-      <List>
+      {/* The menu scrolls when it is taller than the window, so it never slides under the role box */}
+      <List sx={{ flexGrow: 1, overflowY: 'auto' }}>
         {menuItems.map((item, index) => (
           <React.Fragment key={item.text}>
             {item.divider && <Divider sx={{ my: 1 }} />}
@@ -269,7 +280,7 @@ export default function Layout({ children }) {
       </List>
 
       {/* Role Info at bottom */}
-      <Box sx={{ position: 'absolute', bottom: 0, left: 0, right: 0, p: 2 }}>
+      <Box sx={{ flexShrink: 0, p: 2 }}>
         <Divider sx={{ mb: 2 }} />
         <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
           Access Level:
@@ -278,7 +289,7 @@ export default function Layout({ children }) {
           {currentRole.label}
         </Typography>
       </Box>
-    </div>
+    </Box>
   );
 
   return (
@@ -313,6 +324,7 @@ export default function Layout({ children }) {
             {location.pathname === '/analytics' && 'Analytics & Learning'}
             {location.pathname.startsWith('/review/') && 'Content Review'}
             {location.pathname === '/user-management' && 'User Management'}
+            {location.pathname === '/content-tags' && 'Content Tags'}
             {location.pathname === '/settings' && 'Account Settings'}
             {location.pathname === '/for-you' && 'For You'}
             {location.pathname === '/review-queue' && 'Priority Review Queue'}

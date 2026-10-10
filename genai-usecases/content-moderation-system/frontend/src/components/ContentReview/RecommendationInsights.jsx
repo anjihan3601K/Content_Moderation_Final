@@ -50,7 +50,10 @@ const REASON_LABELS = {
   invalid: 'Record could not be read',
 };
 
-const formatLabel = (value) => String(value).replace(/_/g, ' ');
+// Audience tags set the youngest group a post may reach; they are not topics
+const AUDIENCE_LABELS = { child: 'Child', teen: 'Teen', '18_plus': '18+' };
+
+const formatLabel = (value) => AUDIENCE_LABELS[value] || String(value).replace(/_/g, ' ');
 
 const percent = (value) => (value === null || value === undefined ? 'n/a' : `${Math.round(value * 100)}%`);
 
@@ -65,7 +68,7 @@ const RecommendationInsights = ({ contentId, refreshKey }) => {
 
   const applyData = (result) => {
     setData(result);
-    setTagDraft([...new Set([result.category, ...(result.content_topics || [])].filter((tag) => tag && tag !== 'unknown'))]);
+    setTagDraft([...new Set([...(result.audience_tags || []), result.category, ...(result.content_topics || [])].filter((tag) => tag && tag !== 'unknown'))]);
   };
 
   const handleSaveTags = async () => {
@@ -147,10 +150,10 @@ const RecommendationInsights = ({ contentId, refreshKey }) => {
               multiple
               freeSolo
               size="small"
-              options={data.known_topics || []}
+              options={[...(data.audience_tag_options || []), ...(data.known_topics || []), 'others']}
               value={tagDraft}
               onChange={(event, value) => {
-                setTagDraft([...new Set(value.map((tag) => tag.trim().toLowerCase().replace(/[\s-]+/g, '_')).filter(Boolean))]);
+                setTagDraft([...new Set(value.map((tag) => tag.trim().toLowerCase().replace(/\+/g, '_plus').replace(/[\s-]+/g, '_')).filter(Boolean))]);
                 setTagSuccess(null);
               }}
               getOptionLabel={formatLabel}
@@ -159,7 +162,7 @@ const RecommendationInsights = ({ contentId, refreshKey }) => {
                   <Chip label={formatLabel(tag)} size="small" {...getTagProps({ index })} key={tag} />
                 ))
               }
-              renderInput={(params) => <TextField {...params} placeholder="Add a tag" helperText="Pick from the list or type your own and press Enter. The first tag is the category." />}
+              renderInput={(params) => <TextField {...params} placeholder="Add a tag" helperText="Pick from the list or type your own and press Enter. The first topic is the category. Child, Teen and 18+ set the youngest group and can only make the rating stricter." />}
               sx={{ mt: 0.5 }}
             />
             {tagError && <Alert severity="error" sx={{ mt: 1 }} onClose={() => setTagError(null)}>{tagError}</Alert>}

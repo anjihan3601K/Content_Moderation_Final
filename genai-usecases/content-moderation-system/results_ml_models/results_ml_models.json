@@ -1,0 +1,3117 @@
+{
+ "run_at": "2026-10-10T12:30:46",
+ "language_model": "stand-in (keyword rules), no provider called",
+ "checks": [
+  {
+   "check": "backend/.env has USE_ML_MODELS=true",
+   "passed": true
+  },
+  {
+   "check": "torch and transformers import",
+   "passed": true
+  },
+  {
+   "check": "model preload succeeds",
+   "passed": true
+  },
+  {
+   "check": "model named in .env is the one loaded",
+   "passed": true
+  },
+  {
+   "check": "every text was scored by the model, not the keyword fallback",
+   "passed": true
+  },
+  {
+   "check": "pipeline finished for every text",
+   "passed": true
+  },
+  {
+   "check": "with ML off the same code falls back to keywords",
+   "passed": true
+  }
+ ],
+ "all_checks_passed": true,
+ "by_group": {
+  "good": {
+   "total": 11,
+   "ml_on_ok": 11,
+   "ml_off_ok": 11
+  },
+  "sensitive": {
+   "total": 3,
+   "ml_on_ok": 3,
+   "ml_off_ok": 3
+  },
+  "bad": {
+   "total": 14,
+   "ml_on_ok": 13,
+   "ml_off_ok": 13
+  },
+  "false-positive check": {
+   "total": 6,
+   "ml_on_ok": 0,
+   "ml_off_ok": 0
+  },
+  "edge": {
+   "total": 9,
+   "ml_on_ok": 7,
+   "ml_off_ok": 8
+  }
+ },
+ "matches_expectation": {
+  "ml_on": 34,
+  "ml_off": 35,
+  "total": 43
+ },
+ "decisions_changed_by_ml": [
+  {
+   "id": "T37",
+   "group": "edge",
+   "expect": "approved",
+   "ml_off_status": "approved",
+   "ml_on_status": "removed",
+   "ml_off_toxicity": 0.05,
+   "ml_on_toxicity": 0.9611,
+   "ml_off": "ok",
+   "ml_on": "MISS",
+   "text": "Sooooooo happyyyyyy todayyyyyy!!!!!!!!!!"
+  }
+ ],
+ "ml_on_misses": [
+  {
+   "id": "T25",
+   "group": "false-positive check",
+   "expect": "ideally approved",
+   "status": "removed",
+   "toxicity_score": 0.0011,
+   "policy_violations": [
+    "violence"
+   ],
+   "error": null,
+   "text": "The bomb scene in that action movie was the best part of the film."
+  },
+  {
+   "id": "T26",
+   "group": "false-positive check",
+   "expect": "ideally approved",
+   "status": "removed",
+   "toxicity_score": 0.0009,
+   "policy_violations": [
+    "self_harm"
+   ],
+   "error": null,
+   "text": "A local charity talk on suicide prevention and where to find a helpline is on Friday."
+  },
+  {
+   "id": "T27",
+   "group": "false-positive check",
+   "expect": "ideally approved",
+   "status": "removed",
+   "toxicity_score": 0.0018,
+   "policy_violations": [
+    "hate_speech"
+   ],
+   "error": null,
+   "text": "I reported an account that keeps posting supremacist slogans, please remove it."
+  },
+  {
+   "id": "T28",
+   "group": "false-positive check",
+   "expect": "ideally approved",
+   "status": "removed",
+   "toxicity_score": 0.0028,
+   "policy_violations": [
+    "violence"
+   ],
+   "error": null,
+   "text": "Our team will kill it at the quiz tonight, we have practised all week."
+  },
+  {
+   "id": "T29",
+   "group": "false-positive check",
+   "expect": "ideally approved",
+   "status": "removed",
+   "toxicity_score": 0.003,
+   "policy_violations": [
+    "harassment"
+   ],
+   "error": null,
+   "text": "Someone is trying to harass my sister online, how do we report it?"
+  },
+  {
+   "id": "T36",
+   "group": "edge",
+   "expect": "flagged",
+   "status": "approved",
+   "toxicity_score": 0.0016,
+   "policy_violations": [],
+   "error": null,
+   "text": "y0u are an 1d10t and a l0ser"
+  },
+  {
+   "id": "T37",
+   "group": "edge",
+   "expect": "approved",
+   "status": "removed",
+   "toxicity_score": 0.9611,
+   "policy_violations": [],
+   "error": null,
+   "text": "Sooooooo happyyyyyy todayyyyyy!!!!!!!!!!"
+  },
+  {
+   "id": "C04",
+   "group": "bad",
+   "expect": "warned or flagged",
+   "status": "pending_human_review",
+   "toxicity_score": 0.0013,
+   "policy_violations": [
+    "spam"
+   ],
+   "error": null,
+   "text": "Click here, buy now, free money!"
+  },
+  {
+   "id": "C05",
+   "group": "false-positive check",
+   "expect": "ideally approved",
+   "status": "removed",
+   "toxicity_score": 0.031,
+   "policy_violations": [
+    "violence"
+   ],
+   "error": null,
+   "text": "That ending killed me, so funny."
+  }
+ ],
+ "ml_on": {
+  "mode": "on",
+  "use_ml_models_in_env_file": "true",
+  "settings": {
+   "USE_ML_MODELS": "true",
+   "ML_PRIMARY_MODEL": "distilbert_toxic",
+   "ML_USE_ENSEMBLE": "false",
+   "ML_PRELOAD_MODELS": "true",
+   "ML_DEVICE": "auto"
+  },
+  "preload": {
+   "ml_enabled": true,
+   "preload_requested": true,
+   "models_loaded": true,
+   "primary_model": "distilbert_toxic",
+   "device": "cpu",
+   "error": null,
+   "models_available": [
+    "distilbert_toxic"
+   ],
+   "status": "success"
+  },
+  "ml_status": {
+   "ml_enabled": true,
+   "ml_available": true,
+   "models_loaded": true,
+   "preload_complete": true,
+   "primary_model": "distilbert_toxic",
+   "ensemble_mode": false,
+   "device": "cpu",
+   "loaded_models": [
+    "distilbert_toxic"
+   ]
+  },
+  "model_load_seconds": 0.2,
+  "cases": [
+   {
+    "id": "T01",
+    "group": "good",
+    "expect": "approved",
+    "text": "We built a baking soda volcano for the science fair and the experiment actually worked!",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.001,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 247.2,
+    "pipeline_seconds": 0.72,
+    "toxicity_score": 0.001,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T02",
+    "group": "good",
+    "expect": "approved",
+    "text": "Our puppy met a kitten at the zoo today and they became best friends.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0012,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 23.9,
+    "pipeline_seconds": 0.35,
+    "toxicity_score": 0.0012,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T03",
+    "group": "good",
+    "expect": "approved",
+    "text": "Great football match last night, what a comeback in the second half.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0009,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 29.8,
+    "pipeline_seconds": 0.34,
+    "toxicity_score": 0.0009,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T04",
+    "group": "good",
+    "expect": "approved",
+    "text": "Solved a 1000 piece puzzle of a mountain lake this weekend.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0009,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 21.8,
+    "pipeline_seconds": 0.32,
+    "toxicity_score": 0.0009,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T05",
+    "group": "good",
+    "expect": "approved",
+    "text": "Thank you to everyone who helped at the school garden clean-up today.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0009,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 19.7,
+    "pipeline_seconds": 0.33,
+    "toxicity_score": 0.0009,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T06",
+    "group": "good",
+    "expect": "approved",
+    "text": "Finally fixed that bug in my Python script after three hours of debugging.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0015,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 23.6,
+    "pipeline_seconds": 0.35,
+    "toxicity_score": 0.0015,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T07",
+    "group": "good",
+    "expect": "approved",
+    "text": "New phone review: the camera is good but the battery could be better.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.0008,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.1,
+    "pipeline_seconds": 0.33,
+    "toxicity_score": 0.0008,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T08",
+    "group": "good",
+    "expect": "approved",
+    "text": "Went to a nightclub opening downtown, the music was loud and the queue was endless.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0008,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 21.4,
+    "pipeline_seconds": 0.31,
+    "toxicity_score": 0.0008,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T09",
+    "group": "good",
+    "expect": "approved",
+    "text": "Mortgage rates went up again this month, here is how we adjusted our budget.",
+    "keyword_toxicity": 0.2,
+    "tool_toxicity": 0.0011,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.1,
+    "pipeline_seconds": 0.32,
+    "toxicity_score": 0.0011,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T10",
+    "group": "sensitive",
+    "expect": "human review",
+    "text": "Feeling stressed before exams, here is what helps my anxiety: sleep, walks and talking to friends.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0011,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 26.8,
+    "pipeline_seconds": 0.32,
+    "toxicity_score": 0.0011,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "sensitive_content"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T11",
+    "group": "sensitive",
+    "expect": "human review",
+    "text": "Stock tips: where to invest before the election results come in.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0009,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.7,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.0009,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "sensitive_content"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T12",
+    "group": "sensitive",
+    "expect": "human review",
+    "text": "My doctor changed my diagnosis and I am trying a new treatment plan.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.001,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 17.1,
+    "pipeline_seconds": 0.29,
+    "toxicity_score": 0.001,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "sensitive_content"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T13",
+    "group": "bad",
+    "expect": "flagged",
+    "text": "Honestly that referee was stupid, what a terrible call in the match.",
+    "keyword_toxicity": 0.2,
+    "tool_toxicity": 0.9573,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.4,
+    "pipeline_seconds": 0.31,
+    "toxicity_score": 0.9573,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "toxic"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "T14",
+    "group": "bad",
+    "expect": "flagged or removed",
+    "text": "You are such an idiot, nobody wants to read your stupid posts. I hate you, loser.",
+    "keyword_toxicity": 0.55,
+    "tool_toxicity": 0.0081,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 30.6,
+    "pipeline_seconds": 0.27,
+    "toxicity_score": 0.0081,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "T15",
+    "group": "bad",
+    "expect": "flagged or removed",
+    "text": "Shut up, you worthless clown, everyone here thinks you are pathetic.",
+    "keyword_toxicity": 0.4,
+    "tool_toxicity": 0.9644,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 20.1,
+    "pipeline_seconds": 0.28,
+    "toxicity_score": 0.9644,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "toxic"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "T16",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "I will attack you after school tomorrow, watch your back.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.0061,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.7,
+    "pipeline_seconds": 0.32,
+    "toxicity_score": 0.0061,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T17",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "Keep posting and I will threaten everyone in this group until you stop.",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.0185,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 20.1,
+    "pipeline_seconds": 0.36,
+    "toxicity_score": 0.0185,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "harassment"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T18",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "People who support that team are inferior and I hate every one of them.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.1135,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 17.5,
+    "pipeline_seconds": 0.31,
+    "toxicity_score": 0.1135,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "hate_speech"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T19",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "We should harass and stalk this user until they delete their account.",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.0262,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 28.3,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.0262,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "harassment"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T20",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "Click here and buy now! Limited offer, free money guaranteed, act now!",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.0013,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 23.2,
+    "pipeline_seconds": 0.27,
+    "toxicity_score": 0.0013,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "spam"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "potential_false_positive",
+     "conflicting_decisions"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T21",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "Work from home, guaranteed income, click here, limited offer ends today!",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.0009,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 19.7,
+    "pipeline_seconds": 0.33,
+    "toxicity_score": 0.0009,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "spam"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "potential_false_positive",
+     "conflicting_decisions"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T22",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "The secret truth they hide: this guaranteed cure works and mainstream media lies about it.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0022,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.3,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.0022,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "misinformation"
+    ],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "potential_false_positive",
+     "conflicting_decisions"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:warn",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T23",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "Doctors don't want you to know this one trick that replaces all medicine.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0019,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.4,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.0019,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "misinformation"
+    ],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "potential_false_positive",
+     "conflicting_decisions"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:warn",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T24",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "Adults only link inside: xxx videos and nude pics, click to see.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0012,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 21.1,
+    "pipeline_seconds": 0.33,
+    "toxicity_score": 0.0012,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "sexual_content"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "potential_false_positive",
+     "conflicting_decisions"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T25",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "The bomb scene in that action movie was the best part of the film.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.0011,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 22.0,
+    "pipeline_seconds": 0.27,
+    "toxicity_score": 0.0011,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T26",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "A local charity talk on suicide prevention and where to find a helpline is on Friday.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0009,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.3,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.0009,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "self_harm"
+    ],
+    "violation_severity": "critical",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T27",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "I reported an account that keeps posting supremacist slogans, please remove it.",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.0018,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.9,
+    "pipeline_seconds": 0.29,
+    "toxicity_score": 0.0018,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "hate_speech"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T28",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "Our team will kill it at the quiz tonight, we have practised all week.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.0028,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 22.3,
+    "pipeline_seconds": 0.33,
+    "toxicity_score": 0.0028,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T29",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "Someone is trying to harass my sister online, how do we report it?",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.003,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 19.5,
+    "pipeline_seconds": 0.29,
+    "toxicity_score": 0.003,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "harassment"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T30",
+    "group": "edge",
+    "expect": "approved",
+    "text": "ok",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0069,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 20.9,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.0069,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T31",
+    "group": "edge",
+    "expect": "approved",
+    "text": "LOVED THE SCHOOL PLAY TONIGHT!!! BEST SHOW EVER!!!",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.001,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.8,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.001,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T32",
+    "group": "edge",
+    "expect": "approved",
+    "text": "Good morning everyone ☀️🌻 hope you all have a lovely day 😊",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0018,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 17.4,
+    "pipeline_seconds": 0.35,
+    "toxicity_score": 0.0018,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T33",
+    "group": "edge",
+    "expect": "approved",
+    "text": "आज हमने स्कूल में विज्ञान मेले में भाग लिया, बहुत मज़ा आया।",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.1854,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 28.1,
+    "pipeline_seconds": 0.28,
+    "toxicity_score": 0.1854,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T34",
+    "group": "edge",
+    "expect": "approved",
+    "text": "ఈ రోజు మేము పాఠశాలలో క్రికెట్ ఆడాము, చాలా బాగుంది.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.001,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 15.4,
+    "pipeline_seconds": 0.26,
+    "toxicity_score": 0.001,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T35",
+    "group": "edge",
+    "expect": "approved",
+    "text": "https://example.com/blog/how-to-grow-tomatoes",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.001,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 18.5,
+    "pipeline_seconds": 0.31,
+    "toxicity_score": 0.001,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T36",
+    "group": "edge",
+    "expect": "flagged",
+    "text": "y0u are an 1d10t and a l0ser",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0016,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 17.4,
+    "pipeline_seconds": 0.32,
+    "toxicity_score": 0.0016,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T37",
+    "group": "edge",
+    "expect": "approved",
+    "text": "Sooooooo happyyyyyy todayyyyyy!!!!!!!!!!",
+    "keyword_toxicity": 0.05,
+    "tool_toxicity": 0.9611,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 21.3,
+    "pipeline_seconds": 0.32,
+    "toxicity_score": 0.9611,
+    "toxicity_level": "severe",
+    "toxicity_categories": [
+     "toxic"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T38",
+    "group": "edge",
+    "expect": "approved",
+    "text": "Here is my full trip report. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. ",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0018,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 211.8,
+    "pipeline_seconds": 0.91,
+    "toxicity_score": 0.0018,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "C01",
+    "group": "good",
+    "expect": "approved",
+    "text": "Nice story, thanks for sharing!",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.001,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 16.0,
+    "pipeline_seconds": 0.31,
+    "toxicity_score": 0.001,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "C02",
+    "group": "good",
+    "expect": "approved",
+    "text": "I had the same experience last year.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0008,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 15.5,
+    "pipeline_seconds": 0.31,
+    "toxicity_score": 0.0008,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "C03",
+    "group": "bad",
+    "expect": "flagged or removed",
+    "text": "This is a stupid story and you are an idiot.",
+    "keyword_toxicity": 0.4,
+    "tool_toxicity": 0.9616,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 26.8,
+    "pipeline_seconds": 0.28,
+    "toxicity_score": 0.9616,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "toxic"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "C04",
+    "group": "bad",
+    "expect": "warned or flagged",
+    "text": "Click here, buy now, free money!",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0013,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 17.7,
+    "pipeline_seconds": 0.31,
+    "toxicity_score": 0.0013,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "spam"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "potential_false_positive",
+     "conflicting_decisions"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "C05",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "That ending killed me, so funny.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.031,
+    "tool_method": "ml_single",
+    "tool_models": [
+     "distilbert_toxic"
+    ],
+    "tool_ms": 15.7,
+    "pipeline_seconds": 0.29,
+    "toxicity_score": 0.031,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   }
+  ]
+ },
+ "ml_off": {
+  "mode": "off",
+  "use_ml_models_in_env_file": "true",
+  "settings": {
+   "USE_ML_MODELS": "false",
+   "ML_PRIMARY_MODEL": "distilbert_toxic",
+   "ML_USE_ENSEMBLE": "false",
+   "ML_PRELOAD_MODELS": "true",
+   "ML_DEVICE": "auto"
+  },
+  "preload": {
+   "ml_enabled": false,
+   "preload_requested": true,
+   "models_loaded": false,
+   "primary_model": "distilbert_toxic",
+   "device": "unknown",
+   "error": null,
+   "status": "skipped"
+  },
+  "ml_status": {
+   "ml_enabled": false,
+   "ml_available": false,
+   "models_loaded": false,
+   "preload_complete": false,
+   "primary_model": "distilbert_toxic",
+   "ensemble_mode": false,
+   "device": "none",
+   "loaded_models": []
+  },
+  "model_load_seconds": 0.0,
+  "cases": [
+   {
+    "id": "T01",
+    "group": "good",
+    "expect": "approved",
+    "text": "We built a baking soda volcano for the science fair and the experiment actually worked!",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.32,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T02",
+    "group": "good",
+    "expect": "approved",
+    "text": "Our puppy met a kitten at the zoo today and they became best friends.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.1,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T03",
+    "group": "good",
+    "expect": "approved",
+    "text": "Great football match last night, what a comeback in the second half.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T04",
+    "group": "good",
+    "expect": "approved",
+    "text": "Solved a 1000 piece puzzle of a mountain lake this weekend.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T05",
+    "group": "good",
+    "expect": "approved",
+    "text": "Thank you to everyone who helped at the school garden clean-up today.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.23,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T06",
+    "group": "good",
+    "expect": "approved",
+    "text": "Finally fixed that bug in my Python script after three hours of debugging.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.24,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T07",
+    "group": "good",
+    "expect": "approved",
+    "text": "New phone review: the camera is good but the battery could be better.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.3,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.24,
+    "toxicity_score": 0.3,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "threat"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T08",
+    "group": "good",
+    "expect": "approved",
+    "text": "Went to a nightclub opening downtown, the music was loud and the queue was endless.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T09",
+    "group": "good",
+    "expect": "approved",
+    "text": "Mortgage rates went up again this month, here is how we adjusted our budget.",
+    "keyword_toxicity": 0.2,
+    "tool_toxicity": 0.2,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.23,
+    "toxicity_score": 0.2,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "insult"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T10",
+    "group": "sensitive",
+    "expect": "human review",
+    "text": "Feeling stressed before exams, here is what helps my anxiety: sleep, walks and talking to friends.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.22,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "sensitive_content"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T11",
+    "group": "sensitive",
+    "expect": "human review",
+    "text": "Stock tips: where to invest before the election results come in.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "sensitive_content"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T12",
+    "group": "sensitive",
+    "expect": "human review",
+    "text": "My doctor changed my diagnosis and I am trying a new treatment plan.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.22,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "sensitive_content"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T13",
+    "group": "bad",
+    "expect": "flagged",
+    "text": "Honestly that referee was stupid, what a terrible call in the match.",
+    "keyword_toxicity": 0.2,
+    "tool_toxicity": 0.2,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.24,
+    "toxicity_score": 0.2,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "insult"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "T14",
+    "group": "bad",
+    "expect": "flagged or removed",
+    "text": "You are such an idiot, nobody wants to read your stupid posts. I hate you, loser.",
+    "keyword_toxicity": 0.55,
+    "tool_toxicity": 0.55,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.28,
+    "toxicity_score": 0.55,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "profanity",
+     "insult"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "T15",
+    "group": "bad",
+    "expect": "flagged or removed",
+    "text": "Shut up, you worthless clown, everyone here thinks you are pathetic.",
+    "keyword_toxicity": 0.4,
+    "tool_toxicity": 0.4,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.4,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "insult"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "T16",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "I will attack you after school tomorrow, watch your back.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.3,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.3,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "threat"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T17",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "Keep posting and I will threaten everyone in this group until you stop.",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.15,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.22,
+    "toxicity_score": 0.15,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "profanity"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "harassment"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T18",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "People who support that team are inferior and I hate every one of them.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "hate_speech"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T19",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "We should harass and stalk this user until they delete their account.",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.15,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.15,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "profanity"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "harassment"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T20",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "Click here and buy now! Limited offer, free money guaranteed, act now!",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.3,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.3,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "threat"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "spam"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "conflicting_decisions",
+     "potential_false_positive"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T21",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "Work from home, guaranteed income, click here, limited offer ends today!",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.3,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.3,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "threat"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "spam"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "conflicting_decisions",
+     "potential_false_positive"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T22",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "The secret truth they hide: this guaranteed cure works and mainstream media lies about it.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.1,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "misinformation"
+    ],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "conflicting_decisions",
+     "potential_false_positive"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:warn",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T23",
+    "group": "bad",
+    "expect": "warned or human review",
+    "text": "Doctors don't want you to know this one trick that replaces all medicine.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.23,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "misinformation"
+    ],
+    "violation_severity": "none",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "conflicting_decisions",
+     "potential_false_positive"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:warn",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T24",
+    "group": "bad",
+    "expect": "removed or human review",
+    "text": "Adults only link inside: xxx videos and nude pics, click to see.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.22,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "sexual_content"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "conflicting_decisions",
+     "potential_false_positive"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "T25",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "The bomb scene in that action movie was the best part of the film.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.3,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.22,
+    "toxicity_score": 0.3,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "threat"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T26",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "A local charity talk on suicide prevention and where to find a helpline is on Friday.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "self_harm"
+    ],
+    "violation_severity": "critical",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T27",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "I reported an account that keeps posting supremacist slogans, please remove it.",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.15,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.15,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "profanity"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "hate_speech"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T28",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "Our team will kill it at the quiz tonight, we have practised all week.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.3,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.24,
+    "toxicity_score": 0.3,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "threat"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T29",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "Someone is trying to harass my sister online, how do we report it?",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.15,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.15,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "profanity"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "harassment"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   },
+   {
+    "id": "T30",
+    "group": "edge",
+    "expect": "approved",
+    "text": "ok",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.3,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T31",
+    "group": "edge",
+    "expect": "approved",
+    "text": "LOVED THE SCHOOL PLAY TONIGHT!!! BEST SHOW EVER!!!",
+    "keyword_toxicity": 0.15,
+    "tool_toxicity": 0.15,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.23,
+    "toxicity_score": 0.15000000000000002,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T32",
+    "group": "edge",
+    "expect": "approved",
+    "text": "Good morning everyone ☀️🌻 hope you all have a lovely day 😊",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T33",
+    "group": "edge",
+    "expect": "approved",
+    "text": "आज हमने स्कूल में विज्ञान मेले में भाग लिया, बहुत मज़ा आया।",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.23,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T34",
+    "group": "edge",
+    "expect": "approved",
+    "text": "ఈ రోజు మేము పాఠశాలలో క్రికెట్ ఆడాము, చాలా బాగుంది.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T35",
+    "group": "edge",
+    "expect": "approved",
+    "text": "https://example.com/blog/how-to-grow-tomatoes",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T36",
+    "group": "edge",
+    "expect": "flagged",
+    "text": "y0u are an 1d10t and a l0ser",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.21,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T37",
+    "group": "edge",
+    "expect": "approved",
+    "text": "Sooooooo happyyyyyy todayyyyyy!!!!!!!!!!",
+    "keyword_toxicity": 0.05,
+    "tool_toxicity": 0.05,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.05,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "T38",
+    "group": "edge",
+    "expect": "approved",
+    "text": "Here is my full trip report. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. We walked, ate, rested and walked again. ",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.2,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "C01",
+    "group": "good",
+    "expect": "approved",
+    "text": "Nice story, thanks for sharing!",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.2,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "C02",
+    "group": "good",
+    "expect": "approved",
+    "text": "I had the same experience last year.",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": "none",
+    "status": "approved",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:approve",
+     "ReAct Decision Loop:approve",
+     "User Reputation Scoring Agent:approve"
+    ]
+   },
+   {
+    "id": "C03",
+    "group": "bad",
+    "expect": "flagged or removed",
+    "text": "This is a stupid story and you are an idiot.",
+    "keyword_toxicity": 0.4,
+    "tool_toxicity": 0.4,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.23,
+    "toxicity_score": 0.4,
+    "toxicity_level": null,
+    "toxicity_categories": [
+     "insult"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [],
+    "violation_severity": null,
+    "status": "flagged",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:flag"
+    ]
+   },
+   {
+    "id": "C04",
+    "group": "bad",
+    "expect": "warned or flagged",
+    "text": "Click here, buy now, free money!",
+    "keyword_toxicity": 0.0,
+    "tool_toxicity": 0.0,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.22,
+    "toxicity_score": 0.0,
+    "toxicity_level": "none",
+    "toxicity_categories": [
+     "safe"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "spam"
+    ],
+    "violation_severity": "medium",
+    "status": "pending_human_review",
+    "moderation_action": null,
+    "hitl_required": true,
+    "hitl_trigger_reasons": [
+     "conflicting_decisions",
+     "potential_false_positive"
+    ],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:flag",
+     "ReAct Decision Loop:await_human"
+    ]
+   },
+   {
+    "id": "C05",
+    "group": "false-positive check",
+    "expect": "ideally approved",
+    "text": "That ending killed me, so funny.",
+    "keyword_toxicity": 0.3,
+    "tool_toxicity": 0.3,
+    "tool_method": "keyword",
+    "tool_models": [],
+    "tool_ms": 0.0,
+    "pipeline_seconds": 0.19,
+    "toxicity_score": 0.3,
+    "toxicity_level": "low",
+    "toxicity_categories": [
+     "threat"
+    ],
+    "hate_speech_detected": false,
+    "policy_violations": [
+     "violence"
+    ],
+    "violation_severity": "high",
+    "status": "removed",
+    "moderation_action": null,
+    "hitl_required": false,
+    "hitl_trigger_reasons": [],
+    "overall_confidence": 0.0,
+    "agent_verdicts": [
+     "Content Analysis Agent:approve",
+     "Toxicity Detection Agent:approve",
+     "Policy Violation Agent:remove"
+    ]
+   }
+  ]
+ }
+}

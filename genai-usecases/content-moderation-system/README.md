@@ -67,7 +67,7 @@ copy .env.example .env
 python main.py
 ```
 
-- Edit `.env` and set `GOOGLE_API_KEY` before starting. Set `RECOMMENDATION_ENABLED=true` to turn on the For You feed and the moderator priority queue.
+- Edit `.env` and set `GOOGLE_API_KEY` before starting. The For You feed and the moderator priority queue are on by default; set `RECOMMENDATION_ENABLED=false` to turn them off.
 - The install downloads PyTorch, so it takes a while. Use Python 3.12.
 - The databases in `backend/databases/` are committed, so the existing accounts and content come with the clone. To start from clean demo accounts instead, run `python scripts/initialize_users.py`.
 - On later runs only `.venv\Scripts\activate` and `python main.py` are needed.

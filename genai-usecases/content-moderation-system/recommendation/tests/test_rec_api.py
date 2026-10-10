@@ -34,6 +34,7 @@ ROLES = ["user", "moderator", "senior_moderator", "content_analyst", "policy_spe
 NEW_PATHS = {
     "/api/recommendations/feed", "/api/profiles/{profile_id}/preferences", "/api/moderation/queue/next",
     "/api/items/{item_id}/recommendation", "/api/items/{item_id}/tags", "/api/recommendations/feedback",
+    "/api/items/tags",
 }
 
 
@@ -109,6 +110,8 @@ ENDPOINTS = [
     ("put", "/api/profiles/1/preferences", {"explicit_interests": []}),
     ("get", "/api/moderation/queue/next", None),
     ("get", "/api/items/kids/recommendation", None),
+    ("get", "/api/items/tags", None),
+    ("put", "/api/items/kids/tags", {"topics": ["science"]}),
     ("post", "/api/recommendations/feedback", {"event_type": "click", "item_id": "kids"}),
 ]
 

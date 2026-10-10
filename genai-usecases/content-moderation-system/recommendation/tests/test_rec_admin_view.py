@@ -258,6 +258,122 @@ def test_tag_endpoint_access_and_validation(linked):
     assert set_tags(linked, "stuck", ["Science", "science", " SCIENCE "]).json()["content_topics"] == ["science"]
 
 
+# ─── the admin tags page: list every item, tag a post the pipeline never processed ──
+
+def list_tags(client, role="admin"):
+    return client.call("get", "/api/items/tags", "staff", role)
+
+
+@pytest.fixture
+def host_content(linked):
+    """A host content table with one post the recommender has never seen."""
+    rows = {"fresh": content_row("fresh", "under_review")}
+    integration.set_content_lookup(rows.get)
+    yield rows
+    integration.set_content_lookup(None)
+
+
+def test_tags_list_shows_every_item_with_its_tags_and_source(linked):
+    linked.repository.upsert_item(make_item(item_id="a", content_category="science", content_topics=["science", "space"]))
+    linked.repository.upsert_item(make_item(item_id="b", content_category="news", content_topics=["news"], audience_rating="adult"))
+    set_tags(linked, "b", ["coding"])
+
+    body = list_tags(linked).json()
+    rows = {row["item_id"]: row for row in body["items"]}
+    assert rows["a"]["content_topics"] == ["science", "space"] and rows["a"]["tags_source"] == "pipeline"
+    assert rows["b"]["content_topics"] == ["coding"] and rows["b"]["tags_source"] == "moderator"
+    assert rows["b"]["category"] == "coding" and rows["a"]["audience_rating"] == "all_ages"
+    assert "science" in body["known_topics"] and body["escalated_withheld"] == 0
+
+
+def test_tags_list_access_and_escalated_items(linked):
+    linked.repository.upsert_item(make_item(item_id="plain"))
+    linked.repository.upsert_item(make_item(item_id="risky", content_category="grooming", content_topics=["grooming"],
+                                            audience_rating="blocked", status="flagged", escalated=True))
+    assert list_tags(linked, role="user").status_code == 403
+
+    for_moderator = list_tags(linked, role="moderator").json()
+    assert [row["item_id"] for row in for_moderator["items"]] == ["plain"] and for_moderator["escalated_withheld"] == 1
+    for_admin = list_tags(linked, role="admin").json()
+    assert {row["item_id"] for row in for_admin["items"]} == {"plain", "risky"} and for_admin["escalated_withheld"] == 0
+
+
+def test_tagging_a_post_the_pipeline_never_processed_creates_it_unrated_and_unserved(linked, host_content):
+    for name, tier in (("kid", AgeTier.CHILD), ("grown", AgeTier.ADULT)):
+        linked.repository.save_profile(make_profile(tier, profile_id=name, tier_declared=True))
+
+    response = set_tags(linked, "fresh", ["science"])
+    assert response.status_code == 200
+    assert response.json()["content_topics"] == ["science"] and response.json()["tags_source"] == "moderator"
+    stored = linked.repository.get_item("fresh")
+    assert stored.audience_rating is None and stored.status == "under_review" and not stored.human_reviewed
+    assert served_tiers(response.json()) == []
+    assert linked.feed("kid") == [] and linked.feed("grown") == []
+
+    # Tagged by hand and then approved by hand: the route a demo without the language model takes.
+    assert integration.on_manual_review(host_content["fresh"], "approve") is True
+    assert linked.repository.get_item("fresh").audience_rating == AudienceRating.ALL_AGES
+    assert linked.feed("kid") == ["fresh"]
+
+
+def test_tagging_an_unknown_post_is_still_not_found(linked, host_content):
+    assert set_tags(linked, "nowhere", ["science"]).status_code == 404
+    assert linked.repository.get_item("nowhere") is None
+
+
+def test_a_failing_content_lookup_is_treated_as_not_found(linked):
+    def broken(content_id):
+        raise RuntimeError("database closed")
+
+    integration.set_content_lookup(broken)
+    try:
+        assert set_tags(linked, "fresh", ["science"]).status_code == 404
+    finally:
+        integration.set_content_lookup(None)
+
+
+# ─── audience tags (child, teen, 18+): they only ever raise the rating ──────────
+
+@pytest.mark.parametrize("tags, audience, topics, rating, tiers", [
+    (["child", "science"], ["child"], ["science"], "all_ages", ["child", "teen", "adult"]),
+    (["science", "teen"], ["teen"], ["science"], "teen", ["teen", "adult"]),
+    (["science", "18+"], ["18_plus"], ["science"], "adult", ["adult"]),
+    (["18 plus", "Teen", "science"], ["18_plus", "teen"], ["science"], "adult", ["adult"]),
+    (["child", "news"], ["child"], ["news"], "adult", ["adult"]),     # a child tag never lowers a rating
+    (["child"], ["child"], [], "adult", ["adult"]),                   # and is not a topic by itself
+    (["science", "others"], [], ["science", "others"], "adult", ["adult"]),
+])
+def test_audience_tags_are_kept_apart_from_topics_and_only_raise_the_rating(linked, tags, audience, topics, rating, tiers):
+    integration.on_moderation_complete(stuck_state())
+    assert integration.on_manual_review(content_row("stuck"), "approve") is True
+    body = set_tags(linked, "stuck", tags).json()
+    assert body["audience_tags"] == audience and body["content_topics"] == topics
+    assert body["audience_rating"] == rating and served_tiers(body) == tiers
+    assert body["audience_tag_options"] == ["child", "teen", "18_plus"]
+
+
+def test_an_audience_tag_raises_the_rating_of_a_pipeline_approved_item_at_once(linked):
+    linked.repository.save_profile(make_profile(AgeTier.CHILD, profile_id="kid", tier_declared=True))
+    linked.repository.upsert_item(make_item(item_id="clean"))
+    assert linked.feed("kid") == ["clean"]
+
+    body = set_tags(linked, "clean", ["science", "18+"]).json()
+    assert body["audience_rating"] == "adult" and served_tiers(body) == ["adult"]
+    assert linked.feed("kid") == []
+    assert list_tags(linked).json()["items"][0]["audience_tags"] == ["18_plus"]
+
+
+def test_audience_tags_keep_raising_the_rating_after_a_pipeline_rerun(linked):
+    state = base_state("post")
+    integration.on_moderation_complete(state)
+    assert linked.repository.get_item("post").audience_rating == AudienceRating.ALL_AGES
+    set_tags(linked, "post", ["science", "teen"])
+
+    integration.on_moderation_complete(base_state("post"))
+    stored = linked.repository.get_item("post")
+    assert stored.audience_tags == ["teen"] and stored.audience_rating == AudienceRating.TEEN
+
+
 def test_approval_settles_agent_disagreement(linked):
     linked.repository.upsert_item(make_item(item_id="i", status="pending_human_review", audience_rating="adult",
                                             agent_disagreement=0.5, overall_confidence=0.3))

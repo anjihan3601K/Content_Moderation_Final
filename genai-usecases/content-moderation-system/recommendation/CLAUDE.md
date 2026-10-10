@@ -1,7 +1,7 @@
 # recommendation/ - working notes
 
 Age-gated recommendation feed plus moderator review-queue prioritizer, added to the content
-moderation platform. Additive, behind `RECOMMENDATION_ENABLED` (default `false`).
+moderation platform. Additive, behind `RECOMMENDATION_ENABLED` (default `true`).
 
 Read `docs/` first: `00_codebase_findings.md` (what the host project really looks like),
 `CHANGELOG.md` (every file touched, current stage). Update both at the end of each stage.

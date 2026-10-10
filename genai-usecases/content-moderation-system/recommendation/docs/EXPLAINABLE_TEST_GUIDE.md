@@ -15,7 +15,7 @@ steps and record your own values in the "Your run" columns before quoting them.
 |---|---|---|
 | Audience rating derived from the moderation pipeline's output | Built | Yes |
 | Deterministic safety gate (age tier, uncertainty margin, parental controls, escalation) | Built | Yes |
-| Hook in the moderation workflow that attaches the rating | Built, off by default | Yes |
+| Hook in the moderation workflow that attaches the rating | Built, on by default | Yes |
 | Personalized ranking, Thompson-sampling bandit, drift guard | Built | In `results/RESULTS.md`, not here |
 | Moderator queue prioritizer, precedent retrieval, feedback loop | Built | In `results/RESULTS.md`, not here |
 | API endpoints, database storage, telemetry | Built | In `results/RESULTS.md`, not here |
@@ -202,13 +202,13 @@ mock-data sweep are the slow parts).
 To run one file: `$PY -m pytest recommendation/tests/test_rec_safety_gate.py -q`.
 Section 7 explains what each file tests.
 
-### Step 6 - Confirm the feature is off by default
+### Step 6 - Confirm the feature can be switched off
 
 ```
 $PY -m pytest recommendation/tests/test_rec_pipeline_hook.py -q
 ```
 
-Expected: `7 passed`. These show that with `RECOMMENDATION_ENABLED` unset the moderation
+Expected: `7 passed`. These show that with `RECOMMENDATION_ENABLED=false` the moderation
 pipeline's output is byte-for-byte unchanged, and that a failure inside the rating code
 cannot alter a moderation decision.
 

@@ -12,6 +12,8 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Tuple
 
 from recommendation.src.config import (
+    AUDIENCE_TAG_ALIASES,
+    AUDIENCE_TAG_MIN_RATING,
     APPROVED_STATUS,
     BLOCKED_STATUSES,
     BORDERLINE_TOXICITY_THRESHOLD,
@@ -429,7 +431,36 @@ def rating_for_human_reviewed_item(item: RecommendationItemModel) -> AudienceRat
         at_least(AudienceRating.ADULT)
     elif not all(l in CHILD_SAFE_TOPICS for l in labels):
         at_least(AudienceRating.TEEN)
+    at_least(audience_tag_floor(item.audience_tags))
     return next(r for r, value in RATING_RANK.items() if value == rank)
+
+
+def split_audience_tags(tags: Iterable[str]) -> Tuple[List[str], List[str]]:
+    """Split a moderator's tags into (audience tags in canonical spelling, topic tags)."""
+    audience: List[str] = []
+    topics: List[str] = []
+    for tag in tags:
+        label = normalize_label(tag)
+        canonical = AUDIENCE_TAG_ALIASES.get(label, label)
+        if canonical in AUDIENCE_TAG_MIN_RATING:
+            if canonical not in audience:
+                audience.append(canonical)
+        else:
+            topics.append(tag)
+    return audience, topics
+
+
+def audience_tag_floor(audience_tags: Iterable[str]) -> AudienceRating:
+    """The lowest rating a moderator's audience tags allow. An unknown tag means adult."""
+    floor = AudienceRating.ALL_AGES
+    for tag in audience_tags:
+        try:
+            rating = AudienceRating(AUDIENCE_TAG_MIN_RATING[normalize_label(tag)])
+        except (KeyError, ValueError):
+            rating = AudienceRating.ADULT
+        if RATING_RANK[rating] > RATING_RANK[floor]:
+            floor = rating
+    return floor
 
 
 def _raw_list(value: Any) -> List[Any]:

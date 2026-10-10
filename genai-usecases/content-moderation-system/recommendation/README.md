@@ -7,14 +7,14 @@ An addition to the Content Moderation Platform:
 - **Moderator queue** - review items ordered by expected harm, agent disagreement and
   exposure, with similar past cases shown for each.
 
-It is off by default. With the flag off the platform behaves exactly as before.
+It is on by default. With the flag off the platform behaves exactly as before.
 
-## Turn it on
+## Turn it off
 
 In `backend/.env`:
 
 ```
-RECOMMENDATION_ENABLED=true
+RECOMMENDATION_ENABLED=false
 ```
 
 Then start the backend as usual (`cd backend && python main.py`). On startup the six
@@ -50,7 +50,7 @@ All of these need the flag on; with it off each shows a notice.
 
 | Variable | Default | Effect |
 |---|---|---|
-| `RECOMMENDATION_ENABLED` | `false` | Master switch for the rating hook and the endpoints |
+| `RECOMMENDATION_ENABLED` | `true` | Master switch for the rating hook and the endpoints |
 | `HIGH_UNCERTAINTY_THRESHOLD` | `0.45` | Agent-disagreement limit for minors. Can only be lowered; clamped to 0.05-0.45 |
 | `BORDERLINE_DRIFT_CAP` | `0.15` | Max borderline share of a teen's recent feed (adult: twice this) |
 | `ADULT_DIVERSITY_MIN` | `0.20` | Share of adult feed slots reserved for topics outside the interests |

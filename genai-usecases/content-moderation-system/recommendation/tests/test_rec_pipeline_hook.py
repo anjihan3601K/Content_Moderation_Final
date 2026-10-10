@@ -36,7 +36,7 @@ def _state():
 
 
 def test_hook_leaves_state_untouched_when_flag_off(monkeypatch):
-    monkeypatch.delenv("RECOMMENDATION_ENABLED", raising=False)
+    monkeypatch.setenv("RECOMMENDATION_ENABLED", "false")
     state = _state()
     workflow._apply_audience_rating(state)
     assert state == _state()
@@ -85,7 +85,7 @@ def test_hook_stores_the_rated_item_when_a_repository_is_registered(monkeypatch,
 def test_hook_stores_nothing_when_the_flag_is_off(monkeypatch, sqlite_repository):
     import recommendation.src.integration as integration
 
-    monkeypatch.delenv("RECOMMENDATION_ENABLED", raising=False)
+    monkeypatch.setenv("RECOMMENDATION_ENABLED", "false")
     integration.set_repository(sqlite_repository)
     try:
         workflow._apply_audience_rating(_state())

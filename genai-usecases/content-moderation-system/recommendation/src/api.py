@@ -10,6 +10,8 @@ passed in by ``backend/main.py``. Nothing here authenticates anyone by itself.
     PUT  /api/profiles/{profile_id}/preferences
     GET  /api/moderation/queue/next
     GET  /api/items/{item_id}/recommendation
+    GET  /api/items/tags
+    PUT  /api/items/{item_id}/tags
     POST /api/recommendations/feedback
 """
 
@@ -22,6 +24,7 @@ from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query
 from recommendation.src.bandit import ThompsonSamplingBandit
 from recommendation.src.config import (
     ADMIN_ROLE,
+    AUDIENCE_TAG_MIN_RATING,
     RANKING_SEED,
     SENIOR_MODERATOR_ROLES,
     SENSITIVE_TEEN_TOPICS,
@@ -29,7 +32,12 @@ from recommendation.src.config import (
     recommendation_db_path,
 )
 from recommendation.src.feedback import FeedbackService, ItemNotFoundError
-from recommendation.src.integration import set_container_provider, set_repository
+from recommendation.src.integration import (
+    item_from_host_content,
+    set_container_provider,
+    set_content_lookup,
+    set_repository,
+)
 from recommendation.src.models import (
     AgeTier,
     AgeTrustLevel,
@@ -38,6 +46,8 @@ from recommendation.src.models import (
     FeedbackEvent,
     FeedbackResponse,
     FeedResponse,
+    ItemTagsEntry,
+    ItemTagsListResponse,
     ItemTagsRequest,
     PreferencesResponse,
     PreferencesUpdateRequest,
@@ -133,9 +143,15 @@ def _item_detail(container: "RecommendationContainer", item: Any, precedents: li
         overall_confidence=item.overall_confidence,
         human_reviewed=item.human_reviewed,
         tags_source=item.tags_source,
-        known_topics=sorted(set(TEEN_ALLOWED_TOPICS) | set(SENSITIVE_TEEN_TOPICS)),
+        audience_tags=item.audience_tags,
+        known_topics=_known_topics(),
+        audience_tag_options=list(AUDIENCE_TAG_MIN_RATING),
         suitable_for=_suitability(item),
     )
+
+
+def _known_topics() -> list:
+    return sorted(set(TEEN_ALLOWED_TOPICS) | set(SENSITIVE_TEEN_TOPICS))
 
 
 def create_recommendation_router(
@@ -290,6 +306,35 @@ def create_recommendation_router(
             logger.error(f"Error building item recommendation: {e}")
             raise HTTPException(status_code=500, detail=str(e))
 
+    @router.get("/api/items/tags", response_model=ItemTagsListResponse)
+    async def list_item_tags(user: Dict[str, Any] = Depends(get_moderator)):
+        """Tags, rating and status of every item the recommender knows. Escalated items are senior-only."""
+        try:
+            items = get_container().repository.list_items()
+            withheld = 0
+            if user["role"] not in SENIOR_MODERATOR_ROLES:
+                visible = [item for item in items if not is_escalated(item)]
+                withheld = len(items) - len(visible)
+                items = visible
+            return ItemTagsListResponse(
+                items=[
+                    ItemTagsEntry(
+                        item_id=item.item_id, content_text=item.content_text, category=item_category(item),
+                        content_topics=item.content_topics, audience_tags=item.audience_tags,
+                        tags_source=item.tags_source, status=item.status,
+                        audience_rating=item.audience_rating, human_reviewed=item.human_reviewed,
+                        is_escalated=is_escalated(item),
+                    )
+                    for item in items
+                ],
+                known_topics=_known_topics(),
+                audience_tag_options=list(AUDIENCE_TAG_MIN_RATING),
+                escalated_withheld=withheld,
+            )
+        except Exception as e:
+            logger.error(f"Error listing item tags: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+
     @router.put("/api/items/{item_id}/tags", response_model=RecommendationDetailResponse)
     async def set_item_tags(
         item_id: str,
@@ -300,11 +345,16 @@ def create_recommendation_router(
         Replace an item's tags with the moderator's own. The first tag becomes the category.
 
         Tags that are not on an age-group topic list are accepted, but such an item can
-        only be rated ``adult``. Escalated items need a senior role.
+        only be rated ``adult``. Escalated items need a senior role. A post the
+        recommender has never seen is first created from the host's content row, unrated.
         """
         try:
             container = get_container()
             item = container.repository.get_item(item_id)
+            if item is None:
+                item = item_from_host_content(item_id)
+                if item is not None:
+                    container.repository.upsert_item(item)
             if item is None:
                 raise HTTPException(status_code=404, detail="Item not found")
             if is_escalated(item) and user["role"] not in SENIOR_MODERATOR_ROLES:
@@ -352,13 +402,15 @@ def register_recommendation_routes(
     get_current_user: AuthDependency,
     get_moderator: AuthDependency,
     firestore_client_provider: Optional[Callable[[], Any]] = None,
+    content_lookup: Optional[Callable[[str], Optional[Dict[str, Any]]]] = None,
 ) -> None:
     """
     Add the recommendation endpoints to the host application.
 
     Called by ``backend/main.py`` only when ``RECOMMENDATION_ENABLED`` is true. Storage is
     opened on first use, because the host creates its database connections at startup,
-    after routes are registered.
+    after routes are registered. ``content_lookup`` returns the host's content row for a
+    content id; with it, a moderator can tag a post the pipeline has not processed.
     """
     state: Dict[str, RecommendationContainer] = {}
 
@@ -371,4 +423,5 @@ def register_recommendation_routes(
 
     app.include_router(create_recommendation_router(get_current_user, get_moderator, get_container))
     set_container_provider(get_container)
+    set_content_lookup(content_lookup)
     logger.info("Recommendation endpoints registered")

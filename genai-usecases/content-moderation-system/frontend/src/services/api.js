@@ -276,6 +276,11 @@ export const recommendationAPI = {
     return response.data;
   },
 
+  listItemTags: async () => {
+    const response = await api.get('/api/items/tags');
+    return response.data;
+  },
+
   updateItemTags: async (itemId, topics) => {
     const response = await api.put(`/api/items/${itemId}/tags`, { topics });
     return response.data;

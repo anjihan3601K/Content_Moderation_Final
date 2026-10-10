@@ -29,7 +29,13 @@ from recommendation.src.models import (
 )
 from recommendation.src.moderator_queue import is_escalated, item_category, queue_arm_key, rule_based_suggestion
 from recommendation.src.personalization import TierTopicGuard, primary_topic
-from recommendation.src.rating import RATING_RANK, find_escalation_categories, rating_for_human_reviewed_item
+from recommendation.src.rating import (
+    RATING_RANK,
+    audience_tag_floor,
+    find_escalation_categories,
+    rating_for_human_reviewed_item,
+    split_audience_tags,
+)
 from recommendation.src.safety_gate import SafetyGate
 from recommendation.src.store import RecommendationRepository
 from recommendation.src.telemetry import RecommendationTelemetry, get_telemetry
@@ -187,16 +193,24 @@ class FeedbackService:
         Tags alone never make an item servable: status and the gate still decide that. If
         the item has already been approved by a moderator, its rating is recalculated from
         the new tags. A tag in a high-risk category marks the item escalated.
+
+        Audience tags (child, teen, 18+) are kept apart from the topics. They only ever
+        raise the rating, and they do so at once, whoever approved the item.
         """
         item = self._item(item_id)
-        item.content_category = topics[0]
-        item.content_topics = list(topics)
+        audience_tags, topic_tags = split_audience_tags(topics)
+        item.content_category = topic_tags[0] if topic_tags else None
+        item.content_topics = list(topic_tags)
+        item.audience_tags = audience_tags
         item.tags_source = "moderator"
-        if find_escalation_categories(topics):
+        if find_escalation_categories(topic_tags):
             item.escalated = True
         approved = bool(item.status) and item.status.strip().lower() == "approved"
         if approved and item.human_reviewed and item.audience_rating != AudienceRating.BLOCKED:
             item.audience_rating = rating_for_human_reviewed_item(item)
+        floor = audience_tag_floor(audience_tags)
+        if item.audience_rating is not None and RATING_RANK[item.audience_rating] < RATING_RANK[floor]:
+            item.audience_rating = floor
         self.repository.upsert_item(item)
         self.repository.record_event(str(uuid.uuid4()), {
             "event_type": "moderator_tags", "item_id": item.item_id, "moderator_id": str(moderator_id),

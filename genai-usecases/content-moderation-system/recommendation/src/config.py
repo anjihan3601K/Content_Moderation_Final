@@ -34,8 +34,8 @@ def _env_float(name: str, default: float, minimum: float, maximum: float) -> flo
 
 
 def is_recommendation_enabled() -> bool:
-    """Master feature flag. Off unless RECOMMENDATION_ENABLED is exactly 'true'."""
-    return os.getenv("RECOMMENDATION_ENABLED", "false").lower() == "true"
+    """Master feature flag. On unless RECOMMENDATION_ENABLED is set to something other than 'true'."""
+    return os.getenv("RECOMMENDATION_ENABLED", "true").lower() == "true"
 
 
 # ─── Safety gate ────────────────────────────────────────────────────────────────
@@ -123,6 +123,13 @@ SENSITIVE_TEEN_TOPICS: Tuple[str, ...] = (
     "mental_health",
     "politics_intro",
 )
+
+# Audience tags a moderator can set by hand, with the lowest rating each one allows.
+# They are not topics: they can only raise an item's rating, never lower it, and an
+# item still needs topics from the lists above to reach a child or a teen.
+AUDIENCE_TAG_MIN_RATING: Dict[str, str] = {"child": "all_ages", "teen": "teen", "18_plus": "adult"}
+# Other spellings of the same tags, after label normalisation ("18+" becomes "18").
+AUDIENCE_TAG_ALIASES: Dict[str, str] = {"18": "18_plus", "18plus": "18_plus"}
 
 # ─── Personalization limits ─────────────────────────────────────────────────────
 

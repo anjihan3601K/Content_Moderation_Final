@@ -567,11 +567,11 @@ def _apply_audience_rating(state: ContentState) -> None:
     Attach the audience rating (recommendation feature) to a final state and
     hand the rated item to the recommender.
 
-    No-op unless RECOMMENDATION_ENABLED is true and the optional recommendation
-    package is importable. A failure here never changes the moderation outcome:
+    No-op when RECOMMENDATION_ENABLED is set to false or the optional recommendation
+    package is not importable. A failure here never changes the moderation outcome:
     the item is simply left unrated, which the recommender treats as withheld.
     """
-    if state is None or os.getenv("RECOMMENDATION_ENABLED", "false").lower() != "true":
+    if state is None or os.getenv("RECOMMENDATION_ENABLED", "true").lower() != "true":
         return
     try:
         from recommendation.src.integration import on_moderation_complete

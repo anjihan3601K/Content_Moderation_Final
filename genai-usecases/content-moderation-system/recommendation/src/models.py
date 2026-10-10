@@ -226,6 +226,7 @@ class RecommendationItemModel(BaseModel):
     escalated: bool = False
     human_reviewed: bool = Field(False, description="A moderator has decided on this item")
     tags_source: str = Field("pipeline", description="Who set category and topics: pipeline or moderator")
+    audience_tags: List[str] = Field(default_factory=list, description="Moderator's audience tags (child, teen, 18_plus); they only raise the rating")
     exposure_count: int = Field(0, ge=0)
     created_at: str = Field(default_factory=_now_iso)
 
@@ -326,7 +327,9 @@ class RecommendationDetailResponse(BaseModel):
     overall_confidence: Optional[float] = None
     human_reviewed: bool = False
     tags_source: str = "pipeline"
+    audience_tags: List[str] = Field(default_factory=list, description="Audience tags set by a moderator")
     known_topics: List[str] = Field(default_factory=list, description="Topics that have an age-group list")
+    audience_tag_options: List[str] = Field(default_factory=list, description="Audience tags a moderator can set")
     suitable_for: List[AudienceSuitability] = Field(default_factory=list)
     suggested_action: str
     confidence: float
@@ -352,6 +355,30 @@ class ItemTagsRequest(BaseModel):
             if label not in cleaned:
                 cleaned.append(label)
         return cleaned
+
+
+class ItemTagsEntry(BaseModel):
+    """One row of the admin tags page."""
+
+    item_id: str
+    content_text: str
+    category: str
+    content_topics: List[str] = Field(default_factory=list)
+    audience_tags: List[str] = Field(default_factory=list)
+    tags_source: str = "pipeline"
+    status: Optional[str] = None
+    audience_rating: Optional[AudienceRating] = None
+    human_reviewed: bool = False
+    is_escalated: bool = False
+
+
+class ItemTagsListResponse(BaseModel):
+    """Response of GET /api/items/tags."""
+
+    items: List[ItemTagsEntry] = Field(default_factory=list)
+    known_topics: List[str] = Field(default_factory=list, description="Topics that have an age-group list")
+    audience_tag_options: List[str] = Field(default_factory=list, description="Audience tags a moderator can set")
+    escalated_withheld: int = Field(0, description="High-risk items hidden from a non-senior caller")
 
 
 class EventType(str, Enum):

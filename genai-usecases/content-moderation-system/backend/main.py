@@ -26,6 +26,9 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
+# Load environment variables before importing src: ml_classifier reads USE_ML_MODELS at import time
+load_dotenv()
+
 # Add src to path
 sys.path.append(str(Path(__file__).parent))
 # Project root, so the optional recommendation/ package is importable
@@ -45,9 +48,6 @@ from src.core.models import (
 )
 from src.utils.tools import generate_content_id, generate_user_id, analyze_uploaded_image
 from src.ml.ml_classifier import preload_ml_models, get_ml_status, MLConfig
-
-# Load environment variables
-load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -246,17 +246,20 @@ def get_admin(user: Dict[str, Any] = Depends(get_current_user)):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# Recommendation feature (optional; see recommendation/README.md)
+# Recommendation feature (on unless RECOMMENDATION_ENABLED=false; see recommendation/README.md)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-if os.getenv("RECOMMENDATION_ENABLED", "false").lower() == "true":
+if os.getenv("RECOMMENDATION_ENABLED", "true").lower() == "true":
     from recommendation.src.api import register_recommendation_routes
-    register_recommendation_routes(app, get_current_user, get_moderator)
+    register_recommendation_routes(
+        app, get_current_user, get_moderator,
+        content_lookup=lambda content_id: db.get_content_by_id(content_id) if db else None,
+    )
 
 
 def notify_recommender_of_review(content: Dict[str, Any], decision: str, reviewer: str) -> None:
     """Pass a manual review decision on to the recommendation feature (no-op when it is off)."""
-    if os.getenv("RECOMMENDATION_ENABLED", "false").lower() != "true":
+    if os.getenv("RECOMMENDATION_ENABLED", "true").lower() != "true":
         return
     try:
         from recommendation.src.integration import on_manual_review

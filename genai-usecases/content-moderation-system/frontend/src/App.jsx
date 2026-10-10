@@ -16,6 +16,7 @@ import Stories from './components/Stories/Stories';
 import StoryDetail from './components/Stories/StoryDetail';
 import CommunityDashboard from './components/CommunityDashboard/CommunityDashboard';
 import UserManagement from './components/Admin/UserManagement';
+import ContentTags from './components/Admin/ContentTags';
 import UserSettings from './components/Settings/UserSettings';
 import ForYou from './components/Recommendations/ForYou';
 import ReviewQueue from './components/Recommendations/ReviewQueue';
@@ -229,6 +230,16 @@ function App() {
             element={
               <ProtectedRoute requiredRoles={['admin']}>
                 <UserManagement />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Content Tags - view and set the tags of every post, for admins only */}
+          <Route
+            path="/content-tags"
+            element={
+              <ProtectedRoute requiredRoles={['admin']}>
+                <ContentTags />
               </ProtectedRoute>
             }
           />
